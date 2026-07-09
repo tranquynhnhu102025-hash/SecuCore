@@ -3,7 +3,7 @@
 Chào mừng đến với kho lưu trữ mã nguồn của dự án **SecuCore**! Đây là một hệ thống giám sát an ninh mạng chủ động, cung cấp bảng điều khiển trực quan giúp phát hiện và cảnh báo sớm các rủi ro bảo mật (SQL Injection, XSS, DDoS...) trên các ứng dụng Web. 
 
 ## 👨‍💻 Thông tin đồ án
-* **Đề tài:** Xây dựng hệ thống giám sát và phân tích lỗ hổng bảo mật website (SecuCore)
+* **Đề tài:** Phát triển hệ thống giám sát và phân tích lỗ hổng bảo mật website (SecuCore)
 * **Sinh viên thực hiện:** Trần Quỳnh Như - 2400008936
 * **Giảng viên hướng dẫn:** ThS. Đỗ Gia Bảo
 * **Đơn vị:** Khoa Công nghệ Thông tin - Trường Đại học Nguyễn Tất Thành
