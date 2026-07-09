@@ -4,7 +4,7 @@ Chào mừng đến với kho lưu trữ mã nguồn của dự án **SecuCore**
 
 ## 👨‍💻 Thông tin đồ án
 * **Đề tài:** Xây dựng hệ thống giám sát và phân tích lỗ hổng bảo mật website (SecuCore)
-* **Sinh viên thực hiện:** [Điền Họ và Tên của bạn] - [Điền MSSV của bạn]
+* **Sinh viên thực hiện:** Trần Quỳnh Như - 2400008936
 * **Giảng viên hướng dẫn:** ThS. Đỗ Gia Bảo
 * **Đơn vị:** Khoa Công nghệ Thông tin - Trường Đại học Nguyễn Tất Thành
 
