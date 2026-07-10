@@ -1,0 +1,223 @@
+﻿@page
+@{
+    ViewData["Title"] = "Hồ sơ cá nhân";
+}
+
+<style>
+    .profile-panel {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 25px;
+        height: 100%;
+    }
+
+    .profile-title {
+        color: #58a6ff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 10px;
+    }
+
+    .avatar-wrapper {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto 20px auto;
+    }
+
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #30363d;
+        transition: 0.3s;
+    }
+
+    .avatar-wrapper:hover .avatar-img {
+        border-color: #00f0ff;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .btn-upload-avatar {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #00f0ff;
+        color: #000;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+        .btn-upload-avatar:hover {
+            background: #00c8d4;
+            transform: scale(1.1);
+        }
+
+    .form-label-cyber {
+        color: #8b949e;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .form-control-cyber {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        color: #c9d1d9;
+        border-radius: 6px;
+    }
+
+        .form-control-cyber:focus {
+            background: #0d1117;
+            border-color: #00f0ff;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+        }
+
+    .btn-save-profile {
+        background: #2ea043;
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 6px;
+        transition: 0.3s;
+    }
+
+        .btn-save-profile:hover {
+            background: #3fb950;
+            box-shadow: 0 0 15px rgba(46, 160, 67, 0.4);
+        }
+
+    .info-badge {
+        background: rgba(88, 166, 255, 0.1);
+        color: #58a6ff;
+        border: 1px solid #58a6ff;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="mb-4">
+        <h2 class="text-light fw-bold m-0">
+            <i class="fa-regular fa-id-badge me-2" style="color: #00f0ff;"></i> HỒ SƠ QUẢN TRỊ VIÊN
+        </h2>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="profile-panel text-center text-light">
+                <div class="avatar-wrapper">
+                    <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #1a73e8; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; border: 4px solid #30363d;">
+                        AN
+                    </div>
+                    <button class="btn-upload-avatar" title="Đổi ảnh đại diện">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+                </div>
+
+                <h4 class="fw-bold mb-1">Trần Quỳnh Như</h4>
+                <p class="text-secondary mb-2">admin@ntt.edu.vn</p>
+                <div class="info-badge">
+                    <i class="fa-solid fa-shield-halved me-1"></i> System Manager
+                </div>
+
+                <hr style="border-color: #30363d; margin: 20px 0;">
+
+                <div class="text-start">
+                    <p class="text-secondary mb-2"><i class="fa-solid fa-building-columns me-2"></i> Đại học Nguyễn Tất Thành</p>
+                    <p class="text-secondary mb-2"><i class="fa-solid fa-calendar-days me-2"></i> Tham gia: Tháng 8/2024</p>
+                    <p class="text-secondary mb-0"><i class="fa-solid fa-circle-check me-2" style="color: #2ea043;"></i> Tài khoản đã xác thực</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="profile-panel text-light mb-4">
+                <div class="profile-title">
+                    <i class="fa-solid fa-user-pen"></i> CHỈNH SỬA THÔNG TIN
+                </div>
+
+                <form>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label-cyber">Họ và Tên</label>
+                            <input type="text" class="form-control form-control-cyber" value="Trần Quỳnh Như">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label-cyber">Tên hiển thị (Nickname)</label>
+                            <input type="text" class="form-control form-control-cyber" value="Admin NTT">
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label-cyber">Email liên hệ</label>
+                            <input type="email" class="form-control form-control-cyber" value="admin@ntt.edu.vn">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label-cyber">Số điện thoại</label>
+                            <input type="text" class="form-control form-control-cyber" placeholder="Nhập số điện thoại...">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-cyber">Tiểu sử (Bio)</label>
+                        <textarea class="form-control form-control-cyber" rows="3">Sinh viên ngành Kỹ thuật phần mềm. Đang thực hiện dự án hệ thống SecuCore.</textarea>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="button" class="btn btn-save-profile">
+                            <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THÔNG TIN
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="profile-panel text-light">
+                <div class="profile-title text-danger" style="border-bottom-color: rgba(248, 81, 73, 0.4);">
+                    <i class="fa-solid fa-key"></i> ĐỔI MẬT KHẨU
+                </div>
+
+                <form>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label-cyber">Mật khẩu hiện tại</label>
+                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label-cyber">Mật khẩu mới</label>
+                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label-cyber">Xác nhận mật khẩu mới</label>
+                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
+                        </div>
+                    </div>
+                    <div class="text-end mt-4">
+                        <button type="button" class="btn btn-outline-danger">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i> CẬP NHẬT MẬT KHẨU
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,209 @@
+﻿@page
+@{
+    ViewData["Title"] = "Xuất Báo Cáo";
+}
+
+<style>
+    .report-panel {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 25px;
+        height: 100%;
+    }
+
+    .report-title {
+        color: #58a6ff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 10px;
+    }
+
+    .form-label-cyber {
+        color: #8b949e;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .form-control-cyber, .form-select-cyber {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        color: #c9d1d9;
+        border-radius: 6px;
+    }
+
+        .form-control-cyber:focus, .form-select-cyber:focus {
+            background: #0d1117;
+            border-color: #00f0ff;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+        }
+
+    /* Các nút xuất file */
+    .btn-export-pdf {
+        background: #da3633;
+        color: white;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .btn-export-pdf:hover {
+            background: #ff4744;
+            box-shadow: 0 0 15px rgba(218, 54, 51, 0.4);
+            color: white;
+        }
+
+    .btn-export-excel {
+        background: #2ea043;
+        color: white;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+
+        .btn-export-excel:hover {
+            background: #3fb950;
+            box-shadow: 0 0 15px rgba(46, 160, 67, 0.4);
+            color: white;
+        }
+
+    /* Khung giả lập tờ giấy A4 Preview */
+    .paper-preview {
+        background: #ffffff;
+        color: #000000;
+        padding: 40px;
+        border-radius: 4px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        min-height: 500px;
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+    .paper-header {
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="mb-4">
+        <h2 class="text-light fw-bold m-0">
+            <i class="fa-solid fa-file-contract me-2" style="color: #00f0ff;"></i> KẾT XUẤT BÁO CÁO
+        </h2>
+        <p class="text-secondary mt-1">Trích xuất dữ liệu quét lỗ hổng và nhật ký hệ thống ra tài liệu.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Cột bên trái: Form cấu hình xuất báo cáo -->
+        <div class="col-md-5">
+            <div class="report-panel text-light">
+                <div class="report-title">
+                    <i class="fa-solid fa-filter"></i> TIÊU CHÍ XUẤT BÁO CÁO
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-cyber">Loại báo cáo</label>
+                    <select class="form-select form-select-cyber">
+                        <option value="1">Báo cáo Tổng hợp (Toàn hệ thống)</option>
+                        <option value="2">Báo cáo Chi tiết theo Website</option>
+                        <option value="3">Nhật ký truy cập (Access Logs)</option>
+                    </select>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label-cyber">Từ ngày</label>
+                        <input type="date" class="form-control form-control-cyber">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label-cyber">Đến ngày</label>
+                        <input type="date" class="form-control form-control-cyber">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label-cyber">Mức độ nghiêm trọng cần xuất</label>
+                    <div class="d-flex flex-wrap gap-3 mt-2">
+                        <div class="form-check">
+                            <input class="form-check-input bg-danger border-danger" type="checkbox" checked id="chkCritical">
+                            <label class="form-check-label text-danger fw-bold" for="chkCritical">Critical (Đỏ)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-warning border-warning" type="checkbox" checked id="chkWarning">
+                            <label class="form-check-label text-warning fw-bold" for="chkWarning">Warning (Vàng)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-info border-info" type="checkbox" id="chkInfo">
+                            <label class="form-check-label text-info fw-bold" for="chkInfo">Info (Xanh)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-color: #30363d;">
+
+                <div class="d-grid gap-3">
+                    <button class="btn btn-export-pdf py-2">
+                        <i class="fa-solid fa-file-pdf me-2"></i> Xuất file định dạng PDF
+                    </button>
+                    <button class="btn btn-export-excel py-2">
+                        <i class="fa-solid fa-file-excel me-2"></i> Xuất file bảng tính Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cột bên phải: Preview Báo cáo -->
+        <div class="col-md-7">
+            <div class="report-panel text-light d-flex flex-column">
+                <div class="report-title">
+                    <i class="fa-solid fa-eye"></i> XEM TRƯỚC TÀI LIỆU (PREVIEW)
+                </div>
+
+                <div class="paper-preview flex-grow-1">
+                    <div class="paper-header">
+                        <h4 class="fw-bold mb-1">TRƯỜNG ĐẠI HỌC NGUYỄN TẤT THÀNH</h4>
+                        <h5 class="fw-bold mb-3">HỆ THỐNG GIÁM SÁT AN NINH MẠNG SECUCORE</h5>
+                        <h3 class="fw-bold mt-4">BÁO CÁO THỐNG KÊ LỖ HỔNG BẢO MẬT</h3>
+                    </div>
+
+                    <div class="paper-content">
+                        <p><strong>Người xuất báo cáo:</strong> Trần Quỳnh Như</p>
+                        <p><strong>Thời gian xuất:</strong> @DateTime.Now.ToString("dd/MM/yyyy HH:mm")</p>
+                        <p><strong>Giai đoạn thống kê:</strong> 01/06/2026 - Nay</p>
+
+                        <h5 class="fw-bold mt-4 text-decoration-underline">I. Tổng quan hệ thống:</h5>
+                        <ul>
+                            <li>Tổng số mục tiêu đang giám sát: 05 Website</li>
+                            <li>Tổng số sự kiện mạng đã ghi nhận: 1,245 sự kiện</li>
+                            <li>Trạng thái hệ thống: <span style="color: green; font-weight: bold;">Hoạt động ổn định</span></li>
+                        </ul>
+
+                        <h5 class="fw-bold mt-4 text-decoration-underline">II. Chi tiết các lỗ hổng phát hiện:</h5>
+                        <table class="table table-bordered table-sm mt-2 border-dark">
+                            <thead class="table-secondary border-dark">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Loại tấn công</th>
+                                    <th>Mức độ</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1</td><td>SQL Injection (SQLi)</td><td class="text-danger fw-bold">Critical</td><td>12</td></tr>
+                                <tr><td>2</td><td>Cross-Site Scripting (XSS)</td><td class="text-warning fw-bold">Warning</td><td>34</td></tr>
+                                <tr><td>3</td><td>DDoS Attempt</td><td class="text-danger fw-bold">Critical</td><td>05</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

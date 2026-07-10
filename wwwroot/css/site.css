@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -20,3 +20,833 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/*INDEX*/
+/* Tổng quan khu vực Dashboard */
+.secucore-dashboard {
+    padding: 2rem 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hiệu ứng khung nền cho các khối */
+.cyber-card {
+    background: linear-gradient(145deg, #161b22, #0d1117);
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+}
+
+    /* Hiệu ứng nổi lên khi đưa chuột vào */
+    .cyber-card:hover {
+        transform: translateY(-8px);
+    }
+
+    /* Nền lưới mờ (Network Grid) chìm bên dưới thẻ */
+    .cyber-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.3;
+        z-index: -1;
+    }
+
+/* --- CẤU HÌNH MÀU NEON TỪNG THẺ --- */
+
+/* 1. Thẻ Xanh (Giám sát mạng) */
+.neon-blue {
+    border: 1px solid #00f0ff;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+    .neon-blue .cyber-icon, .neon-blue .cyber-number {
+        color: #00f0ff;
+        text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+    }
+
+/* 2. Thẻ Đỏ (Mã độc / Lỗ hổng) */
+.neon-red {
+    border: 1px solid #ff003c;
+    box-shadow: 0 0 15px rgba(255, 0, 60, 0.2), inset 0 0 10px rgba(255, 0, 60, 0.1);
+}
+
+    .neon-red .cyber-icon, .neon-red .cyber-number {
+        color: #ff003c;
+        text-shadow: 0 0 15px rgba(255, 0, 60, 0.8);
+    }
+
+/* 3. Thẻ Vàng (Cảnh báo) */
+.neon-yellow {
+    border: 1px solid #ffaa00;
+    box-shadow: 0 0 15px rgba(255, 170, 0, 0.2), inset 0 0 10px rgba(255, 170, 0, 0.1);
+}
+
+    .neon-yellow .cyber-icon, .neon-yellow .cyber-number {
+        color: #ffaa00;
+        text-shadow: 0 0 15px rgba(255, 170, 0, 0.8);
+    }
+
+/* --- ĐỊNH DẠNG CHỮ --- */
+.cyber-title {
+    color: #c9d1d9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.cyber-number {
+    font-size: 4.5rem;
+    font-weight: bold;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+/* Định dạng Icon góc phải */
+.cyber-icon {
+    font-size: 4rem;
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    opacity: 0.3; /* Làm mờ icon một chút để số liệu nổi bật hơn */
+}
+
+.main-heading {
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+/* --- CSS CHI TIẾT CHO BẢNG VÀ TRẠNG THÁI --- */
+.cyber-panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 25px;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.cyber-panel-title {
+    color: #c9d1d9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Bảng dữ liệu Hacker style */
+.table-cyber {
+    color: #8b949e;
+}
+
+    .table-cyber th {
+        color: #58a6ff;
+        font-weight: 600;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 15px;
+    }
+
+    .table-cyber td {
+        border-bottom: 1px solid #21262d;
+        vertical-align: middle;
+        padding: 15px 8px;
+    }
+
+/* Nhãn (Badge) trạng thái */
+.badge-high {
+    background: rgba(255, 0, 60, 0.15);
+    color: #ff003c;
+    border: 1px solid #ff003c;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.badge-med {
+    background: rgba(255, 170, 0, 0.15);
+    color: #ffaa00;
+    border: 1px solid #ffaa00;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+.badge-low {
+    background: rgba(0, 240, 255, 0.15);
+    color: #00f0ff;
+    border: 1px solid #00f0ff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: normal;
+}
+
+/* Thanh tiến trình (Progress) */
+.cyber-progress {
+    background-color: #0d1117;
+    height: 8px;
+    border-radius: 4px;
+    border: 1px solid #30363d;
+    overflow: hidden;
+}
+/*INDEX*/
+
+
+/*QUẢN LÝ*/
+
+.cyber-panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.mini-stat-card {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid;
+}
+
+.stat-blue {
+    border-left-color: #00f0ff;
+}
+
+.stat-green {
+    border-left-color: #2ea043;
+}
+
+.stat-red {
+    border-left-color: #ff003c;
+}
+
+/* Thanh tìm kiếm */
+.cyber-search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.cyber-search {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #58a6ff;
+    padding: 8px 15px 8px 40px;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+    .cyber-search:focus {
+        border-color: #00f0ff;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8b949e;
+}
+
+/* Bảng dữ liệu */
+.table-cyber {
+    color: #c9d1d9;
+    margin-top: 10px;
+}
+
+    .table-cyber th {
+        color: #8b949e;
+        font-weight: 600;
+        border-bottom: 2px solid #30363d;
+        padding: 15px 10px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    .table-cyber td {
+        border-bottom: 1px solid #21262d;
+        vertical-align: middle;
+        padding: 15px 10px;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 240, 255, 0.03);
+}
+
+.btn-neon-blue {
+    border: 1px solid #00f0ff;
+    color: #00f0ff;
+    background: rgba(0, 240, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+    .btn-neon-blue:hover {
+        background: rgba(0, 240, 255, 0.15);
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        color: #ffffff;
+    }
+
+.health-bar {
+    height: 6px;
+    background: #21262d;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 5px;
+    width: 80px;
+}
+
+.health-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.action-icon {
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin: 0 5px;
+    transition: color 0.2s;
+}
+
+    .action-icon.edit:hover {
+        color: #ffaa00 !important;
+    }
+
+    .action-icon.delete:hover {
+        color: #ff003c !important;
+    }
+
+    .action-icon.scan:hover {
+        color: #00f0ff !important;
+    }
+
+/* Checkbox & Phân trang */
+.cyber-checkbox {
+    background-color: #0d1117;
+    border-color: #30363d;
+    cursor: pointer;
+}
+
+    .cyber-checkbox:checked {
+        background-color: #00f0ff;
+        border-color: #00f0ff;
+    }
+
+.cyber-select {
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+}
+
+    .cyber-select:focus {
+        border-color: #00f0ff;
+        box-shadow: none;
+        color: #c9d1d9;
+    }
+
+.pagination-cyber .page-link {
+    background-color: #0d1117;
+    border-color: #30363d;
+    color: #8b949e;
+    transition: all 0.2s;
+}
+
+    .pagination-cyber .page-link:hover {
+        background-color: #161b22;
+        color: #00f0ff;
+    }
+
+.pagination-cyber .page-item.active .page-link {
+    background-color: #00f0ff;
+    border-color: #00f0ff;
+    color: #000;
+    font-weight: bold;
+}
+
+/* --- CSS CHO CỘT NHẬT KÝ (TIMELINE) MỚI --- */
+.blink-live {
+    animation: blinker 1.5s linear infinite;
+    color: #ff003c;
+}
+
+@@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+.cyber-timeline {
+    position: relative;
+    padding-left: 25px;
+    margin-top: 20px;
+}
+
+    .cyber-timeline::before {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #30363d;
+    }
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -25px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00f0ff;
+    box-shadow: 0 0 8px #00f0ff;
+    border: 2px solid #161b22;
+}
+
+.dot-warning {
+    background: #ffaa00;
+    box-shadow: 0 0 8px #ffaa00;
+}
+
+.dot-danger {
+    background: #ff003c;
+    box-shadow: 0 0 8px #ff003c;
+}
+
+.dot-success {
+    background: #2ea043;
+    box-shadow: 0 0 8px #2ea043;
+}
+
+.timeline-time {
+    font-size: 0.75rem;
+    color: #8b949e;
+    font-family: monospace;
+    margin-bottom: 4px;
+}
+
+.timeline-text {
+    font-size: 0.85rem;
+    color: #c9d1d9;
+    line-height: 1.4;
+}
+
+.timeline-target {
+    color: #58a6ff;
+    font-weight: 600;
+}
+/*QUẢN LÝ*/
+
+
+/*CẢNH BÁO LỖI*/
+/* Thiết kế nền cho trang cảnh báo */
+.cyber-panel-alert {
+    background: #11090b; /* Nền ám đỏ tối */
+    border: 1px solid #4a151b;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(255, 0, 60, 0.1);
+}
+
+/* Thẻ báo lỗi từng dòng */
+.alert-card {
+    background: #161b22;
+    border-left: 4px solid;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .alert-card:hover {
+        transform: translateX(8px);
+    }
+
+/* Các cấp độ nguy hiểm */
+.alert-critical {
+    border-color: #ff003c;
+    box-shadow: inset 0 0 15px rgba(255, 0, 60, 0.05);
+}
+
+    .alert-critical:hover {
+        box-shadow: 0 0 20px rgba(255, 0, 60, 0.2);
+    }
+
+.alert-high {
+    border-color: #ffaa00;
+}
+
+    .alert-high:hover {
+        box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+    }
+
+/* Tem nhãn (Badge) */
+.badge-critical {
+    background: rgba(255, 0, 60, 0.2);
+    color: #ff003c;
+    border: 1px solid #ff003c;
+}
+
+.badge-high {
+    background: rgba(255, 170, 0, 0.2);
+    color: #ffaa00;
+    border: 1px solid #ffaa00;
+}
+
+.alert-time {
+    color: #8b949e;
+    font-size: 0.85rem;
+}
+
+.alert-target {
+    color: #58a6ff;
+    font-weight: 600;
+    font-family: monospace;
+}
+/*CẢNH BÁO LỖI*/
+
+
+/* --- CSS CHO KHU VỰC TÀI KHOẢN DƯỚI CÙNG --- */
+.sidebar-profile {
+    margin-top: auto; /* Mệnh lệnh đẩy khối này xuống tận đáy Menu */
+    padding: 20px 25px;
+    border-top: 1px solid #30363d;
+    background-color: rgba(13, 17, 23, 0.5); /* Nền hơi tối lại 1 chút */
+}
+
+.profile-info {
+    line-height: 1.3;
+}
+
+.logout-btn {
+    color: #8b949e;
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+    .logout-btn:hover {
+        color: #ff003c; /* Chuyển màu đỏ cảnh báo khi di chuột vào */
+        background-color: rgba(255, 0, 60, 0.1);
+    }
+
+
+    /*Settings*/
+
+.settings-panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 25px;
+    height: 100%;
+    transition: transform 0.2s;
+}
+
+.settings-title {
+    color: #58a6ff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 10px;
+}
+
+.form-label-cyber {
+    color: #8b949e;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.form-control-cyber {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    border-radius: 6px;
+}
+
+    .form-control-cyber:focus {
+        background: #0d1117;
+        border-color: #00f0ff;
+        color: #fff;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+    }
+
+/* Tùy chỉnh nút Gạt (Toggle Switch) */
+.form-check-input:checked {
+    background-color: #00f0ff;
+    border-color: #00f0ff;
+}
+
+.form-check-label {
+    color: #c9d1d9;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.btn-save {
+    background: #2ea043;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+    .btn-save:hover {
+        background: #3fb950;
+        box-shadow: 0 0 15px rgba(63, 185, 80, 0.4);
+    }
+
+.desc-text {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-top: 5px;
+}
+
+/*Settings*/
+
+
+/*LAYOUT*/
+body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #161b22;
+    border-right: 1px solid #30363d;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.sidebar-brand {
+    padding: 20px 25px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #58a6ff !important;
+    text-decoration: none;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 1px;
+}
+
+.sidebar-nav {
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-link {
+    color: #8b949e;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+    .sidebar-link i {
+        font-size: 1.2rem;
+        width: 20px;
+        text-align: center;
+    }
+
+    .sidebar-link:hover, .sidebar-link.active {
+        background-color: #1f6feb;
+        color: #ffffff;
+    }
+
+/* --- CSS CHO KHU VỰC TÀI KHOẢN DƯỚI CÙNG --- */
+.sidebar-profile {
+    margin-top: auto; /* Lệnh này cực kỳ quan trọng để đẩy xuống đáy */
+    padding: 20px 25px;
+    border-top: 1px solid #30363d;
+    background-color: rgba(13, 17, 23, 0.5);
+}
+
+.profile-info {
+    line-height: 1.3;
+}
+
+.logout-btn {
+    color: #8b949e;
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+    .logout-btn:hover {
+        color: #ff003c;
+        background-color: rgba(255, 0, 60, 0.1);
+    }
+
+.main-content {
+    flex-grow: 1;
+    margin-left: 260px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    padding: 30px 40px;
+    flex-grow: 1;
+}
+
+/*LAYOUT*/
+
+
+
+/*Uses*/
+
+.user-panel {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.btn-add-user {
+    background: #00f0ff;
+    color: #000;
+    font-weight: 600;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+    .btn-add-user:hover {
+        background: #00c8d4;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+
+/* Tùy chỉnh thanh tìm kiếm */
+.search-bar {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+}
+
+    .search-bar:focus {
+        background: #0d1117;
+        border-color: #58a6ff;
+        color: #fff;
+        box-shadow: none;
+    }
+
+/* Tùy chỉnh Bảng (Table) Dark Mode */
+.table-cyber {
+    color: #c9d1d9;
+    margin-top: 20px;
+}
+
+    .table-cyber thead th {
+        background-color: #21262d;
+        color: #8b949e;
+        border-bottom: 2px solid #30363d;
+        font-weight: 600;
+        padding: 12px;
+    }
+
+    .table-cyber tbody td {
+        background-color: transparent;
+        border-bottom: 1px solid #30363d;
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+    .table-cyber tbody tr:hover td {
+        background-color: rgba(88, 166, 255, 0.05);
+    }
+
+/* Nhãn (Badge) trạng thái và vai trò */
+.badge-admin {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ff7b72;
+    border: 1px solid #ff7b72;
+}
+
+.badge-viewer {
+    background-color: rgba(88, 166, 255, 0.2);
+    color: #58a6ff;
+    border: 1px solid #58a6ff;
+}
+
+.badge-active {
+    background-color: rgba(46, 160, 67, 0.2);
+    color: #3fb950;
+    border: 1px solid #3fb950;
+}
+
+.badge-locked {
+    background-color: rgba(248, 81, 73, 0.2);
+    color: #f85149;
+    border: 1px solid #f85149;
+}
+
+.action-icon {
+    color: #8b949e;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1.1rem;
+}
+
+    .action-icon.edit:hover {
+        color: #58a6ff;
+    }
+
+    .action-icon.delete:hover {
+        color: #f85149;
+    }
+/* Uses */

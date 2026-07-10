@@ -1,0 +1,125 @@
+﻿@page
+@{
+    ViewData["Title"] = "Cài đặt hệ thống";
+}
+
+
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-light fw-bold m-0"><i class="fa-solid fa-gears me-2" style="color: #00f0ff;"></i> CẤU HÌNH HỆ THỐNG</h2>
+        <button class="btn btn-save">
+            <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THAY ĐỔI
+        </button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="settings-panel text-light">
+                <div class="settings-title">
+                    <i class="fa-solid fa-microchip"></i> CẤU HÌNH CÔNG CỤ QUÉT
+                </div>
+                <div class="mb-4">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="autoScan" checked>
+                        <label class="form-check-label" for="autoScan">Tự động quét định kỳ</label>
+                        <p class="desc-text">Cho phép hệ thống tự động khởi chạy các bản quét lỗ hổng theo thời gian đã định sẵn.</p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Tần suất quét (Chu kỳ)</label>
+                    <select class="form-select form-control-cyber">
+                        <option value="1">Mỗi 12 giờ</option>
+                        <option value="2" selected>Mỗi 24 giờ (Khuyên dùng)</option>
+                        <option value="3">Hàng tuần (Thứ Hai)</option>
+                        <option value="4">Hàng tháng</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Độ sâu của phân tích (Depth)</label>
+                    <input type="range" class="form-range" min="1" max="5" id="scanDepth" value="3">
+                    <div class="d-flex justify-content-between text-secondary" style="font-size: 0.75rem;">
+                        <span>Cơ bản</span>
+                        <span>Trung bình</span>
+                        <span>Chuyên sâu</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="settings-panel text-light">
+                <div class="settings-title">
+                    <i class="fa-solid fa-bell"></i> THÔNG BÁO CẢNH BÁO
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Email nhận báo cáo</label>
+                    <input type="email" class="form-control form-control-cyber" placeholder="admin@@ntt.edu.vn" value="admin@@ntt.edu.vn">
+                    <p class="desc-text">Hệ thống sẽ gửi file PDF kết quả quét về email này.</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Mức độ cảnh báo cần gửi mail</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="critAlert" checked>
+                        <label class="form-check-label" for="critAlert">Chỉ khi có lỗi Nguy hiểm (Critical)</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="mediumAlert">
+                        <label class="form-check-label" for="mediumAlert">Cảnh báo trung bình & thấp</label>
+                    </div>
+                </div>
+                <hr style="border-color: #30363d;">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="telegramBot">
+                    <label class="form-check-label" for="telegramBot">Tích hợp thông báo qua Telegram</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="settings-panel text-light">
+                <div class="settings-title">
+                    <i class="fa-solid fa-server"></i> HỆ THỐNG & BẢO TRÌ
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-6">
+                        <label class="form-label-cyber">Tên hệ thống</label>
+                        <input type="text" class="form-control form-control-cyber" value="SecuCore Dashboard v1.0">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label-cyber">Mã trạm giám sát</label>
+                        <input type="text" class="form-control form-control-cyber" value="NODE-NTT-01" readonly>
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-warning btn-sm">
+                        <i class="fa-solid fa-broom me-2"></i> Xóa toàn bộ Nhật ký (Clear Logs)
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm">
+                        <i class="fa-solid fa-power-off me-2"></i> Khởi động lại dịch vụ quét
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="settings-panel text-light">
+                <div class="settings-title">
+                    <i class="fa-solid fa-shield-halved"></i> BẢO MẬT TRUY CẬP
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Xác thực 2 lớp (2FA)</label>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="2faStatus">
+                        <label class="form-check-label" for="2faStatus">Kích hoạt bảo mật 2 lớp</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label-cyber">Giới hạn IP truy cập quản trị</label>
+                    <input type="text" class="form-control form-control-cyber" placeholder="Ví dụ: 192.168.1.1, 10.0.0.1">
+                    <p class="desc-text">Chỉ các địa chỉ IP này mới được phép truy cập trang Dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

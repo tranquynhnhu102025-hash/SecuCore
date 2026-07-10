@@ -1,0 +1,197 @@
+﻿@page
+@{
+    ViewData["Title"] = "Trang cá nhân";
+}
+
+<style>
+    .cyber-panel {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        height: 100%;
+    }
+
+    .profile-avatar-card {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 40px 20px;
+        text-align: center;
+        border-top: 4px solid #1f6feb;
+    }
+
+    .cyber-input {
+        background: #0d1117 !important;
+        border: 1px solid #30363d !important;
+        color: #c9d1d9 !important;
+        padding: 10px 15px;
+        transition: all 0.3s ease;
+    }
+
+        .cyber-input:focus {
+            border-color: #1f6feb !important;
+            box-shadow: 0 0 10px rgba(31, 111, 235, 0.3) !important;
+        }
+
+    .cyber-label {
+        color: #8b949e;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .btn-cyber-blue {
+        background: #1f6feb;
+        border: 1px solid #388bfd;
+        color: #ffffff;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cyber-blue:hover {
+            background: #1158c7;
+            box-shadow: 0 0 15px rgba(31, 111, 235, 0.5);
+            color: #ffffff;
+        }
+
+    .log-table th {
+        color: #58a6ff;
+        font-weight: 600;
+        border-bottom: 1px solid #30363d;
+    }
+
+    .log-table td {
+        color: #c9d1d9;
+        border-bottom: 1px solid #21262d;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="profile-avatar-card">
+                <img src="https://ui-avatars.com/api/?name=Admin+NTT&background=1f6feb&color=fff&bold=true&size=128"
+                     alt="Admin Avatar" class="rounded-circle mb-3" style="border: 3px solid #30363d; width: 128px; height: 128px;">
+
+                <h4 class="text-light fw-bold mb-1">Admin NTT</h4>
+                <p class="text-secondary mb-4"><i class="fa-solid fa-user-shield me-1"></i> System Manager</p>
+
+                <hr style="border-color: #30363d;">
+
+                <div class="text-start mt-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-secondary">Trạng thái:</span>
+                        <span class="text-success fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Đang hoạt động</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-secondary">Cấp độ quyền:</span>
+                        <span class="text-info font-monospace">Root_Access</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-secondary">IP hiện tại:</span>
+                        <span class="text-light font-monospace">192.168.1.55</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="cyber-panel">
+                <h3 class="text-light fw-bold mb-4" style="letter-spacing: 1px;">
+                    <i class="fa-solid fa-user-gear me-2" style="color: #58a6ff;"></i> CẤU HÌNH TÀI KHOẢN
+                </h3>
+
+                <form method="post" class="mb-5">
+                    <h5 class="text-secondary mb-3 pb-2" style="border-bottom: 1px solid #21262d;">Thông tin cơ bản</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="cyber-label">Họ và Tên</label>
+                            <input type="text" class="form-control cyber-input" value="Admin NTT">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cyber-label">Email hệ thống</label>
+                            <input type="email" class="form-control cyber-input" value="admin@secucore.vn">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cyber-label">Số điện thoại khẩn cấp</label>
+                            <input type="text" class="form-control cyber-input" value="0901234xxx">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cyber-label">Mã số Quản trị viên</label>
+                            <input type="text" class="form-control cyber-input" value="SEC-2026-NTT" disabled>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-cyber-blue mt-4 px-4 py-2">
+                        <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THAY ĐỔI
+                    </button>
+                </form>
+
+                <form method="post">
+                    <h5 class="text-secondary mb-3 pb-2" style="border-bottom: 1px solid #21262d;">Thay đổi mã khóa mật mã (Password)</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="cyber-label">Mật khẩu hiện tại</label>
+                            <input type="password" class="form-control cyber-input" placeholder="••••••••">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="cyber-label">Mật khẩu mới</label>
+                            <input type="password" class="form-control cyber-input" placeholder="••••••••">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="cyber-label">Xác nhận mật khẩu mới</label>
+                            <input type="password" class="form-control cyber-input" placeholder="••••••••">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-warning fw-bold mt-4 px-4 py-2">
+                        <i class="fa-solid fa-key me-2"></i> CẬP NHẬT MẬT MÃ
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="cyber-panel">
+                <h5 class="text-light fw-bold mb-3">
+                    <i class="fa-solid fa-clock-rotate-left me-2 text-secondary"></i> NHẬT KÝ HOẠT ĐỘNG CÁ NHÂN
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-borderless log-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Hành động</th>
+                                <th>Thiết bị / Hệ điều hành</th>
+                                <th>Địa điểm / IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-secondary">Hôm nay, 10:15 AM</td>
+                                <td><span class="text-info fw-bold">Đăng nhập thành công</span> vào hệ thống điều khiển</td>
+                                <td class="text-secondary">Chrome / Windows 11</td>
+                                <td class="font-monospace">Ho Chi Minh City (192.168.1.55)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-secondary">Hôm qua, 03:45 PM</td>
+                                <td><span class="text-warning fw-bold">Cập nhật cấu hình</span> giám sát mục tiêu <span class="text-light font-monospace">qlsv.ntt.edu.vn</span></td>
+                                <td class="text-secondary">Chrome / Windows 11</td>
+                                <td class="font-monospace">Ho Chi Minh City (192.168.1.55)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-secondary">02/07/2026, 09:12 AM</td>
+                                <td><span class="text-danger fw-bold">Khóa truy cập IP</span> nguồn phát động SQL Injection</td>
+                                <td class="text-secondary">Visual Studio Code / Server Console</td>
+                                <td class="font-monospace">Hệ thống tự động (Khu vực Gateway)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

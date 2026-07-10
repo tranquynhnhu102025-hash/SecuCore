@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,45 +7,83 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SecuCore.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
+
+@{
+        var pagePath = ViewContext.RouteData.Values["page"]?.ToString();
+        var isHome = (pagePath == "/Index") ? "active" : "";
+        var isWeb = (pagePath == "/Websites/QuanLy" || pagePath == "/Websites/Index") ? "active" : "";
+        var isAlert = (pagePath != null && pagePath.Contains("CanhBaoLoi")) ? "active" : "";
+        var isSettings = (ViewContext.RouteData.Values["page"]?.ToString() == "/Websites/Settings") ? "active" : "";
+        var isUser = (ViewContext.RouteData.Values["page"]?.ToString() == "/Websites/Users") ? "active" : "";
+        var isReports = (ViewContext.RouteData.Values["page"]?.ToString() == "/Websites/Reports") ? "active" : "";
+	    var isProfile = (ViewContext.RouteData.Values["page"]?.ToString() == "/Websites/HoSoCaNhan") ? "active" : "";
+}
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">SecuCore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="app-container">
+
+        <nav class="sidebar">
+            <a class="sidebar-brand" asp-area="" asp-page="/Index">
+                <i class="fa-solid fa-shield-halved"></i> SecuCore
+            </a>
+
+            <div class="sidebar-nav">
+                <a class="sidebar-link @isHome" asp-area="" asp-page="/Index">
+                    <i class="fa-solid fa-chart-pie"></i> Home
+                </a>
+                <a class="sidebar-link @isWeb" asp-area="" asp-page="/Websites/QuanLy">
+                    <i class="fa-solid fa-server"></i> Quản lý Website
+                </a>
+                <a class="sidebar-link @isAlert" asp-area="" asp-page="/Websites/CanhBaoLoi">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Cảnh báo Lỗ hổng
+                </a>
+                <a class="sidebar-link @isSettings" asp-area="" asp-page="/Websites/Settings">
+                    <i class="fa-solid fa-gear"></i> Cài đặt
+                </a>
+                <a class="sidebar-link @isUser" asp-area="" asp-page="/Websites/Users">
+					<i class="fa-solid fa-users"></i> Quản lý Người dùng
+                </a>
+                <a class="sidebar-link @isReports" asp-area="" asp-page="/Websites/Reports">
+                    <i class="fa-solid fa-file-contract"></i>  xuất báo cáo
+                </a>
+                <a class="sidebar-link @isProfile" asp-area="" asp-page="/Websites/HoSoCaNhan">
+                    <i class="fa-regular fa-id-badge"></i>  Hồ sơ cá nhân
+                </a>
+            </div>
+
+            <div class="sidebar-profile">
+                <div class="d-flex align-items-center gap-3">
+
+                    <a href="/Profile" class="d-flex align-items-center gap-3 text-decoration-none flex-grow-1" title="Xem hồ sơ">
+                        <img src="https://ui-avatars.com/api/?name=Admin+NTT&background=1f6feb&color=fff&bold=true" alt="Avatar" class="rounded-circle" width="42" height="42" style="border: 2px solid #30363d;">
+
+                        <div class="profile-info">
+                            <div class="fw-bold text-light" style="font-size: 0.95rem;">Admin NTT</div>
+                            <div class="text-secondary" style="font-size: 0.75rem;"><i class="fa-solid fa-user-shield me-1"></i>System Manager</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="logout-btn" title="Khóa hệ thống (Đăng xuất)">
+                        <i class="fa-solid fa-power-off"></i>
+                    </a>
+
                 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
+
+        <main class="main-content">
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - SecuCore - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

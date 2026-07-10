@@ -1,0 +1,111 @@
+﻿@page
+@{
+    ViewData["Title"] = "Quản lý Người dùng";
+}
+
+
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-light fw-bold m-0">
+            <i class="fa-solid fa-users-gear me-2" style="color: #00f0ff;"></i> QUẢN LÝ NGƯỜI DÙNG
+        </h2>
+        <button class="btn btn-add-user">
+            <i class="fa-solid fa-user-plus me-2"></i> Thêm Tài Khoản
+        </button>
+    </div>
+
+    <div class="user-panel">
+        <!-- Khu vực Tìm kiếm và Lọc -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-secondary">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="text" class="form-control search-bar" placeholder="Tìm kiếm theo tên hoặc email...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select search-bar">
+                    <option value="">Tất cả vai trò</option>
+                    <option value="Admin">System Admin</option>
+                    <option value="Viewer">Viewer</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select search-bar">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="Active">Đang hoạt động</option>
+                    <option value="Locked">Bị khóa</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách người dùng -->
+        <div class="table-responsive">
+            <table class="table table-cyber table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 5%">ID</th>
+                        <th scope="col" style="width: 25%">Họ và Tên</th>
+                        <th scope="col" style="width: 25%">Email Truy Cập</th>
+                        <th scope="col" style="width: 15%">Vai Trò</th>
+                        <th scope="col" style="width: 15%">Trạng Thái</th>
+                        <th scope="col" style="width: 15%" class="text-center">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dữ liệu mẫu 1 -->
+                    <tr>
+                        <td>#001</td>
+                        <td class="fw-bold text-light">Trần Quỳnh Như</td>
+                        <td>admin@ntt.edu.vn</td>
+                        <td><span class="badge badge-admin rounded-pill px-3">System Admin</span></td>
+                        <td><span class="badge badge-active rounded-pill px-3">Hoạt động</span></td>
+                        <td class="text-center">
+                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
+                            <i class="fa-solid fa-trash-can action-icon delete" title="Xóa tài khoản"></i>
+                        </td>
+                    </tr>
+
+                    <!-- Dữ liệu mẫu 2 -->
+                    <tr>
+                        <td>#002</td>
+                        <td class="fw-bold text-light">Nguyễn Văn A</td>
+                        <td>nva.viewer@ntt.edu.vn</td>
+                        <td><span class="badge badge-viewer rounded-pill px-3">Viewer</span></td>
+                        <td><span class="badge badge-active rounded-pill px-3">Hoạt động</span></td>
+                        <td class="text-center">
+                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
+                            <i class="fa-solid fa-trash-can action-icon delete" title="Xóa tài khoản"></i>
+                        </td>
+                    </tr>
+
+                    <!-- Dữ liệu mẫu 3 -->
+                    <tr>
+                        <td>#003</td>
+                        <td class="fw-bold text-secondary">Khách Vãng Lai</td>
+                        <td class="text-secondary">guest_test@gmail.com</td>
+                        <td><span class="badge badge-viewer rounded-pill px-3">Viewer</span></td>
+                        <td><span class="badge badge-locked rounded-pill px-3">Bị khóa</span></td>
+                        <td class="text-center">
+                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
+                            <i class="fa-solid fa-lock action-icon text-secondary" title="Đã khóa"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang (Pagination) -->
+        <nav class="mt-4 d-flex justify-content-end">
+            <ul class="pagination pagination-sm" style="--bs-pagination-bg: #0d1117; --bs-pagination-border-color: #30363d; --bs-pagination-color: #c9d1d9; --bs-pagination-hover-bg: #21262d; --bs-pagination-hover-color: #58a6ff;">
+                <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
+                <li class="page-item active" style="--bs-pagination-active-bg: #58a6ff; --bs-pagination-active-border-color: #58a6ff;"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

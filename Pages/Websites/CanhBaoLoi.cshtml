@@ -1,0 +1,61 @@
+﻿@page
+@model SecuCore.Pages.Websites.CanhBaoLoicshtmlModel
+@{
+    ViewData["Title"] = "Cảnh Báo Lỗi";
+}
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="cyber-panel-alert">
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid #4a151b;">
+            <h2 class="fw-bold m-0" style="letter-spacing: 1px; color: #ff003c; text-shadow: 0 0 10px rgba(255,0,60,0.5);">
+                <i class="fa-solid fa-radar fa-beat-fade me-2"></i> HỆ THỐNG CẢNH BÁO LỖ TRÔNG
+            </h2>
+            <div>
+                <button class="btn btn-outline-danger fw-bold"><i class="fa-solid fa-ban me-1"></i> KHÓA TẤT CẢ TRUY CẬP</button>
+            </div>
+        </div>
+
+        <div class="alert-card alert-critical">
+            <div>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge badge-critical me-3 px-2 py-1">NGUY HIỂM CẤP ĐỘ 1 (CRITICAL)</span>
+                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> Vừa xong</span>
+                </div>
+                <h5 class="text-light fw-bold mb-1">Phát hiện tấn công SQL Injection vào MySQL Server</h5>
+                <div class="text-secondary" style="font-size: 0.95rem;">
+                    Mục tiêu: <span class="alert-target">lcms.ntt.edu.vn/login</span> | Mã lỗi: <span class="text-danger font-monospace">ERR_SQL_BYPASS</span>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-danger fw-bold px-4 py-2"><i class="fa-solid fa-shield-virus me-1"></i> NGĂN CHẶN IP</button>
+        </div>
+
+        <div class="alert-card alert-high">
+            <div>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge badge-high me-3 px-2 py-1">RỦI RO CAO (HIGH)</span>
+                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> 15 phút trước</span>
+                </div>
+                <h5 class="text-light fw-bold mb-1">Cảnh báo rò rỉ biến môi trường .NET (Environment Variables)</h5>
+                <div class="text-secondary" style="font-size: 0.95rem;">
+                    Mục tiêu: <span class="alert-target">api.lms.ntt.edu.vn</span> | Nguy cơ: Lộ chuỗi kết nối Database
+                </div>
+            </div>
+            <button class="btn btn-sm btn-outline-warning fw-bold text-warning px-4 py-2"><i class="fa-solid fa-code me-1"></i> XEM LOGS C#</button>
+        </div>
+
+        <div class="alert-card alert-high">
+            <div>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge badge-high me-3 px-2 py-1">RỦI RO CAO (HIGH)</span>
+                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> 2 giờ trước</span>
+                </div>
+                <h5 class="text-light fw-bold mb-1">Phát hiện chèn mã độc Cross-Site Scripting (XSS)</h5>
+                <div class="text-secondary" style="font-size: 0.95rem;">
+                    Mục tiêu: <span class="alert-target">portal.ntt.edu.vn/feedback</span> | Dữ liệu đầu vào không được mã hóa HTML/CSS
+                </div>
+            </div>
+            <button class="btn btn-sm btn-outline-warning fw-bold text-warning px-4 py-2"><i class="fa-solid fa-broom me-1"></i> LÀM SẠCH</button>
+        </div>
+
+    </div>
+</div>
