@@ -1,0 +1,115 @@
+﻿@page
+@model SecuCore.Pages.auth.RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký cấp quyền";
+    Layout = null; // Tắt menu
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SecuCore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <!-- Dùng chung CSS với trang Login cho đồng bộ -->
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        .cyber-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 30px rgba(46, 160, 67, 0.1);
+        }
+
+        .cyber-input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #3fb950;
+        }
+
+            .cyber-input:focus {
+                background: #0d1117;
+                border-color: #3fb950;
+                box-shadow: 0 0 8px rgba(46, 160, 67, 0.4);
+                color: #3fb950;
+            }
+
+        .input-group-text {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #8b949e;
+        }
+
+        .cyber-btn-register {
+            background: transparent;
+            border: 1px solid #2ea043;
+            color: #3fb950;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            padding: 10px;
+            transition: all 0.3s;
+        }
+
+            .cyber-btn-register:hover {
+                background: #2ea043;
+                color: #fff;
+                box-shadow: 0 0 15px rgba(46, 160, 67, 0.6);
+            }
+    </style>
+</head>
+<body>
+    <div class="cyber-card" style="border-top: 3px solid #2ea043;">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold text-light m-0"><i class="fa-solid fa-fingerprint me-2" style="color: #3fb950;"></i>CẤP QUYỀN TRUY CẬP</h4>
+            <p class="text-secondary mt-2" style="font-size: 0.85rem;">Vui lòng khai báo thông tin hệ thống</p>
+        </div>
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label text-secondary" style="font-size: 0.85rem;">Tên định danh (Username)</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-id-card"></i></span>
+                    <input type="text" class="form-control cyber-input" placeholder="Vd: admin_ntt" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-secondary" style="font-size: 0.85rem;">Email công vụ</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="email" class="form-control cyber-input" placeholder="admin@ntt.edu.vn" required>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label text-secondary" style="font-size: 0.85rem;">Thiết lập khóa (Mật khẩu)</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" class="form-control cyber-input" placeholder="Mật khẩu mạnh..." required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn cyber-btn-register mb-4">
+                <i class="fa-solid fa-server me-2"></i> KHỞI TẠO TÀI KHOẢN
+            </button>
+
+            <div class="text-center">
+                <a href="/auth/Login" class="text-decoration-none" style="color: #8b949e; font-size: 0.85rem;"><i class="fa-solid fa-arrow-left me-1"></i> Quay lại cổng Đăng nhập</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

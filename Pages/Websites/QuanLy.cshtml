@@ -195,3 +195,42 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+        const btnAdd = document.querySelector('.btn-neon-blue');
+        if (btnAdd) {
+            btnAdd.addEventListener('click', function (e) {
+                e.preventDefault(); // Ngăn trang web bị nhảy lên đầu (mất chữ #)
+                alert("Tính năng 'Thêm Mới Website' yêu cầu quyền Admin cấp cao. Vui lòng liên hệ quản trị viên hệ thống!");
+            });
+        }
+
+      
+        const deleteIcons = document.querySelectorAll('.action-icon.delete');
+        deleteIcons.forEach(icon => {
+            icon.addEventListener('click', function () {
+                if (confirm("⚠️ BẠN CÓ CHẮC CHẮN? \nHành động này sẽ xóa website khỏi danh sách giám sát an toàn thông tin!")) {
+                    alert("Đã gửi yêu cầu gỡ bỏ hệ thống đến máy chủ bảo mật!");
+                }
+            });
+        });
+
+     
+        const editIcons = document.querySelectorAll('.action-icon.edit');
+        editIcons.forEach(icon => {
+            icon.addEventListener('click', function () {
+                alert("Đang tải dữ liệu... Đang chuyển hướng sang giao diện cấu hình Firewall!");
+            });
+        });
+
+     
+        const btnApply = document.querySelector('.btn-outline-info');
+        if(btnApply) {
+            btnApply.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert("Đang áp dụng chính sách bảo mật hàng loạt...");
+            });
+        }
+    });
+</script>
