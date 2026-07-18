@@ -1,0 +1,142 @@
+﻿@page
+@{
+    ViewData["Title"] = "Khôi phục tài khoản";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - SecuCore</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Nút quay lại giống hệt trang Login */
+        .cyber-back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            padding: 10px 22px;
+            color: #8b949e;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: inline-flex;
+            align-items: center;
+        }
+
+            .cyber-back-btn:hover {
+                color: #58a6ff;
+                border-color: #58a6ff;
+                background: rgba(88, 166, 255, 0.05);
+                box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+                transform: translateX(-5px);
+            }
+
+        .cyber-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 30px rgba( 88, 166, 255, 0.1);
+        }
+
+        .cyber-input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #58a6ff;
+        }
+
+            .cyber-input:focus {
+                background: #0d1117;
+                border-color: #58a6ff;
+                box-shadow: 0 0 8px rgba(88, 166, 255, 0.4);
+                color: #58a6ff;
+            }
+
+        .input-group-text {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #8b949e;
+        }
+
+        .cyber-btn-warning {
+            background: transparent;
+            color: #ffaa00; /* Màu vàng cam cảnh báo cho việc cấp lại mk */
+            border: 1px solid #ffaa00;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            padding: 10px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+            .cyber-btn-warning:hover {
+                background: #ffaa00;
+                color: #0d1117;
+                box-shadow: 0 0 15px rgba(255, 170, 0, 0.6);
+            }
+    </style>
+</head>
+<body>
+    <!-- Nút Quay lại góc trái (Trỏ về trang Đăng nhập) -->
+    <a href="/auth/Login" class="cyber-back-btn">
+        <i class="fa-solid fa-arrow-left me-2"></i> TRỞ VỀ
+    </a>
+
+    <!-- Form Khôi phục -->
+    <div class="cyber-card">
+        <div class="text-center mb-4">
+            <!-- Icon Ổ khóa đang mở -->
+            <i class="fa-solid fa-unlock-keyhole fa-3x mb-3" style="color: #ffaa00; text-shadow: 0 0 15px rgba(255,170,0,0.5);"></i>
+            <h4 class="fw-bold text-light m-0" style="letter-spacing: 1px;">KHÔI PHỤC KHÓA</h4>
+            <p class="text-secondary mt-2" style="font-size: 0.85rem;">
+                Nhập Email liên kết với tài khoản. Hệ thống sẽ gửi mã xác thực một lần (OTP) để thiết lập lại mật khẩu.
+            </p>
+        </div>
+
+        <form method="post">
+            <div class="mb-4">
+                <label class="form-label text-secondary" style="font-size: 0.85rem;">Địa chỉ Email hệ thống</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                    <input type="email" class="form-control cyber-input" placeholder="admin@secucore.vn" required>
+                </div>
+            </div>
+
+            <!-- Nút gửi yêu cầu -->
+            <button type="submit" class="btn cyber-btn-warning mb-4">
+                <i class="fa-solid fa-paper-plane me-2"></i> GỬI MÃ XÁC THỰC
+            </button>
+
+            <div class="text-center">
+                <span class="text-secondary" style="font-size: 0.85rem;">Đã nhớ ra mật khẩu? </span>
+                <a href="/auth/Login" class="text-decoration-none fw-bold" style="color: #8b949e; font-size: 0.85rem; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8b949e'">Đăng nhập ngay</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

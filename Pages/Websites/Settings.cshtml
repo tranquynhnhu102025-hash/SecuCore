@@ -123,3 +123,136 @@
         </div>
     </div>
 </div>
+<!-- Đảm bảo đã nhúng SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Cài đặt Toast (Thông báo góc nhỏ) cho các nút Switch/Checkbox
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            background: '#161b22',
+            color: '#c9d1d9'
+        });
+
+        const switches = document.querySelectorAll('.form-check-input, input[type="checkbox"]');
+        switches.forEach(sw => {
+            sw.addEventListener('change', function() {
+                let status = this.checked ? "Đã BẬT" : "Đã TẮT";
+                Toast.fire({
+                    icon: 'success',
+                    title: status + ' cấu hình hệ thống'
+                });
+            });
+        });
+
+        // Tự động tìm và gắn sự kiện cho các nút dựa vào Nội dung chữ (Text)
+        const allButtons = document.querySelectorAll('button, .btn, a');
+
+        allButtons.forEach(btn => {
+            const btnText = btn.innerText.toUpperCase();
+
+            // 1. Xử lý nút LƯU THAY ĐỔI
+            if (btnText.includes('LƯU THAY ĐỔI')) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'ĐANG LƯU CẤU HÌNH',
+                        text: 'Hệ thống đang đồng bộ dữ liệu lên máy chủ...',
+                        timer: 1500,
+                        timerProgressBar: true,
+                        background: '#161b22',
+                        color: '#c9d1d9',
+                        didOpen: () => { Swal.showLoading() }
+                    }).then(() => {
+                        Swal.fire({
+                            title: 'ĐÃ LƯU!',
+                            text: 'Toàn bộ thay đổi cấu hình đã được áp dụng.',
+                            icon: 'success',
+                            background: '#161b22',
+                            color: '#c9d1d9',
+                            confirmButtonColor: '#2ea043'
+                        });
+                    });
+                });
+            }
+
+            // 2. Xử lý nút XÓA TOÀN BỘ NHẬT KÝ
+            else if (btnText.includes('XÓA TOÀN BỘ NHẬT KÝ') || btnText.includes('CLEAR LOGS')) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'XÓA NHẬT KÝ?',
+                        text: "Toàn bộ dữ liệu log quét và lịch sử cảnh báo sẽ bị xóa vĩnh viễn. Bạn không thể hoàn tác!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        background: '#161b22',
+                        color: '#c9d1d9',
+                        confirmButtonColor: '#ffaa00',
+                        cancelButtonColor: '#30363d',
+                        confirmButtonText: 'ĐỒNG Ý XÓA',
+                        cancelButtonText: 'HỦY'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'ĐÃ XÓA!',
+                                text: 'Hệ thống lưu trữ Logs đã được làm sạch.',
+                                icon: 'success',
+                                background: '#161b22',
+                                color: '#c9d1d9',
+                                confirmButtonColor: '#2ea043'
+                            });
+                        }
+                    });
+                });
+            }
+
+            // 3. Xử lý nút KHỞI ĐỘNG LẠI DỊCH VỤ QUÉT
+            else if (btnText.includes('KHỞI ĐỘNG LẠI DỊCH VỤ') || btnText.includes('RESTART')) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: 'KHỞI ĐỘNG LẠI ENGINE?',
+                        text: "Hành động này sẽ ngắt toàn bộ tiến trình quét đang chạy ngầm. Bạn có chắc chắn?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        background: '#161b22',
+                        color: '#c9d1d9',
+                        confirmButtonColor: '#ff003c',
+                        cancelButtonColor: '#30363d',
+                        confirmButtonText: 'RESTART NGAY',
+                        cancelButtonText: 'HỦY'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'ĐANG RESTART...',
+                                html: 'Khởi tạo lại các tiến trình Core... <b></b>',
+                                timer: 2500,
+                                timerProgressBar: true,
+                                background: '#161b22',
+                                color: '#c9d1d9',
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                }
+                            }).then(() => {
+                                Swal.fire({
+                                    title: 'HOÀN TẤT',
+                                    text: 'Service quét đã khởi động lại và hoạt động ổn định.',
+                                    icon: 'success',
+                                    background: '#161b22',
+                                    color: '#c9d1d9',
+                                    confirmButtonColor: '#2ea043'
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>

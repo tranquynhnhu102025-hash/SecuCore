@@ -1,105 +1,233 @@
 ﻿@page
 @model SecuCore.Pages.auth.LoginModel
 @{
-	ViewData["Title"] = "Đăng nhập hệ thống";
-	Layout = null;
+    ViewData["Title"] = "Đăng nhập hệ thống";
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="vi">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>@ViewData["Title"] - SecuCore</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-	<style>
-		body {
-			background-color: #0d1117;
-			color: #c9d1d9;
-			height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
-		.cyber-card{
-			background: #161b22;
-			border: 1px solid #30363d;
-			border-radius: 12px;
-			padding: 40px 30px;
-			width: 100%;
-			max-width: 420px;
-			box-shadow: 0 0 30px rgba( 88, 166, 255, 0.1);
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - SecuCore</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
 
-		}
-		.cyber-input /*ô nhập liệu tên và mật khẩu*/{
-			background: #0d1117;
-			border: 1px solid #30363d;
-			color: #58a6ff;
-		}
-		.cyber-input:focus {
-			background: #0d1117;
-			border-color: #58a6ff;
-			box-shadow: 0 0 8px rgba(88, 166, 255, 0.4);
-			color: #58a6ff;
-			}
-		.input-group-text{
-			background: #0d1117;
-			border: 1px solid #30363d;
-			color: #8b949e;
-		}
-		.cyber-btn{
-			background: transparent;
-			color: #58a6ff;
-			text-transform: uppercase;
-			font-weight: bold;
-			width: 100%;
-			padding: 10px;
-			letter-spacing: 1px;
-			transition: all 0.3s;
-		}
-        .cyber-btn:hover{
-				background: #58a6ff;
-				color: #0d1117;
-				box-shadow: 0 0 15px rgba(88, 166, 255, 0.6);
-		}
-		</style>
-		</head>
-<body>	
-	<a href="/Intro" class="text-decoration-none position-absolute" style="top: 25px; left: 30px; color: #8b949e; font-size: 0.9rem; letter-spacing: 1px; transition: all 0.3s; z-index: 999;" onmouseover="this.style.color='#58a6ff'; this.style.textShadow='0 0 10px rgba(88,166,255,0.5)';" onmouseout="this.style.color='#8b949e'; this.style.textShadow='none';">
-		<i class="fa-solid fa-arrow-left-long me-2"></i> QUAY LẠI
-	</a>
-	<div class="cyber-card">
-		<div class="text-center mb-4">
-			<i class ="fa-solid fa-shield-halved fa-3x mb-3" style="color: #58a6ff; text-shadow: 0 0 15px rgba(88,166,255,0.5);"></i>  
-			<h3 class="fw-bold text-light m-0" style="letter-spacing: 2px;">SECU<span style="color: #58a6ff;">CORE</span></h3>
-			<p class="text-secondary mt-1" style="font-size: 0.85rem; letter-spacing: 1px;">HỆ THỐNG GIÁM SÁT AN NINH</p>
-		</div>
-		<form method="post">
+        /* Nút quay lại nâng cấp */
+        .cyber-back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            padding: 10px 22px;
+            color: #8b949e;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            background: rgba(22, 27, 34, 0.6);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: inline-flex;
+            align-items: center;
+        }
+
+            .cyber-back-btn:hover {
+                color: #58a6ff;
+                border-color: #58a6ff;
+                background: rgba(88, 166, 255, 0.05);
+                box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+                transform: translateX(-5px);
+            }
+
+        .cyber-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 0 30px rgba( 88, 166, 255, 0.1);
+        }
+
+        .cyber-input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #58a6ff;
+        }
+
+            .cyber-input:focus {
+                background: #0d1117;
+                border-color: #58a6ff;
+                box-shadow: 0 0 8px rgba(88, 166, 255, 0.4);
+                color: #58a6ff;
+            }
+
+        .input-group-text {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #8b949e;
+        }
+
+        .cyber-btn {
+            background: transparent;
+            color: #58a6ff;
+            border: 1px solid #58a6ff;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 100%;
+            padding: 10px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+            .cyber-btn:hover {
+                background: #58a6ff;
+                color: #0d1117;
+                box-shadow: 0 0 15px rgba(88, 166, 255, 0.6);
+            }
+
+        /* Checkbox Ghi nhớ đăng nhập */
+        .form-check-input {
+            background-color: #0d1117;
+            border-color: #30363d;
+        }
+
+            .form-check-input:checked {
+                background-color: #58a6ff;
+                border-color: #58a6ff;
+            }
+
+        /* Vạch kẻ phân cách */
+        .cyber-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 25px 0 20px 0;
+            color: #8b949e;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+            .cyber-divider::before, .cyber-divider::after {
+                content: '';
+                flex: 1;
+                border-bottom: 1px solid #30363d;
+            }
+
+            .cyber-divider span {
+                padding: 0 10px;
+            }
+
+        /* Nút đăng nhập Mạng xã hội */
+        .social-btn {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+            .social-btn:hover {
+                border-color: #58a6ff;
+                color: #fff;
+                background: rgba(88, 166, 255, 0.05);
+            }
+    </style>
+</head>
+<body>
+    <!-- Nút Quay lại góc trái -->
+    <a href="/Intro" class="cyber-back-btn">
+        <i class="fa-solid fa-arrow-left me-2"></i> TRỞ VỀ
+    </a>
+
+    <!-- Form Đăng nhập -->
+    <div class="cyber-card">
+        <div class="text-center mb-4">
+            <i class="fa-solid fa-shield-halved fa-3x mb-3" style="color: #58a6ff; text-shadow: 0 0 15px rgba(88,166,255,0.5);"></i>
+            <h3 class="fw-bold text-light m-0" style="letter-spacing: 2px;">SECU<span style="color: #58a6ff;">CORE</span></h3>
+            <p class="text-secondary mt-1" style="font-size: 0.85rem; letter-spacing: 1px;">HỆ THỐNG GIÁM SÁT AN NINH</p>
+        </div>
+
+        <form method="post">
             <div class="mb-3">
                 <label class="form-label text-secondary" style="font-size: 0.85rem;">Tài khoản quản trị</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fa-solid fa-user-shield"></i></span>
                     <input type="text" class="form-control cyber-input" placeholder="Nhập username..." required>
                 </div>
-			</div>
-			<div class="mb-4">
-				<label class="form-label text-secondary" style="font-size: 0.85rem;">Khóa bảo mật (Mật khẩu)</label>
-				<div class="input-group">
-					<span class="input-group-text"><i class="fa-solid fa-key"></i></span>
-					<input type="password" class="form-control cyber-input" placeholder="••••••••••••" required>
-				</div>
-			</div>
+            </div>
 
-			<button type="submit" class="btn cyber-btn mb-4">
-				<i class="fa-solid fa-right-to-bracket me-2"></i> ỦY QUYỀN ĐĂNG NHẬP
-			</button>
+            <div class="mb-3">
+                <label class="form-label text-secondary" style="font-size: 0.85rem;">Khóa bảo mật (Mật khẩu)</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                    <input type="password" class="form-control cyber-input" placeholder="••••••••••••" required>
+                </div>
+            </div>
 
-			<div class="text-center">
-				<span class="text-secondary" style="font-size: 0.85rem;">Nhân sự mới? </span>
-				<a href="/auth/Register" class="text-decoration-none fw-bold" style="color: #58a6ff; font-size: 0.85rem;">Yêu cầu cấp quyền</a>
-			</div>
-		</form>
-	</div>
+            <!-- Thêm: Ghi nhớ đăng nhập & Quên mật khẩu -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label text-secondary" for="rememberMe" style="font-size: 0.8rem; cursor: pointer;">
+                        Ghi nhớ thiết bị
+                    </label>
+                </div>
+                <a href="/auth/Forgot" class="text-decoration-none" style="color: #58a6ff; font-size: 0.8rem; transition: 0.3s;">Quên khóa?</a>
+            </div>
+
+            <!-- Nút đăng nhập chính -->
+            <button type="submit" class="btn cyber-btn">
+                <i class="fa-solid fa-right-to-bracket me-2"></i> ỦY QUYỀN ĐĂNG NHẬP
+            </button>
+
+            <!-- Thêm: Phân cách và Đăng nhập Gmail/GitHub -->
+            <div class="cyber-divider">
+                <span>HOẶC KẾT NỐI QUA</span>
+            </div>
+
+            <div class="row gx-2 mb-4">
+                <div class="col-6">
+                    <a href="#" class="social-btn">
+                        <i class="fa-brands fa-google" style="color: #ea4335;"></i> Google
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="#" class="social-btn">
+                        <i class="fa-brands fa-github" style="color: #ffffff;"></i> GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- Đăng ký tài khoản mới -->
+            <div class="text-center mt-2">
+                <span class="text-secondary" style="font-size: 0.85rem;">Nhân sự mới? </span>
+                <a href="/auth/Register" class="text-decoration-none fw-bold" style="color: #58a6ff; font-size: 0.85rem;">Yêu cầu cấp quyền</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

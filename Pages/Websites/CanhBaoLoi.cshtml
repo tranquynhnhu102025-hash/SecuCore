@@ -1,61 +1,167 @@
 ﻿@page
-@model SecuCore.Pages.Websites.CanhBaoLoicshtmlModel
 @{
-    ViewData["Title"] = "Cảnh Báo Lỗi";
+    ViewData["Title"] = "Cảnh báo Lỗ hổng";
 }
 
+
+
 <div class="container-fluid mt-4 mb-5">
-    <div class="cyber-panel-alert">
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid #4a151b;">
-            <h2 class="fw-bold m-0" style="letter-spacing: 1px; color: #ff003c; text-shadow: 0 0 10px rgba(255,0,60,0.5);">
-                <i class="fa-solid fa-radar fa-beat-fade me-2"></i> HỆ THỐNG CẢNH BÁO LỖ TRÔNG
-            </h2>
-            <div>
-                <button class="btn btn-outline-danger fw-bold"><i class="fa-solid fa-ban me-1"></i> KHÓA TẤT CẢ TRUY CẬP</button>
-            </div>
+    <div class="cyber-alert-container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid rgba(255,0,60,0.2);">
+            <h3 class="glow-text-danger m-0 text-uppercase">HỆ THỐNG CẢNH BÁO LỖ HỔNG</h3>
+            <button class="btn btn-lock-all" id="btnLockAll">
+                <i class="fa-solid fa-ban me-2"></i> KHÓA TẤT CẢ TRUY CẬP
+            </button>
         </div>
 
-        <div class="alert-card alert-critical">
+        <!-- Alert 1: Critical -->
+        <div class="alert-card critical-card">
             <div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge badge-critical me-3 px-2 py-1">NGUY HIỂM CẤP ĐỘ 1 (CRITICAL)</span>
-                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> Vừa xong</span>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <span class="badge-critical">NGUY HIỂM CẤP ĐỘ 1 (CRITICAL)</span>
+                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> Vừa xong</span>
                 </div>
                 <h5 class="text-light fw-bold mb-1">Phát hiện tấn công SQL Injection vào MySQL Server</h5>
-                <div class="text-secondary" style="font-size: 0.95rem;">
-                    Mục tiêu: <span class="alert-target">lcms.ntt.edu.vn/login</span> | Mã lỗi: <span class="text-danger font-monospace">ERR_SQL_BYPASS</span>
-                </div>
+                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">lcms.ntt.edu.vn/login</span> | Mã lỗi: <span class="text-danger">ERR_SQL_BYPASS</span></div>
             </div>
-            <button class="btn btn-sm btn-danger fw-bold px-4 py-2"><i class="fa-solid fa-shield-virus me-1"></i> NGĂN CHẶN IP</button>
+            <div>
+                <button class="btn btn-cyber-danger btn-block-ip">
+                    <i class="fa-solid fa-shield-halved me-1"></i> NGĂN CHẶN IP
+                </button>
+            </div>
         </div>
 
-        <div class="alert-card alert-high">
+        <!-- Alert 2: Warning -->
+        <div class="alert-card warning-card">
             <div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge badge-high me-3 px-2 py-1">RỦI RO CAO (HIGH)</span>
-                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> 15 phút trước</span>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <span class="badge-warning">RỦI RO CAO (HIGH)</span>
+                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> 15 phút trước</span>
                 </div>
                 <h5 class="text-light fw-bold mb-1">Cảnh báo rò rỉ biến môi trường .NET (Environment Variables)</h5>
-                <div class="text-secondary" style="font-size: 0.95rem;">
-                    Mục tiêu: <span class="alert-target">api.lms.ntt.edu.vn</span> | Nguy cơ: Lộ chuỗi kết nối Database
-                </div>
+                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">api.lms.ntt.edu.vn</span> | Nguy cơ: Lộ chuỗi kết nối Database</div>
             </div>
-            <button class="btn btn-sm btn-outline-warning fw-bold text-warning px-4 py-2"><i class="fa-solid fa-code me-1"></i> XEM LOGS C#</button>
+            <div>
+                <button class="btn btn-cyber-warning-outline btn-view-logs">
+                    <i class="fa-solid fa-code me-1"></i> XEM LOGS C#
+                </button>
+            </div>
         </div>
 
-        <div class="alert-card alert-high">
+        <!-- Alert 3: Warning -->
+        <div class="alert-card warning-card">
             <div>
-                <div class="d-flex align-items-center mb-2">
-                    <span class="badge badge-high me-3 px-2 py-1">RỦI RO CAO (HIGH)</span>
-                    <span class="alert-time"><i class="fa-regular fa-clock me-1"></i> 2 giờ trước</span>
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <span class="badge-warning">RỦI RO CAO (HIGH)</span>
+                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> 2 giờ trước</span>
                 </div>
                 <h5 class="text-light fw-bold mb-1">Phát hiện chèn mã độc Cross-Site Scripting (XSS)</h5>
-                <div class="text-secondary" style="font-size: 0.95rem;">
-                    Mục tiêu: <span class="alert-target">portal.ntt.edu.vn/feedback</span> | Dữ liệu đầu vào không được mã hóa HTML/CSS
-                </div>
+                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">portal.ntt.edu.vn/feedback</span> | Dữ liệu đầu vào không được mã hóa HTML/CSS</div>
             </div>
-            <button class="btn btn-sm btn-outline-warning fw-bold text-warning px-4 py-2"><i class="fa-solid fa-broom me-1"></i> LÀM SẠCH</button>
+            <div>
+                <button class="btn btn-cyber-warning-outline btn-clean">
+                    <i class="fa-solid fa-broom me-1"></i> LÀM SẠCH
+                </button>
+            </div>
         </div>
-
     </div>
 </div>
+
+<!-- Đảm bảo đã nhúng SweetAlert2 (nếu file _Layout chưa có) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // 1. Nút Khóa tất cả
+        document.getElementById('btnLockAll').addEventListener('click', function() {
+            Swal.fire({
+                title: 'KÍCH HOẠT CHẾ ĐỘ KHẨN CẤP?',
+                text: "Hành động này sẽ ngắt toàn bộ kết nối đến các Server. Bạn có chắc chắn?",
+                icon: 'error',
+                background: '#161b22',
+                color: '#c9d1d9',
+                showCancelButton: true,
+                confirmButtonColor: '#ff003c',
+                cancelButtonColor: '#30363d',
+                confirmButtonText: 'XÁC NHẬN KHÓA',
+                cancelButtonText: 'HỦY'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'ĐÃ KHÓA KẾT NỐI!',
+                        text: 'Tường lửa đã chuyển sang trạng thái Block-All.',
+                        icon: 'success',
+                        background: '#161b22',
+                        color: '#c9d1d9',
+                        confirmButtonColor: '#2ea043'
+                    });
+                }
+            });
+        });
+
+        // 2. Nút Ngăn chặn IP
+        document.querySelectorAll('.btn-block-ip').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.alert-card');
+                Swal.fire({
+                    title: 'ĐANG XỬ LÝ',
+                    text: 'Đang thêm IP kẻ tấn công vào Blacklist của Firewall...',
+                    timer: 1500,
+                    timerProgressBar: true,
+                    background: '#161b22',
+                    color: '#c9d1d9',
+                    didOpen: () => { Swal.showLoading() }
+                }).then(() => {
+                    card.style.opacity = '0.5';
+                    this.innerHTML = '<i class="fa-solid fa-check"></i> ĐÃ CHẶN';
+                    this.classList.remove('btn-cyber-danger');
+                    this.classList.add('btn-success');
+                    this.disabled = true;
+                });
+            });
+        });
+
+        // 3. Nút Xem Logs
+        document.querySelectorAll('.btn-view-logs').forEach(btn => {
+            btn.addEventListener('click', function() {
+                Swal.fire({
+                    title: 'SYSTEM LOGS',
+                    html: '<pre style="text-align: left; background: #0d1117; padding: 10px; color: #3fb950; font-size: 0.8rem; border-radius: 5px;"><code>[INFO] Connection attempt from 45.33.x.x\n[WARN] Payload matching SQLi signature detected\n[ERR] Query execution blocked by IDS</code></pre>',
+                    background: '#161b22',
+                    color: '#c9d1d9',
+                    width: 600,
+                    confirmButtonColor: '#58a6ff',
+                    confirmButtonText: 'ĐÓNG'
+                });
+            });
+        });
+
+        // 4. Nút Làm sạch (Clean)
+        document.querySelectorAll('.btn-clean').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.alert-card');
+                Swal.fire({
+                    title: 'ĐANG LÀM SẠCH',
+                    text: 'Đang tiến hành mã hóa và dọn dẹp bộ nhớ đệm...',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    background: '#161b22',
+                    color: '#c9d1d9',
+                    didOpen: () => { Swal.showLoading() }
+                }).then(() => {
+                    card.style.display = 'none'; // Ẩn cảnh báo sau khi làm sạch xong
+                    Swal.fire({
+                        title: 'ĐÃ LÀM SẠCH',
+                        icon: 'success',
+                        background: '#161b22',
+                        color: '#c9d1d9',
+                        confirmButtonColor: '#2ea043'
+                    });
+                });
+            });
+        });
+
+    });
+</script>
