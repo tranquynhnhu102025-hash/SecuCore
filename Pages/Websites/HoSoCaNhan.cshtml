@@ -1,223 +1,341 @@
 ﻿@page
 @{
-    ViewData["Title"] = "Hồ sơ cá nhân";
+    ViewData["Title"] = "Hồ sơ Quản trị viên";
 }
 
 <style>
-    .profile-panel {
-        background: #161b22;
-        border: 1px solid #30363d;
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #0d1117;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #58a6ff;
+        }
+
+    .cyber-card {
+        background-color: #11151c !important;
+        border: 1px solid #2d333b !important;
         border-radius: 12px;
         padding: 25px;
-        height: 100%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    .profile-title {
-        color: #58a6ff;
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border-bottom: 1px solid #30363d;
-        padding-bottom: 10px;
+    .page-title {
+        color: #ffffff !important;
+        font-weight: 800;
+        letter-spacing: 1px;
     }
 
-    .avatar-wrapper {
-        position: relative;
-        width: 150px;
-        height: 150px;
-        margin: 0 auto 20px auto;
-    }
-
-    .avatar-img {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid #30363d;
-        transition: 0.3s;
-    }
-
-    .avatar-wrapper:hover .avatar-img {
-        border-color: #00f0ff;
-        box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-    }
-
-    .btn-upload-avatar {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background: #00f0ff;
-        color: #000;
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-        .btn-upload-avatar:hover {
-            background: #00c8d4;
-            transform: scale(1.1);
-        }
-
-    .form-label-cyber {
-        color: #8b949e;
+    .cyber-input {
+        background-color: #0d1117 !important;
+        border: 1px solid #2d333b !important;
+        color: #c9d1d9 !important;
         font-size: 0.9rem;
-        margin-bottom: 8px;
-    }
-
-    .form-control-cyber {
-        background: #0d1117;
-        border: 1px solid #30363d;
-        color: #c9d1d9;
-        border-radius: 6px;
-    }
-
-        .form-control-cyber:focus {
-            background: #0d1117;
-            border-color: #00f0ff;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
-        }
-
-    .btn-save-profile {
-        background: #2ea043;
-        color: white;
-        font-weight: bold;
-        border: none;
-        padding: 10px 25px;
+        padding: 12px !important;
         border-radius: 6px;
         transition: 0.3s;
     }
 
-        .btn-save-profile:hover {
-            background: #3fb950;
-            box-shadow: 0 0 15px rgba(46, 160, 67, 0.4);
+        .cyber-input:focus {
+            border-color: #58a6ff !important;
+            box-shadow: 0 0 10px rgba(88,166,255,0.2) inset !important;
+            color: #fff !important;
         }
 
-    .info-badge {
-        background: rgba(88, 166, 255, 0.1);
-        color: #58a6ff;
-        border: 1px solid #58a6ff;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        display: inline-block;
-        margin-bottom: 10px;
+        .cyber-input:disabled {
+            background-color: #010409 !important;
+            color: #484f58 !important;
+            cursor: not-allowed;
+        }
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px #0d1117 inset !important;
+        -webkit-text-fill-color: #c9d1d9 !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .btn-cyber-save {
+        background-color: #3fb950;
+        color: white;
+        border: none;
+        letter-spacing: 0.5px;
+        box-shadow: 0 0 15px rgba(63, 185, 80, 0.2);
+        transition: 0.3s;
+    }
+
+        .btn-cyber-save:hover {
+            background-color: #2ea043;
+            box-shadow: 0 0 20px rgba(63, 185, 80, 0.5);
+            transform: translateY(-2px);
+        }
+
+    .btn-cyber-danger {
+        background: transparent;
+        color: #f85149;
+        border: 1px solid #f85149;
+        letter-spacing: 0.5px;
+        transition: 0.3s;
+    }
+
+        .btn-cyber-danger:hover {
+            background: rgba(248, 81, 73, 0.1);
+            box-shadow: 0 0 15px rgba(248, 81, 73, 0.3);
+            transform: translateY(-2px);
+        }
+    div:where(.swal2-container) div:where(.swal2-popup) {
+        border: 1px solid #30363d;
+        background-color: #161b22 !important;
+        border-radius: 8px !important;
     }
 </style>
 
+<!-- TIÊU ĐỀ TRANG -->
 <div class="container-fluid mt-4 mb-5">
-    <div class="mb-4">
-        <h2 class="text-light fw-bold m-0">
-            <i class="fa-regular fa-id-badge me-2" style="color: #00f0ff;"></i> HỒ SƠ QUẢN TRỊ VIÊN
-        </h2>
-    </div>
+<h2 class="page-title"><i class="fa-solid fa-file-export me-2" style="color: #00f0ff;"></i> HỒ SƠ CÁ NHÂN </h2>
 
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="profile-panel text-center text-light">
-                <div class="avatar-wrapper">
-                    <div style="width: 100%; height: 100%; border-radius: 50%; background-color: #1a73e8; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; border: 4px solid #30363d;">
-                        AN
+<div class="row g-4 mb-5">
+    <!-- CỘT TRÁI: AVATAR & THÔNG TIN CHUNG -->
+    <div class="col-lg-4">
+        <div class="cyber-card h-100 position-relative" style="background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;">
+            <div class="text-center mb-4 mt-3">
+                <!-- Avatar phát sáng màu Cyan -->
+                <div class="position-relative d-inline-block mb-3" style="cursor: pointer;" id="avatarContainer">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 130px; height: 130px; background-color: #00f0ff; color: #000; font-size: 3.5rem; font-weight: 800; box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);">
+                        <span id="avatarInitials">AN</span>
                     </div>
-                    <button class="btn-upload-avatar" title="Đổi ảnh đại diện">
-                        <i class="fa-solid fa-camera"></i>
-                    </button>
+                    <!-- Icon máy ảnh góc dưới -->
+                    <div class="position-absolute d-flex align-items-center justify-content-center"
+                         style="bottom: 5px; right: 5px; background: #0d1117; width: 35px; height: 35px; border-radius: 50%; border: 2px solid #00f0ff; transition: 0.3s;" onmouseover="this.style.background='#00f0ff'; this.querySelector('i').style.color='#000'" onmouseout="this.style.background='#0d1117'; this.querySelector('i').style.color='#00f0ff'">
+                        <i class="fa-solid fa-camera text-info" style="font-size: 1rem; transition: 0.3s;"></i>
+                    </div>
                 </div>
 
-                <h4 class="fw-bold mb-1">Trần Quỳnh Như</h4>
-                <p class="text-secondary mb-2">admin@ntt.edu.vn</p>
-                <div class="info-badge">
+                <h4 class="text-light fw-bold mb-1" id="displayFullName">Trần Quỳnh Như</h4>
+                <div class="text-secondary mb-3" style="font-size: 0.9rem;">admin@ntt.edu.vn</div>
+
+                <!-- Nhãn Role -->
+                <div class="d-inline-block px-4 py-1 rounded-pill mb-4" style="border: 1px solid #00f0ff; color: #00f0ff; font-size: 0.85rem; font-weight: 600; box-shadow: inset 0 0 10px rgba(0,240,255,0.1);">
                     <i class="fa-solid fa-shield-halved me-1"></i> System Manager
                 </div>
+            </div>
 
-                <hr style="border-color: #30363d; margin: 20px 0;">
+            <!-- Danh sách Icon thông tin -->
+            <div class="text-start" style="font-size: 0.9rem; color: #8b949e;">
+                <div class="mb-3"><i class="fa-solid fa-building-columns me-2" style="color: #58a6ff; width: 20px; text-align: center;"></i> Đại học Nguyễn Tất Thành</div>
+                <div class="mb-3"><i class="fa-solid fa-calendar-days me-2" style="color: #58a6ff; width: 20px; text-align: center;"></i> Tham gia: Tháng 8/2024</div>
+                <div><i class="fa-solid fa-circle-check me-2" style="color: #3fb950; width: 20px; text-align: center;"></i> Tài khoản đã xác thực</div>
+            </div>
+        </div>
+    </div>
 
-                <div class="text-start">
-                    <p class="text-secondary mb-2"><i class="fa-solid fa-building-columns me-2"></i> Đại học Nguyễn Tất Thành</p>
-                    <p class="text-secondary mb-2"><i class="fa-solid fa-calendar-days me-2"></i> Tham gia: Tháng 8/2024</p>
-                    <p class="text-secondary mb-0"><i class="fa-solid fa-circle-check me-2" style="color: #2ea043;"></i> Tài khoản đã xác thực</p>
+    <!-- CỘT PHẢI: FORM CHỈNH SỬA & MẬT KHẨU -->
+    <div class="col-lg-8">
+        <!-- THẺ 1: CHỈNH SỬA THÔNG TIN -->
+        <div class="cyber-card mb-4" style="background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;">
+            <h5 class="fw-bold pb-3 mb-4" style="color: #58a6ff; border-bottom: 1px dashed #2d333b; font-size: 1.1rem;">
+                <i class="fa-solid fa-user-pen me-2"></i> CHỈNH SỬA THÔNG TIN
+            </h5>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Họ và Tên</label>
+                    <input type="text" id="inputFullName" class="form-control cyber-input" value="Trần Quỳnh Như">
                 </div>
+                <div class="col-md-6">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Tên hiển thị (Nickname)</label>
+                    <input type="text" id="inputNickname" class="form-control cyber-input" value="Admin NTT">
+                </div>
+                <div class="col-md-6">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Email liên hệ (Không thể đổi)</label>
+                    <input type="email" class="form-control cyber-input" value="admin@ntt.edu.vn" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Số điện thoại</label>
+                    <input type="text" id="inputPhone" class="form-control cyber-input" value="0901234567" placeholder="Nhập số điện thoại...">
+                </div>
+                <div class="col-12">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Tiểu sử (Bio)</label>
+                    <textarea id="inputBio" class="form-control cyber-input" rows="3">Sinh viên ngành Kỹ thuật phần mềm. Đang thực hiện dự án hệ thống SecuCore.</textarea>
+                </div>
+            </div>
+
+            <div class="text-end">
+                <button id="btnSaveProfile" class="btn btn-cyber-save fw-bold px-4 py-2">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THÔNG TIN
+                </button>
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div class="profile-panel text-light mb-4">
-                <div class="profile-title">
-                    <i class="fa-solid fa-user-pen"></i> CHỈNH SỬA THÔNG TIN
+        <!-- THẺ 2: ĐỔI MẬT KHẨU -->
+        <div class="cyber-card" style="border-top: 3px solid #f85149; background-image: radial-gradient(rgba(248, 81, 73, 0.03) 1px, transparent 1px); background-size: 20px 20px;">
+            <h5 class="fw-bold pb-3 mb-4" style="color: #f85149; border-bottom: 1px dashed #2d333b; font-size: 1.1rem;">
+                <i class="fa-solid fa-key me-2"></i> ĐỔI MẬT KHẨU
+            </h5>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Mật khẩu hiện tại</label>
+                    <input type="password" id="oldPass" class="form-control cyber-input" placeholder="Nhập mật khẩu cũ...">
                 </div>
-
-                <form>
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label-cyber">Họ và Tên</label>
-                            <input type="text" class="form-control form-control-cyber" value="Trần Quỳnh Như">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label-cyber">Tên hiển thị (Nickname)</label>
-                            <input type="text" class="form-control form-control-cyber" value="Admin NTT">
-                        </div>
-                    </div>
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label-cyber">Email liên hệ</label>
-                            <input type="email" class="form-control form-control-cyber" value="admin@ntt.edu.vn">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label-cyber">Số điện thoại</label>
-                            <input type="text" class="form-control form-control-cyber" placeholder="Nhập số điện thoại...">
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label-cyber">Tiểu sử (Bio)</label>
-                        <textarea class="form-control form-control-cyber" rows="3">Sinh viên ngành Kỹ thuật phần mềm. Đang thực hiện dự án hệ thống SecuCore.</textarea>
-                    </div>
-
-                    <div class="text-end">
-                        <button type="button" class="btn btn-save-profile">
-                            <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THÔNG TIN
-                        </button>
-                    </div>
-                </form>
+                <div class="col-md-4">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Mật khẩu mới</label>
+                    <input type="password" id="newPass" class="form-control cyber-input" placeholder="Mật khẩu mới...">
+                </div>
+                <div class="col-md-4">
+                    <label class="text-secondary mb-2" style="font-size: 0.85rem;">Xác nhận mật khẩu mới</label>
+                    <input type="password" id="confirmPass" class="form-control cyber-input" placeholder="Nhập lại mật khẩu mới...">
+                </div>
             </div>
 
-            <div class="profile-panel text-light">
-                <div class="profile-title text-danger" style="border-bottom-color: rgba(248, 81, 73, 0.4);">
-                    <i class="fa-solid fa-key"></i> ĐỔI MẬT KHẨU
-                </div>
-
-                <form>
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-4">
-                            <label class="form-label-cyber">Mật khẩu hiện tại</label>
-                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label-cyber">Mật khẩu mới</label>
-                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label-cyber">Xác nhận mật khẩu mới</label>
-                            <input type="password" class="form-control form-control-cyber" placeholder="••••••••">
-                        </div>
-                    </div>
-                    <div class="text-end mt-4">
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="fa-solid fa-arrows-rotate me-2"></i> CẬP NHẬT MẬT KHẨU
-                        </button>
-                    </div>
-                </form>
+            <div class="text-end">
+                <button id="btnChangePass" class="btn btn-cyber-danger fw-bold px-4 py-2">
+                    <i class="fa-solid fa-rotate me-2"></i> CẬP NHẬT MẬT KHẨU
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- DÒNG DƯỚI: NHẬT KÝ HOẠT ĐỘNG -->
+<div class="row">
+    <div class="col-12">
+        <div class="secu-card">
+            <h6 class="text-light fw-bold border-bottom border-secondary pb-3 mb-3">
+                <i class="fa-solid fa-clock-rotate-left text-secondary me-2"></i> NHẬT KÝ HOẠT ĐỘNG CÁ NHÂN
+            </h6>
+            <div class="table-responsive">
+                <table class="secu-table">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Hành động</th>
+                            <th>Thiết bị / Hệ điều hành</th>
+                            <th>Địa điểm / IP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-secondary">Hôm nay, 10:15 AM</td>
+                            <td><span class="text-info fw-bold">Đăng nhập thành công</span> vào hệ thống điều khiển</td>
+                            <td class="text-secondary">Chrome / Windows 11</td>
+                            <td class="text-light">Ho Chi Minh City <span class="text-secondary">(192.168.1.55)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">Hôm qua, 03:45 PM</td>
+                            <td><span class="text-warning fw-bold">Cập nhật cấu hình</span> giám sát mục tiêu <span class="text-light font-monospace">qlsv.ntt.edu.vn</span></td>
+                            <td class="text-secondary">Chrome / Windows 11</td>
+                            <td class="text-light">Ho Chi Minh City <span class="text-secondary">(192.168.1.55)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="text-secondary">02/07/2026, 09:12 AM</td>
+                            <td><span class="text-danger fw-bold">Khóa truy cập IP</span> nguồn phát động SQL Injection</td>
+                            <td class="text-secondary">Visual Studio Code / Server Console</td>
+                            <td class="text-light">Hệ thống tự động <span class="text-secondary">(Khu vực Gateway)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const swalBg = '#161b22', swalText = '#c9d1d9';
+
+        // 1. TÍNH NĂNG ĐỔI AVATAR (Giả lập chọn ảnh)
+        document.getElementById('avatarContainer').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Đổi ảnh đại diện',
+                text: 'Tính năng tải ảnh đang được bảo trì. Bạn có muốn đổi ảnh mặc định không?',
+                icon: 'info',
+                background: swalBg, color: swalText,
+                showCancelButton: true, confirmButtonText: 'Đồng ý', cancelButtonText: 'Hủy'
+            });
+        });
+
+        // 2. TÍNH NĂNG LƯU THÔNG TIN HỒ SƠ
+        document.getElementById('btnSaveProfile').addEventListener('click', function() {
+            const fullName = document.getElementById('inputFullName').value.trim();
+            const nickname = document.getElementById('inputNickname').value.trim();
+
+            if (!fullName) {
+                Swal.fire({ icon: 'warning', title: 'Thiếu thông tin', text: 'Họ và tên không được để trống!', background: swalBg, color: swalText });
+                return;
+            }
+
+            // Hiện loading giả lập độ trễ mạng
+            Swal.fire({
+                title: 'Đang cập nhật...',
+                background: swalBg, color: swalText,
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            setTimeout(() => {
+                // Cập nhật ngay lập tức dữ liệu sang cột bên trái
+                document.getElementById('displayFullName').textContent = fullName;
+
+                // Lấy 2 chữ cái đầu của tên để làm Avatar (VD: Trần Quỳnh Như -> TN)
+                const nameParts = fullName.split(' ');
+                let initials = "AN";
+                if (nameParts.length >= 2) {
+                    initials = nameParts[0].charAt(0) + nameParts[nameParts.length - 1].charAt(0);
+                } else if (nameParts.length === 1) {
+                    initials = nameParts[0].substring(0, 2);
+                }
+                document.getElementById('avatarInitials').textContent = initials.toUpperCase();
+
+                Swal.fire({ icon: 'success', title: 'Thành công!', text: 'Hồ sơ của bạn đã được lưu.', background: swalBg, color: swalText, confirmButtonColor: '#3fb950' });
+            }, 800);
+        });
+
+        // 3. TÍNH NĂNG CẬP NHẬT MẬT KHẨU
+        document.getElementById('btnChangePass').addEventListener('click', function() {
+            const oldPass = document.getElementById('oldPass').value;
+            const newPass = document.getElementById('newPass').value;
+            const confirmPass = document.getElementById('confirmPass').value;
+
+            if (!oldPass || !newPass || !confirmPass) {
+                Swal.fire({ icon: 'warning', title: 'Chưa nhập đủ', text: 'Vui lòng điền đầy đủ các trường mật khẩu.', background: swalBg, color: swalText });
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                Swal.fire({ icon: 'error', title: 'Lỗi xác nhận', text: 'Mật khẩu mới và xác nhận không khớp!', background: swalBg, color: swalText });
+                return;
+            }
+
+            if (oldPass === newPass) {
+                Swal.fire({ icon: 'info', title: 'Trùng lặp', text: 'Mật khẩu mới phải khác mật khẩu hiện tại!', background: swalBg, color: swalText });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Đang mã hóa...',
+                background: swalBg, color: swalText,
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
+            setTimeout(() => {
+                // Đổi thành công thì xóa rỗng các ô nhập liệu
+                document.getElementById('oldPass').value = '';
+                document.getElementById('newPass').value = '';
+                document.getElementById('confirmPass').value = '';
+
+                Swal.fire({ icon: 'success', title: 'Bảo mật', text: 'Đã cập nhật mật khẩu hệ thống an toàn.', background: swalBg, color: swalText, confirmButtonColor: '#3fb950' });
+            }, 1000);
+        });
+    });
+</script>

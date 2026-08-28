@@ -1,62 +1,84 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SecuCore.Data;
+using SecuCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SecuCore.Pages
 {
-    // Tạo cấu trúc dữ liệu cho 1 dòng nhật ký
-    public class ScanLog
-    {
-        public string TargetUrl { get; set; }
-        public string VulnerabilityType { get; set; }
-        public bool IsFixed { get; set; }
-        public DateTime ScanTime { get; set; }
-    }
-
     public class IndexModel : PageModel
     {
-        // Các biến số hiển thị trên 3 cái thẻ Card
-        public int TongSoMucTieu { get; set; } = 3;
-        public int SoLoHongNguyHiem { get; set; }
-        public int SoCanhBao { get; set; } = 12;
+        private readonly SecuDbContext _context;
 
-        // Danh sách tĩnh để lưu nhật ký ảo (không cần Database)
-        public static List<ScanLog> DanhSachNhatKy { get; set; } = new List<ScanLog>();
-
-        public void OnGet()
+        public IndexModel(SecuDbContext context)
         {
-            // Mỗi lần load trang, đếm xem có bao nhiêu lỗi chưa vá
-            SoLoHongNguyHiem = DanhSachNhatKy.Count(x => !x.IsFixed);
+            _context = context;
         }
 
-        // Hàm này sẽ chạy khi bạn bấm nút "KHỞI ĐỘNG QUÉT TOÀN DIỆN"
-        public IActionResult OnPostStartScan()
-        {
-            Random rnd = new Random();
-            string[] mockErrors = { "DDoS Attempt", "SQL Injection", "Path Traversal", "Cross-Site Scripting (XSS)" };
-            string[] mockTargets = { "qlsv.ntt.edu.vn", "lms.ntt.edu.vn", "elearning.ntt.edu.vn" };
+        public int TongSoMucTieu { get; set; }
+        public int SoLoHongNguyHiem { get; set; }
+        public int SoCanhBao { get; set; }
+        public IList<VulnerabilityLog> DanhSachNhatKy { get; set; }
 
-            // Tạo ra 1 lỗi ảo mới
-            var newLog = new ScanLog
+        public async Task OnGetAsync()
+        {
+            // Lấy dữ liệu đếm số lượng hiển thị lên Dashboard
+            TongSoMucTieu = await _context.WebsiteTargets.CountAsync();
+            SoLoHongNguyHiem = await _context.VulnerabilityLogs.CountAsync(v => v.Severity == "CRITICAL" || v.Severity == "HIGH");
+            SoCanhBao = 3;
+
+            // Lấy 5 bản ghi mới nhất cho bảng Nhật ký
+            DanhSachNhatKy = await _context.VulnerabilityLogs
+                .OrderByDescending(v => v.Id)
+                .Take(5)
+                .ToListAsync();
+        }
+
+        // HÀM XỬ LÝ KHI BẤM NÚT QUÉT
+        public async Task<IActionResult> OnPostRunScanAsync()
+        {
+            // 1. Giả lập tiến trình quét
+            await Task.Delay(1000);
+
+            // 2. Tạo danh sách các lỗ hổng ngẫu nhiên
+            var loaiLoHong = new[] {
+                "SQL Injection (Time-based)",
+                "Cross-Site Scripting (XSS Stored)",
+                "Directory Traversal / LFI",
+                "Zero-Day Remote Code Execution (RCE)",
+                "DDoS / UDP Flood Attack"
+            };
+            var mucTieu = new[] {
+                "/api/v1/users/login",
+                "/comments/post_id=128",
+                "/download?file=../../etc/passwd",
+                "/api/v1/system/execute-shell",
+                "http://demo-bank.vn"
+            };
+            var mucDo = new[] { "CRITICAL", "HIGH", "MEDIUM", "CRITICAL", "HIGH" };
+
+            // Chọn ngẫu nhiên 1 lỗi
+            Random rnd = new Random();
+            int index = rnd.Next(loaiLoHong.Length);
+
+            // 3. Đẩy lỗi ngẫu nhiên vào Database
+            var newLog = new VulnerabilityLog
             {
-                TargetUrl = mockTargets[rnd.Next(mockTargets.Length)],
-                VulnerabilityType = mockErrors[rnd.Next(mockErrors.Length)],
-                IsFixed = false,
-                ScanTime = DateTime.Now
+                Severity = mucDo[index],
+                ScanTime = DateTime.Now.ToString("HH:mm"),
+                VulnName = loaiLoHong[index],
+                TargetPath = mucTieu[index],
+                Status = "Chưa vá"
             };
 
-            // Nhét lỗi mới lên đầu bảng
-            DanhSachNhatKy.Insert(0, newLog);
+            _context.VulnerabilityLogs.Add(newLog);
+            await _context.SaveChangesAsync();
 
-            // Giới hạn bảng hiển thị tối đa 8 dòng cho khỏi bị tràn giao diện
-            if (DanhSachNhatKy.Count > 8)
-            {
-                DanhSachNhatKy.RemoveAt(8);
-            }
-
-            // Load lại trang để cập nhật giao diện
+            // 4. Load lại trang Dashboard
             return RedirectToPage();
         }
     }

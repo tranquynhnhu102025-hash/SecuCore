@@ -1,258 +1,502 @@
 ﻿@page
+@model SecuCore.Pages.Websites.SettingsModel
 @{
-    ViewData["Title"] = "Cài đặt hệ thống";
+    
+    ViewData["Title"] = "Cấu hình Hệ thống Lõi";
 }
 
+<style>
+    /* 1. Bố cục tổng thể & Thẻ (Card) */
+    .cyber-settings-card {
+        background-color: #161b22;
+        background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 25px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
 
+        .cyber-settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: #00f0ff; 
+            box-shadow: 0 0 15px #00f0ff;
+        }
 
+    .card-danger {
+        border-color: rgba(248, 81, 73, 0.4);
+        background-image: radial-gradient(rgba(248, 81, 73, 0.05) 1px, transparent 1px);
+    }
+
+        .card-danger::before {
+            background: #f85149;
+            box-shadow: 0 0 15px #f85149;
+        }
+
+    .card-title-neon {
+        color: #00f0ff;
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 25px;
+        border-bottom: 1px dashed #30363d;
+        padding-bottom: 15px;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    .card-danger .card-title-neon {
+        border-bottom: 1px dashed rgba(248, 81, 73, 0.3);
+        color: #f85149;
+        text-shadow: 0 0 10px rgba(248, 81, 73, 0.3);
+    }
+
+    /* 2. Mini Stats (Thông số Lõi trên cùng) */
+    .core-stat-box {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: #8b949e;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .stat-value {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    /* 3. Ô nhập liệu kiểu Terminal (Hacker) */
+    .terminal-input {
+        background: #010409 !important;
+        color: #3fb950 !important;
+        font-family: 'Courier New', Courier, monospace;
+        border: 1px solid #30363d !important;
+        border-radius: 4px !important;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+        .terminal-input:focus {
+            border-color: #3fb950 !important;
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.2) !important;
+        }
+
+        .terminal-input[readonly] {
+            color: #8b949e !important;
+        }
+
+    /* 4. Range Slider phong cách Radar */
+    .radar-range {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 4px;
+        background: #30363d;
+        outline: none;
+        border-radius: 2px;
+    }
+
+        .radar-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #00f0ff;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+
+    /* 5. Công tắc Cyber */
+    .cyber-switch {
+        width: 3em !important;
+        height: 1.5em !important;
+        background-color: #010409 !important;
+        border: 1px solid #30363d !important;
+        cursor: pointer;
+    }
+
+        .cyber-switch:checked {
+            background-color: #00f0ff !important;
+            border-color: #00f0ff !important;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.5) !important;
+        }
+
+    /* 6. Nút bấm (Buttons) */
+    .btn-cyber-primary {
+        background: #2ea043;
+        color: #fff;
+        font-weight: bold;
+        letter-spacing: 1px;
+        border: none;
+        padding: 10px 30px;
+        transition: 0.3s;
+        box-shadow: 0 0 15px rgba(46, 160, 67, 0.3);
+    }
+
+        .btn-cyber-primary:hover {
+            background: #3fb950;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(46, 160, 67, 0.6);
+        }
+
+    .btn-cyber-danger {
+        background: transparent;
+        color: #f85149;
+        border: 1px solid #f85149;
+        padding: 12px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+        .btn-cyber-danger:hover {
+            background: rgba(248, 81, 73, 0.1);
+            color: #ff7b72;
+            box-shadow: 0 0 15px rgba(248, 81, 73, 0.4);
+        }
+</style>
 <div class="container-fluid mt-4 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-light fw-bold m-0"><i class="fa-solid fa-gears me-2" style="color: #00f0ff;"></i> CẤU HÌNH HỆ THỐNG</h2>
-        <button class="btn btn-save">
-            <i class="fa-solid fa-floppy-disk me-2"></i> LƯU THAY ĐỔI
+
+    <!-- Tiêu đề lớn -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2">
+        <h3 class="text-light fw-bold m-0" style="text-shadow: 0 0 15px rgba(0,240,255,0.3); color: #00f0ff !important; text-transform: uppercase;">
+            <i class="fa-solid fa-microchip me-2"></i> CẤU HÌNH HỆ THỐNG LÕI
+        </h3>
+        <!-- Note: Đổi id thành type="submit" sẽ tự động chạy form, nhưng ta giữ id để dùng JS giả lập load -->
+        <button class="btn btn-cyber-primary rounded-2" id="btnSaveConfig">
+            <i class="fa-solid fa-rotate me-2"></i> ĐỒNG BỘ MÁY CHỦ
         </button>
     </div>
 
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="settings-panel text-light">
-                <div class="settings-title">
-                    <i class="fa-solid fa-microchip"></i> CẤU HÌNH CÔNG CỤ QUÉT
-                </div>
-                <div class="mb-4">
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="autoScan" checked>
-                        <label class="form-check-label" for="autoScan">Tự động quét định kỳ</label>
-                        <p class="desc-text">Cho phép hệ thống tự động khởi chạy các bản quét lỗ hổng theo thời gian đã định sẵn.</p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Tần suất quét (Chu kỳ)</label>
-                    <select class="form-select form-control-cyber">
-                        <option value="1">Mỗi 12 giờ</option>
-                        <option value="2" selected>Mỗi 24 giờ (Khuyên dùng)</option>
-                        <option value="3">Hàng tuần (Thứ Hai)</option>
-                        <option value="4">Hàng tháng</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Độ sâu của phân tích (Depth)</label>
-                    <input type="range" class="form-range" min="1" max="5" id="scanDepth" value="3">
-                    <div class="d-flex justify-content-between text-secondary" style="font-size: 0.75rem;">
-                        <span>Cơ bản</span>
-                        <span>Trung bình</span>
-                        <span>Chuyên sâu</span>
-                    </div>
+    <!-- ROW 1: Thông số Lõi (Mini Stats) -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="core-stat-box" style="border-bottom: 3px solid #3fb950; background-image: linear-gradient(to top, rgba(63, 185, 80, 0.05), transparent);">
+                <i class="fa-solid fa-server stat-icon" style="color: #3fb950;"></i>
+                <div>
+                    <div class="stat-label">Trạng thái máy chủ</div>
+                    <div class="stat-value" style="color: #3fb950;">TRỰC TUYẾN</div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="settings-panel text-light">
-                <div class="settings-title">
-                    <i class="fa-solid fa-bell"></i> THÔNG BÁO CẢNH BÁO
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Email nhận báo cáo</label>
-                    <input type="email" class="form-control form-control-cyber" placeholder="admin@@ntt.edu.vn" value="admin@@ntt.edu.vn">
-                    <p class="desc-text">Hệ thống sẽ gửi file PDF kết quả quét về email này.</p>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Mức độ cảnh báo cần gửi mail</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="critAlert" checked>
-                        <label class="form-check-label" for="critAlert">Chỉ khi có lỗi Nguy hiểm (Critical)</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="mediumAlert">
-                        <label class="form-check-label" for="mediumAlert">Cảnh báo trung bình & thấp</label>
-                    </div>
-                </div>
-                <hr style="border-color: #30363d;">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="telegramBot">
-                    <label class="form-check-label" for="telegramBot">Tích hợp thông báo qua Telegram</label>
+        <div class="col-md-3">
+            <div class="core-stat-box" style="border-bottom: 3px solid #58a6ff; background-image: linear-gradient(to top, rgba(88, 166, 255, 0.05), transparent);">
+                <i class="fa-solid fa-shield-cat stat-icon" style="color: #58a6ff;"></i>
+                <div>
+                    <div class="stat-label">Chuẩn mã hóa</div>
+                    <div class="stat-value" style="color: #58a6ff;">AES-256-GCM</div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="settings-panel text-light">
-                <div class="settings-title">
-                    <i class="fa-solid fa-server"></i> HỆ THỐNG & BẢO TRÌ
-                </div>
-                <div class="row g-3 mb-3">
-                    <div class="col-6">
-                        <label class="form-label-cyber">Tên hệ thống</label>
-                        <input type="text" class="form-control form-control-cyber" value="SecuCore Dashboard v1.0">
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label-cyber">Mã trạm giám sát</label>
-                        <input type="text" class="form-control form-control-cyber" value="NODE-NTT-01" readonly>
-                    </div>
-                </div>
-                <div class="d-grid gap-2">
-                    <button class="btn btn-outline-warning btn-sm">
-                        <i class="fa-solid fa-broom me-2"></i> Xóa toàn bộ Nhật ký (Clear Logs)
-                    </button>
-                    <button class="btn btn-outline-danger btn-sm">
-                        <i class="fa-solid fa-power-off me-2"></i> Khởi động lại dịch vụ quét
-                    </button>
+        <div class="col-md-3">
+            <div class="core-stat-box" style="border-bottom: 3px solid #ffaa00; background-image: linear-gradient(to top, rgba(255, 170, 0, 0.05), transparent);">
+                <i class="fa-solid fa-network-wired stat-icon" style="color: #ffaa00;"></i>
+                <div>
+                    <div class="stat-label">Lưu lượng API</div>
+                    <div class="stat-value text-warning">142 req/s</div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-6">
-            <div class="settings-panel text-light">
-                <div class="settings-title">
-                    <i class="fa-solid fa-shield-halved"></i> BẢO MẬT TRUY CẬP
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Xác thực 2 lớp (2FA)</label>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="2faStatus">
-                        <label class="form-check-label" for="2faStatus">Kích hoạt bảo mật 2 lớp</label>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label-cyber">Giới hạn IP truy cập quản trị</label>
-                    <input type="text" class="form-control form-control-cyber" placeholder="Ví dụ: 192.168.1.1, 10.0.0.1">
-                    <p class="desc-text">Chỉ các địa chỉ IP này mới được phép truy cập trang Dashboard.</p>
+        <div class="col-md-3">
+            <div class="core-stat-box" style="border-bottom: 3px solid #8b949e; background-image: linear-gradient(to top, rgba(139, 148, 158, 0.05), transparent);">
+                <i class="fa-solid fa-database stat-icon text-secondary"></i>
+                <div>
+                    <div class="stat-label">Cơ sở dữ liệu</div>
+                    <div class="stat-value text-light">ĐÃ KẾT NỐI</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Bắt đầu Form để Submit dữ liệu về Server -->
+    <form method="post" id="configForm">
+        <div class="row g-4">
+            <!-- CỘT TRÁI (Khu vực Kỹ thuật) -->
+            <div class="col-lg-7">
+
+                <!-- Thẻ 1: Scanner Core -->
+                <div class="cyber-settings-card">
+                    <!-- Label AI Smart Scan -->
+                    <div class="position-absolute" style="top: 15px; right: 15px;">
+                        <span class="badge" style="background-color: rgba(236, 204, 104, 0.15); color: #eccc68; border: 1px solid #eccc68;"><i class="fa-solid fa-brain me-1"></i> SMART SCAN</span>
+                    </div>
+
+                    <div class="card-title-neon"><i class="fa-solid fa-crosshairs me-2"></i> THUẬT TOÁN QUÉT (SCANNER CORE)</div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="stat-label mb-2">Số luồng xử lý (Threads) <i class="fa-regular fa-circle-question fs-6 ms-1" data-bs-toggle="tooltip" title="Tăng số luồng giúp quét nhanh hơn nhưng dễ bị WAF chặn. Khuyến nghị: 16-32."></i></label>
+                            <input type="number" class="form-control terminal-input" asp-for="CurrentSetting.Threads">
+                            <span asp-validation-for="CurrentSetting.Threads" class="text-danger" style="font-size: 0.8rem;"></span>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label class="stat-label mb-2">Giới hạn chờ (Timeout ms) <i class="fa-regular fa-circle-question fs-6 ms-1" data-bs-toggle="tooltip" title="Thời gian chờ máy chủ mục tiêu phản hồi (ms). Tránh rớt kết nối."></i></label>
+                            <input type="number" class="form-control terminal-input" asp-for="CurrentSetting.Timeout">
+                            <span asp-validation-for="CurrentSetting.Timeout" class="text-danger" style="font-size: 0.8rem;"></span>
+                        </div>
+                    </div>
+
+                    <!-- Bổ sung Auth Cookie -->
+                    <div class="mb-4">
+                        <label class="stat-label mb-2" style="color: #eccc68;">Session / Auth Cookie (Quét sâu) <i class="fa-regular fa-circle-question fs-6 ms-1" data-bs-toggle="tooltip" title="Dán Cookie vào đây để Scanner lọt qua trang Đăng nhập và quét các trang quản trị."></i></label>
+                        <input type="text" class="form-control terminal-input" asp-for="CurrentSetting.AuthCookie" placeholder="VD: PHPSESSID=abc123xyz..." style="color: #eccc68 !important; border-color: rgba(236, 204, 104, 0.5) !important;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="stat-label mb-2">Giả mạo Trình duyệt (Spoofing User-Agent)</label>
+                        <input type="text" class="form-control terminal-input" asp-for="CurrentSetting.UserAgent">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="stat-label d-flex justify-content-between mb-3">
+                            <span>ĐỘ SÂU PHÂN TÍCH GÓI TIN (PAYLOAD DEPTH)</span>
+                            <span class="fw-bold" style="color: #00f0ff;">MỨC @Model.CurrentSetting.ScanDepth</span>
+                        </label>
+                        <input type="range" class="form-range radar-range" min="1" max="4" asp-for="CurrentSetting.ScanDepth">
+                        <div class="d-flex justify-content-between stat-label mt-2" style="font-size: 0.65rem;">
+                            <span>Tiêu đề</span>
+                            <span>Cookies</span>
+                            <span style="color: #00f0ff;">Biểu mẫu (Forms)</span>
+                            <span>Toàn bộ DOM</span>
+                        </div>
+                    </div>
+
+                    <!-- Bổ sung Công tắc AI Heuristics -->
+                    <div class="form-check form-switch mt-4 pt-3 d-flex align-items-center" style="border-top: 1px dashed #30363d;">
+                        <input class="form-check-input cyber-switch normal-switch me-3" type="checkbox" id="heuristicToggle" asp-for="CurrentSetting.EnableHeuristics">
+                        <div>
+                            <label class="form-check-label stat-label fw-bold" style="color: #eccc68;" for="heuristicToggle">Bật phân tích hành vi AI (Heuristics)</label>
+                            <div class="stat-label text-secondary mt-1" style="font-size: 0.65rem; text-transform: none;">Sử dụng thuật toán học máy để bắt các biến thể lỗ hổng Zero-day ẩn.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thẻ 2: API & Integration -->
+                <div class="cyber-settings-card">
+                    <div class="card-title-neon"><i class="fa-solid fa-plug me-2"></i> KẾT NỐI API & ĐỊNH TUYẾN</div>
+
+                    <div class="mb-4">
+                        <label class="stat-label mb-2">Điểm cuối Webhook (Bắn log thời gian thực)</label>
+                        <input type="url" class="form-control terminal-input" asp-for="CurrentSetting.WebhookUrl">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="stat-label mb-2">Telegram Bot Token (Báo động khẩn)</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control terminal-input" asp-for="CurrentSetting.TelegramToken" id="tgToken">
+                            <button class="btn btn-outline-secondary" type="button" style="border-color: #30363d;"
+                                    onclick="const input = document.getElementById('tgToken'); const icon = this.querySelector('i'); if (input.type === 'password') { input.type = 'text'; icon.className = 'fa-solid fa-eye-slash'; } else { input.type = 'password'; icon.className = 'fa-solid fa-eye'; }">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mt-4 pt-3 d-flex align-items-center" style="border-top: 1px dashed #30363d;">
+                        <input class="form-check-input cyber-switch normal-switch me-3" type="checkbox" id="proxyToggle" asp-for="CurrentSetting.UseTorProxy">
+                        <label class="form-check-label stat-label fw-bold text-light" for="proxyToggle">Định tuyến qua Proxy Ẩn danh (Tor Network)</label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CỘT PHẢI (Bảo mật & Nguy hiểm) -->
+            <div class="col-lg-5">
+
+                <!-- Thẻ 3: Access Control -->
+                <div class="cyber-settings-card">
+                    <div class="card-title-neon"><i class="fa-solid fa-shield-virus me-2"></i> KIỂM SOÁT TRUY CẬP</div>
+
+                    <div class="mb-4">
+                        <label class="stat-label mb-2">Danh sách IP an toàn (Whitelist)</label>
+                        <textarea class="form-control terminal-input" rows="4" asp-for="CurrentSetting.IpWhitelist"></textarea>
+                    </div>
+
+                    <div class="form-check form-switch mb-4 d-flex align-items-center">
+                        <input class="form-check-input cyber-switch normal-switch me-3" type="checkbox" id="twoFA" asp-for="CurrentSetting.Require2FA">
+                        <label class="form-check-label stat-label fw-bold text-light" for="twoFA">Bắt buộc Xác thực 2 Lớp (MFA)</label>
+                    </div>
+
+                    <div class="form-check form-switch d-flex align-items-center">
+                        <input class="form-check-input cyber-switch normal-switch me-3" type="checkbox" id="lockdown" asp-for="CurrentSetting.AutoLockAccount">
+                        <label class="form-check-label stat-label text-warning" for="lockdown">Tự động khóa tài khoản sau 5 lần sai mật khẩu</label>
+                    </div>
+                </div>
+
+                <!-- Thẻ 4: Danger Zone -->
+                <div class="cyber-settings-card card-danger">
+                    <div class="card-title-neon"><i class="fa-solid fa-triangle-exclamation me-2"></i> VÙNG NGUY HIỂM (DANGER ZONE)</div>
+
+                    <p class="stat-label text-secondary mb-4" style="line-height: 1.6;">
+                        Các thao tác dưới đây tác động trực tiếp đến Cơ sở dữ liệu và Lõi hệ thống. Cần quyền <span class="text-danger fw-bold">QUẢN TRỊ VIÊN CẤP CAO (ROOT)</span> để thực thi.
+                    </p>
+
+                    <div class="d-grid gap-3">
+                        <button type="button" class="btn btn-cyber-danger rounded-2" id="btnClearLogs">
+                            <i class="fa-solid fa-fire-flame-curved me-2"></i> XÓA TOÀN BỘ NHẬT KÝ QUÉT
+                        </button>
+                        <button type="button" class="btn btn-cyber-danger rounded-2" id="btnRestart">
+                            <i class="fa-solid fa-power-off me-2"></i> KHỞI ĐỘNG LẠI LÕI HỆ THỐNG
+                        </button>
+                        <button type="button" class="btn btn-cyber-danger rounded-2" style="border-style: dashed;" id="btnFactory">
+                            <i class="fa-solid fa-skull-crossbones me-2"></i> KHÔI PHỤC CÀI ĐẶT GỐC
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
 </div>
-<!-- Đảm bảo đã nhúng SweetAlert2 -->
+
+<!-- ==========================================
+     JAVASCRIPT CỦA BẠN (Đã kích hoạt Submit & Tooltips)
+     ========================================== -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-
-        // Cài đặt Toast (Thông báo góc nhỏ) cho các nút Switch/Checkbox
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 2000,
-            timerProgressBar: true,
-            background: '#161b22',
-            color: '#c9d1d9'
+        // Kích hoạt Tooltips của Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
         });
 
-        const switches = document.querySelectorAll('.form-check-input, input[type="checkbox"]');
-        switches.forEach(sw => {
+        const swalBg = '#161b22';
+        const swalText = '#c9d1d9';
+        const swalBorder = '#30363d';
+
+        // 1. Toast cho các công tắc
+        const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
+        document.querySelectorAll('.normal-switch').forEach(sw => {
             sw.addEventListener('change', function() {
                 let status = this.checked ? "Đã BẬT" : "Đã TẮT";
-                Toast.fire({
-                    icon: 'success',
-                    title: status + ' cấu hình hệ thống'
-                });
+                Toast.fire({ icon: 'info', title: status + ' cấu hình bảo mật', background: swalBg, color: swalText });
             });
         });
 
-        // Tự động tìm và gắn sự kiện cho các nút dựa vào Nội dung chữ (Text)
-        const allButtons = document.querySelectorAll('button, .btn, a');
+        // 2. Nút Đồng bộ Máy chủ
+        const btnSave = document.getElementById('btnSaveConfig');
+        const configForm = document.getElementById('configForm');
 
-        allButtons.forEach(btn => {
-            const btnText = btn.innerText.toUpperCase();
-
-            // 1. Xử lý nút LƯU THAY ĐỔI
-            if (btnText.includes('LƯU THAY ĐỔI')) {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'ĐANG LƯU CẤU HÌNH',
-                        text: 'Hệ thống đang đồng bộ dữ liệu lên máy chủ...',
-                        timer: 1500,
-                        timerProgressBar: true,
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        didOpen: () => { Swal.showLoading() }
-                    }).then(() => {
-                        Swal.fire({
-                            title: 'ĐÃ LƯU!',
-                            text: 'Toàn bộ thay đổi cấu hình đã được áp dụng.',
-                            icon: 'success',
-                            background: '#161b22',
-                            color: '#c9d1d9',
-                            confirmButtonColor: '#2ea043'
-                        });
+        if(btnSave) {
+            btnSave.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: '<span style="font-family:monospace; color:#3fb950;">ĐANG TẢI LÊN DỮ LIỆU...</span>',
+                    html: '<div style="font-family:monospace; color:#8b949e; text-align:left;">> Thiết lập kết nối an toàn...<br>> Đẩy cấu hình lên máy chủ...<br>> Xác thực mã băm...</div>',
+                    timer: 2000, timerProgressBar: true, background: swalBg, color: swalText,
+                    didOpen: () => { Swal.showLoading() }
+                }).then(() => {
+                    Swal.fire({ title: 'ĐỒNG BỘ THÀNH CÔNG', icon: 'success', background: swalBg, color: swalText, confirmButtonColor: '#2ea043' })
+                    .then(() => {
+                        // ĐÃ MỞ KHÓA: Gọi lệnh này để Submit dữ liệu thật về C#
+                        configForm.submit();
                     });
                 });
-            }
+            });
+        }
 
-            // 2. Xử lý nút XÓA TOÀN BỘ NHẬT KÝ
-            else if (btnText.includes('XÓA TOÀN BỘ NHẬT KÝ') || btnText.includes('CLEAR LOGS')) {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'XÓA NHẬT KÝ?',
-                        text: "Toàn bộ dữ liệu log quét và lịch sử cảnh báo sẽ bị xóa vĩnh viễn. Bạn không thể hoàn tác!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#ffaa00',
-                        cancelButtonColor: '#30363d',
-                        confirmButtonText: 'ĐỒNG Ý XÓA',
-                        cancelButtonText: 'HỦY'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire({
-                                title: 'ĐÃ XÓA!',
-                                text: 'Hệ thống lưu trữ Logs đã được làm sạch.',
-                                icon: 'success',
-                                background: '#161b22',
-                                color: '#c9d1d9',
-                                confirmButtonColor: '#2ea043'
-                            });
-                        }
-                    });
+        // 3. Nút Xóa Logs
+        const btnClear = document.getElementById('btnClearLogs');
+        if(btnClear) {
+            btnClear.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'XÁC NHẬN XÓA NHẬT KÝ', text: "Hành động này sẽ xóa toàn bộ dữ liệu quét. Bạn không thể khôi phục lại!", icon: 'warning',
+                    showCancelButton: true, background: swalBg, color: swalText,
+                    confirmButtonColor: '#ffaa00', cancelButtonColor: swalBorder, confirmButtonText: 'XÓA NGAY', cancelButtonText: 'HỦY BỎ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({ title: 'ĐÃ XÓA DỮ LIỆU', text: 'Toàn bộ nhật ký đã bị dọn dẹp vĩnh viễn.', icon: 'success', background: swalBg, color: swalText, confirmButtonColor: '#2ea043' });
+                    }
                 });
-            }
+            });
+        }
 
-            // 3. Xử lý nút KHỞI ĐỘNG LẠI DỊCH VỤ QUÉT
-            else if (btnText.includes('KHỞI ĐỘNG LẠI DỊCH VỤ') || btnText.includes('RESTART')) {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    Swal.fire({
-                        title: 'KHỞI ĐỘNG LẠI ENGINE?',
-                        text: "Hành động này sẽ ngắt toàn bộ tiến trình quét đang chạy ngầm. Bạn có chắc chắn?",
-                        icon: 'question',
-                        showCancelButton: true,
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#ff003c',
-                        cancelButtonColor: '#30363d',
-                        confirmButtonText: 'RESTART NGAY',
-                        cancelButtonText: 'HỦY'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire({
-                                title: 'ĐANG RESTART...',
-                                html: 'Khởi tạo lại các tiến trình Core... <b></b>',
-                                timer: 2500,
-                                timerProgressBar: true,
-                                background: '#161b22',
-                                color: '#c9d1d9',
-                                didOpen: () => {
-                                    Swal.showLoading()
-                                }
-                            }).then(() => {
-                                Swal.fire({
-                                    title: 'HOÀN TẤT',
-                                    text: 'Service quét đã khởi động lại và hoạt động ổn định.',
-                                    icon: 'success',
-                                    background: '#161b22',
-                                    color: '#c9d1d9',
-                                    confirmButtonColor: '#2ea043'
-                                });
-                            });
-                        }
-                    });
+        // 4. Nút Restart
+        const btnRestart = document.getElementById('btnRestart');
+        if(btnRestart) {
+            btnRestart.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'KHỞI ĐỘNG LẠI HỆ THỐNG?', text: "Dịch vụ quét sẽ bị gián đoạn trong khoảng 30s.", icon: 'question',
+                    showCancelButton: true, background: swalBg, color: swalText,
+                    confirmButtonColor: '#ff003c', cancelButtonColor: swalBorder, confirmButtonText: 'TIẾN HÀNH', cancelButtonText: 'HỦY'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({ title: 'ĐANG KHỞI ĐỘNG...', timer: 2000, timerProgressBar: true, background: swalBg, color: swalText, didOpen: () => { Swal.showLoading() } })
+                        .then(() => { Swal.fire({ title: 'HỆ THỐNG ĐÃ SẴN SÀNG', icon: 'success', background: swalBg, color: swalText, confirmButtonColor: '#2ea043' }); });
+                    }
                 });
-            }
-        });
-    });
-</script>
+            });
+        }
+
+    // 5. Nút Khôi phục cài đặt gốc (Chuẩn chỉnh, bắt buộc nhập đúng 123456)
+          const btnFactory = document.getElementById('btnFactory');
+          if(btnFactory) {
+              btnFactory.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  Swal.fire({
+                      title: '<span style="color:#ff5149;">CẢNH BÁO NGHIÊM TRỌNG</span>',
+                      html: '<span style="color:#c9d1d9;">Hệ thống sẽ bị khôi phục về trạng thái ban đầu.<br>Nhập mật khẩu ROOT (Mật khẩu: <b>123456</b>):</span>',
+                      input: 'password',
+                      inputAttributes: {
+                          autocapitalize: 'off',
+                          placeholder: 'Nhập mật khẩu (123456)...',
+                          style: 'background-color: #0d1117 !important; color: #3fb950 !important; border: 1px solid #30363d !important; border-radius: 6px !important; text-align: center; font-family: monospace; padding: 10px;'
+                      },
+                      showCancelButton: true,
+                      background: swalBg,
+                      color: swalText,
+                      confirmButtonText: 'KHÔI PHỤC NGAY',
+                      cancelButtonText: 'HỦY',
+                      confirmButtonColor: '#ff003c',
+                      cancelButtonColor: swalBorder,
+                      preConfirm: (password) => {
+                          if (!password) {
+                              Swal.showValidationMessage('Vui lòng nhập mật khẩu ROOT!');
+                              return false;
+                          }
+                          if (password !== "123456") {
+                              Swal.showValidationMessage('Sai mật khẩu ROOT! (Mật khẩu đúng là: 123456)');
+                              return false;
+                          }
+                          return password;
+                      }
+                  }).then((result) => {
+                      if (result.isConfirmed) {
+                          Swal.fire({
+                              title: 'ĐÃ KHÔI PHỤC CÀI ĐẶT GỐC',
+                              text: 'Hệ thống đã thiết lập lại thông số mặc định.',
+                              icon: 'success',
+                              background: swalBg,
+                              color: swalText,
+                              confirmButtonColor: '#2ea043'
+                          });
+                      }
+                  });
+              });
+          }
+      }); // <-- DẤU NÀY CỰC KỲ QUAN TRỌNG: Đóng hàm DOMContentLoaded
+</script>   <!-- <-- Đóng thẻ script -->

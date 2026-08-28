@@ -1,0 +1,22 @@
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading.Tasks;
+
+namespace SecuCore.Pages.auth
+{
+    public class LogoutModel : PageModel
+    {
+        // Khi người dùng bấm vào link /auth/Logout, hàm này sẽ chạy
+        public async Task<IActionResult>
+    OnGetAsync()
+    {
+    // 1. Xóa sạch thẻ nhớ (Cookie) phiên đăng nhập hiện tại
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+    // 2. Đá văng người dùng về màn hình Intro cực ngầu
+    return RedirectToPage("/Intro");
+    }
+    }
+    }

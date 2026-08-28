@@ -1,115 +1,125 @@
 ﻿@page
 @model SecuCore.Pages.auth.RegisterModel
 @{
-    ViewData["Title"] = "Đăng ký cấp quyền";
-    Layout = null; // Tắt menu
+    ViewData["Title"] = "Đăng ký Hệ thống"; Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - SecuCore</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <!-- Dùng chung CSS với trang Login cho đồng bộ -->
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-        }
-
-        .cyber-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 40px 30px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 0 30px rgba(46, 160, 67, 0.1);
-        }
-
-        .cyber-input {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            color: #3fb950;
-        }
-
-            .cyber-input:focus {
-                background: #0d1117;
-                border-color: #3fb950;
-                box-shadow: 0 0 8px rgba(46, 160, 67, 0.4);
-                color: #3fb950;
-            }
-
-        .input-group-text {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            color: #8b949e;
-        }
-
-        .cyber-btn-register {
-            background: transparent;
-            border: 1px solid #2ea043;
-            color: #3fb950;
-            text-transform: uppercase;
-            font-weight: bold;
-            width: 100%;
-            padding: 10px;
-            transition: all 0.3s;
-        }
-
-            .cyber-btn-register:hover {
-                background: #2ea043;
-                color: #fff;
-                box-shadow: 0 0 15px rgba(46, 160, 67, 0.6);
-            }
-    </style>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="cyber-card" style="border-top: 3px solid #2ea043;">
+    <div class="cyber-card">
         <div class="text-center mb-4">
-            <h4 class="fw-bold text-light m-0"><i class="fa-solid fa-fingerprint me-2" style="color: #3fb950;"></i>CẤP QUYỀN TRUY CẬP</h4>
-            <p class="text-secondary mt-2" style="font-size: 0.85rem;">Vui lòng khai báo thông tin hệ thống</p>
+            <i class="fa-solid fa-shield-halved fa-3x mb-3" style="color: #58a6ff; filter: drop-shadow(0 0 15px rgba(88,166,255,0.6));"></i>
+            <h4 class="fw-bold text-light m-0" style="letter-spacing: 1.5px;">KHỞI TẠO ĐỊNH DANH</h4>
+            <small style="color: #8b949e; letter-spacing: 0.5px;">Hệ thống An ninh SecuCore</small>
         </div>
 
-        <form method="post">
-            <div class="mb-3">
-                <label class="form-label text-secondary" style="font-size: 0.85rem;">Tên định danh (Username)</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-id-card"></i></span>
-                    <input type="text" class="form-control cyber-input" placeholder="Vd: admin_ntt" required>
-                </div>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert text-center p-2 rounded-1 mb-4" style="background: rgba(255, 123, 114, 0.1); border-left: 4px solid #ff7b72; color: #ff7b72; font-size: 0.9rem;">
+                <i class="fa-solid fa-triangle-exclamation me-1"></i> @Model.ErrorMessage
             </div>
-            <div class="mb-3">
-                <label class="form-label text-secondary" style="font-size: 0.85rem;">Email công vụ</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-                    <input type="email" class="form-control cyber-input" placeholder="admin@ntt.edu.vn" required>
-                </div>
-            </div>
-            <div class="mb-4">
-                <label class="form-label text-secondary" style="font-size: 0.85rem;">Thiết lập khóa (Mật khẩu)</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-                    <input type="password" class="form-control cyber-input" placeholder="Mật khẩu mạnh..." required>
-                </div>
+        }
+
+        <form method="post" autocomplete="off">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-fingerprint"></i></span>
+                <input type="text" asp-for="FullName" class="form-control cyber-input" placeholder="Định danh (Họ và tên)" required autocomplete="off">
             </div>
 
-            <button type="submit" class="btn cyber-btn-register mb-4">
-                <i class="fa-solid fa-server me-2"></i> KHỞI TẠO TÀI KHOẢN
-            </button>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" asp-for="Email" class="form-control cyber-input" placeholder="Địa chỉ Email" required autocomplete="off">
+            </div>
+
+            <div class="input-group mb-2">
+                <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                <input type="password" id="reg-pass" asp-for="Password" class="form-control cyber-input" placeholder="Mã khóa truy cập (Mật khẩu)" required oninput="checkStrength(this.value)">
+                <button class="btn btn-eye" type="button" onclick="togglePass('reg-pass', this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+
+            <div class="password-strength-container">
+                <div id="str-1" class="strength-segment"></div>
+                <div id="str-2" class="strength-segment"></div>
+                <div id="str-3" class="strength-segment"></div>
+            </div>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="fa-solid fa-check-double"></i></span>
+                <input type="password" id="reg-confirm" asp-for="ConfirmPassword" class="form-control cyber-input" placeholder="Xác thực lại mã khóa" required>
+                <button class="btn btn-eye" type="button" onclick="togglePass('reg-confirm', this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+
+            <button type="submit" class="btn cyber-btn mb-4 mt-2">THIẾT LẬP TÀI KHOẢN</button>
 
             <div class="text-center">
-                <a href="/auth/Login" class="text-decoration-none" style="color: #8b949e; font-size: 0.85rem;"><i class="fa-solid fa-arrow-left me-1"></i> Quay lại cổng Đăng nhập</a>
+                <span style="color: #8b949e; font-size: 0.9rem;">Đã có quyền truy cập? </span>
+                <a href="/auth/Login" style="color: #58a6ff; font-size: 0.9rem; text-decoration: none; font-weight: 600; transition: 0.3s;">
+                    Đăng nhập hệ thống <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
             </div>
         </form>
     </div>
+
+    <script>
+        function togglePass(inputId, btn) {
+            var input = document.getElementById(inputId);
+            var icon = btn.querySelector('i');
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                icon.style.color = '#58a6ff';
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+                icon.style.color = '#8b949e';
+            }
+        }
+
+        function checkStrength(val) {
+            var s1 = document.getElementById('str-1');
+            var s2 = document.getElementById('str-2');
+            var s3 = document.getElementById('str-3');
+
+            s1.style.background = '#30363d';
+            s2.style.background = '#30363d';
+            s3.style.background = '#30363d';
+            s1.style.boxShadow = 'none';
+            s2.style.boxShadow = 'none';
+            s3.style.boxShadow = 'none';
+
+            if (val.length === 0) return;
+
+            var strength = 0;
+            if (val.length >= 6) strength += 1;
+            if (val.match(/[A-Z]/) || val.match(/[0-9]/)) strength += 1;
+            if (val.match(/[^a-zA-Z0-9]/)) strength += 1;
+
+            if (strength === 0 || strength === 1) {
+                s1.style.background = '#ff7b72';
+                s1.style.boxShadow = '0 0 8px rgba(255, 123, 114, 0.5)';
+            } else if (strength === 2) {
+                s1.style.background = '#d29922';
+                s2.style.background = '#d29922';
+                s1.style.boxShadow = '0 0 8px rgba(210, 153, 34, 0.5)';
+                s2.style.boxShadow = '0 0 8px rgba(210, 153, 34, 0.5)';
+            } else {
+                s1.style.background = '#3fb950';
+                s2.style.background = '#3fb950';
+                s3.style.background = '#3fb950';
+                s1.style.boxShadow = '0 0 8px rgba(63, 185, 80, 0.5)';
+                s2.style.boxShadow = '0 0 8px rgba(63, 185, 80, 0.5)';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,8 +1,237 @@
 ﻿@page
+@model SecuCore.Pages.Websites.QuanLyModel
 @{
     ViewData["Title"] = "Quản lý Website";
 }
+
+<style>
+    /* 1. Nền tổng thể tối và phẳng */
+    body {
+        background-color: #0d1117 !important;
+        color: #c9d1d9 !important;
+    }
+
+    /* 2. Các khối Card phẳng */
+    .mini-stat-card, .cyber-panel {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 8px !important;
+        padding: 20px;
+        box-shadow: none !important;
+    }
+
+    /* 3. Thẻ thống kê */
+    .mini-stat-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stat-blue {
+        border-top: 3px solid #00f0ff !important;
+    }
+
+    .stat-green {
+        border-top: 3px solid #2ea043 !important;
+    }
+
+    .stat-red {
+        border-top: 3px solid #ff003c !important;
+    }
+
+    /* 4. Nút "THÊM MỚI" */
+    .btn-neon-blue {
+        background-color: transparent !important;
+        color: #00f0ff !important;
+        border: 1px solid #00f0ff !important;
+        border-radius: 4px;
+        transition: 0.3s;
+    }
+
+        .btn-neon-blue:hover {
+            background-color: rgba(0, 240, 255, 0.1) !important;
+        }
+
+    /* 5. Khung tìm kiếm (Search) */
+    .cyber-search-wrapper {
+        position: relative;
+    }
+
+    .cyber-search {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        color: #c9d1d9;
+        border-radius: 4px;
+        padding: 6px 15px 6px 35px;
+        width: 250px;
+        font-size: 0.85rem;
+    }
+
+        .cyber-search:focus {
+            border-color: #00f0ff;
+            outline: none;
+        }
+
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #8b949e;
+    }
+
+    /* 6. Bảng dữ liệu và Xóa mảng trắng */
+    .table-cyber {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .table-cyber thead, .table-cyber th, .table-cyber tr {
+            background-color: transparent !important;
+        }
+
+        .table-cyber th {
+            color: #8b949e !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            padding: 12px 10px !important;
+            border-bottom: 1px solid #30363d !important;
+        }
+
+        .table-cyber td {
+            padding: 15px 10px !important;
+            border-bottom: 1px solid #21262d !important;
+            vertical-align: middle !important;
+            color: #c9d1d9 !important;
+            background-color: transparent !important;
+        }
+
+    /* Fix nền trắng của bộ chuyển trang (Pagination) */
+    .pagination .page-link {
+        background-color: #0d1117 !important;
+        color: #8b949e !important;
+        border-color: #30363d !important;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .pagination .page-link:hover {
+            background-color: rgba(88, 166, 255, 0.1) !important;
+            color: #58a6ff !important;
+        }
+
+    .pagination .page-item.active .page-link {
+        background-color: #1f6feb !important;
+        color: #ffffff !important;
+        border-color: #1f6feb !important;
+    }
+
+    /* Thanh hiển thị % bảo mật */
+    .health-bar {
+        height: 4px;
+        background: #0d1117;
+        border-radius: 2px;
+        margin-top: 6px;
+        overflow: hidden;
+    }
+
+    .health-fill {
+        height: 100%;
+    }
+
+    /* 7. Nhãn Trạng thái & Dropdown */
+    .badge {
+        background-color: transparent !important;
+        font-weight: 500;
+        padding: 5px 8px;
+        border-radius: 4px;
+    }
+
+    .cyber-select {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        border: 1px solid #30363d;
+    }
+
+    /* 8. Cột Nhật ký quét (Timeline) */
+    .cyber-timeline {
+        position: relative;
+        padding-left: 20px;
+        margin-top: 15px;
+    }
+
+        .cyber-timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #30363d;
+        }
+
+    .timeline-item {
+        position: relative;
+        margin-bottom: 18px;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: -19.5px;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #161b22;
+        background: #00f0ff;
+    }
+
+    .dot-warning {
+        background: #ffaa00;
+    }
+
+    .dot-danger {
+        background: #ff003c;
+    }
+
+    .dot-success {
+        background: #2ea043;
+    }
+
+    .timeline-time {
+        font-size: 0.75rem;
+        color: #8b949e;
+        font-family: monospace;
+        margin-bottom: 3px;
+    }
+
+    .timeline-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        color: #c9d1d9;
+    }
+
+    .timeline-target {
+        color: #58a6ff;
+    }
+</style>
+
 <div class="container-fluid mt-4 mb-5">
+
+    <!-- CỤM TIÊU ĐỀ TRANG -->
+    <div class="mb-4">
+        <h3 class="fw-bold m-0 text-uppercase" style="color: #58a6ff; letter-spacing: 1px; text-shadow: 0 0 15px rgba(88, 166, 255, 0.4);">
+            <i class="fa-solid fa-globe me-2" style="color: #00f0ff;"></i>
+            Quản lý <span style="color: #00f0ff;">Website</span>
+        </h3>
+        <p class="mt-2 text-secondary" style="font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;">
+            <i class="fa-solid fa-list-check me-1" style="color: #8b949e;"></i> Danh sách các mục tiêu đang được giám sát
+        </p>
+    </div>
+
+    <!-- 3 THẺ THỐNG KÊ -->
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="mini-stat-card stat-blue">
@@ -34,14 +263,13 @@
     </div>
 
     <div class="row g-4">
-
+        <!-- CỘT CHỨA BẢNG DỮ LIỆU SQL -->
         <div class="col-xl-8 col-lg-7">
             <div class="cyber-panel d-flex flex-column" style="height: 100%; min-height: 600px;">
-
                 <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid #30363d;">
                     <div class="cyber-search-wrapper">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" class="cyber-search" placeholder="Nhập IP hoặc Tên miền...">
+                        <input type="text" class="cyber-search" id="searchInput" placeholder="Nhập IP hoặc Tên miền...">
                     </div>
                     <div>
                         <button class="btn btn-sm btn-neon-blue fw-bold px-3 py-2">
@@ -51,7 +279,7 @@
                 </div>
 
                 <div class="table-responsive flex-grow-1">
-                    <table class="table table-borderless table-cyber table-hover align-middle">
+                    <table class="table table-borderless table-cyber table-hover align-middle" id="websiteTable">
                         <thead>
                             <tr>
                                 <th style="width: 30px;"><input class="form-check-input cyber-checkbox" type="checkbox"></th>
@@ -63,70 +291,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input class="form-check-input cyber-checkbox" type="checkbox"></td>
-                                <td>
-                                    <div class="fw-bold text-light"><i class="fa-solid fa-globe me-2" style="color: #58a6ff;"></i> qlsv.ntt.edu.vn</div>
-                                    <small class="text-secondary" style="font-size: 0.75rem;">Hệ thống QL Sinh viên</small>
-                                </td>
-                                <td class="font-monospace" style="color: #8b949e; font-size: 0.85rem;">103.14.232.12</td>
-                                <td>
-                                    <div class="d-flex justify-content-between" style="width: 80px; font-size: 0.75rem;">
-                                        <span class="text-light">Tốt</span> <span style="color: #2ea043;">98%</span>
-                                    </div>
-                                    <div class="health-bar"><div class="health-fill" style="width: 98%; background: #2ea043; box-shadow: 0 0 8px #2ea043;"></div></div>
-                                </td>
-                                <td><span class="badge" style="background: rgba(46,160,67,0.15); color: #3fb950; border: 1px solid #2ea043;">An toàn</span></td>
-                                <td class="text-center">
-                                    <i class="fa-solid fa-radar action-icon scan text-secondary" title="Quét sâu"></i>
-                                    <i class="fa-solid fa-pen-to-square action-icon edit text-secondary" title="Cấu hình"></i>
-                                    <i class="fa-solid fa-trash action-icon delete text-secondary" title="Gỡ bỏ"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input cyber-checkbox" type="checkbox"></td>
-                                <td>
-                                    <div class="fw-bold text-light"><i class="fa-solid fa-globe me-2" style="color: #58a6ff;"></i> elearning.ntt.edu.vn</div>
-                                    <small class="text-secondary" style="font-size: 0.75rem;">Cổng học trực tuyến</small>
-                                </td>
-                                <td class="font-monospace" style="color: #8b949e; font-size: 0.85rem;">103.14.232.45</td>
-                                <td>
-                                    <div class="d-flex justify-content-between" style="width: 80px; font-size: 0.75rem;">
-                                        <span class="text-light">Cảnh báo</span> <span style="color: #ffaa00;">65%</span>
-                                    </div>
-                                    <div class="health-bar"><div class="health-fill" style="width: 65%; background: #ffaa00; box-shadow: 0 0 8px #ffaa00;"></div></div>
-                                </td>
-                                <td><span class="badge" style="background: rgba(255,170,0,0.15); color: #ffaa00; border: 1px solid #ffaa00;">Cảnh báo</span></td>
-                                <td class="text-center">
-                                    <i class="fa-solid fa-radar action-icon scan text-secondary" title="Quét sâu"></i>
-                                    <i class="fa-solid fa-pen-to-square action-icon edit text-secondary" title="Cấu hình"></i>
-                                    <i class="fa-solid fa-trash action-icon delete text-secondary" title="Gỡ bỏ"></i>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input class="form-check-input cyber-checkbox" type="checkbox"></td>
-                                <td>
-                                    <div class="fw-bold text-light"><i class="fa-solid fa-globe me-2" style="color: #58a6ff;"></i> crm.doanhnghiep.vn</div>
-                                    <small class="text-secondary" style="font-size: 0.75rem;">Máy chủ CRM</small>
-                                </td>
-                                <td class="font-monospace" style="color: #8b949e; font-size: 0.85rem;">192.168.1.100</td>
-                                <td>
-                                    <div class="d-flex justify-content-between" style="width: 80px; font-size: 0.75rem;">
-                                        <span class="text-light">Nguy hiểm</span> <span style="color: #ff003c;">20%</span>
-                                    </div>
-                                    <div class="health-bar"><div class="health-fill" style="width: 20%; background: #ff003c; box-shadow: 0 0 8px #ff003c;"></div></div>
-                                </td>
-                                <td><span class="badge" style="background: rgba(255,0,60,0.15); color: #ff003c; border: 1px solid #ff003c;">Bị tấn công</span></td>
-                                <td class="text-center">
-                                    <i class="fa-solid fa-radar action-icon scan text-secondary" title="Quét sâu"></i>
-                                    <i class="fa-solid fa-pen-to-square action-icon edit text-secondary" title="Cấu hình"></i>
-                                    <i class="fa-solid fa-trash action-icon delete text-secondary" title="Gỡ bỏ"></i>
-                                </td>
-                            </tr>
+                            @if (Model.DanhSachWeb != null && Model.DanhSachWeb.Any())
+                            {
+                                int counter = 0;
+                                @foreach (var item in Model.DanhSachWeb)
+                                {
+                                    counter++;
+                                    // Phân trang: 2 dòng đầu ở trang 1, dòng 3 trở đi ở trang 2
+                                    string pageClass = counter <= 2 ? "page-1" : "page-2";
+                                    string displayStyle = counter <= 2 ? "" : "display: none;";
+
+                                    // Logic tự động tính màu sắc
+                                    string colorHex = item.SecurityScore >= 80 ? "#2ea043" : (item.SecurityScore >= 50 ? "#ffaa00" : "#ff003c");
+                                    string badgeColor = item.SecurityScore >= 80 ? "rgba(46,160,67,0.15)" : (item.SecurityScore >= 50 ? "rgba(255,170,0,0.15)" : "rgba(255,0,60,0.15)");
+                                    string statusText = item.SecurityScore >= 80 ? "Tốt" : (item.SecurityScore >= 50 ? "Cảnh báo" : "Nguy hiểm");
+
+                                    <tr class="web-row @pageClass" style="@displayStyle">
+                                        <td><input class="form-check-input cyber-checkbox" type="checkbox"></td>
+                                        <td>
+                                            <div class="fw-bold text-light"><i class="fa-solid fa-globe me-2" style="color: #58a6ff;"></i> @item.TargetUrl</div>
+                                            <small class="text-secondary" style="font-size: 0.75rem;">@item.TargetName</small>
+                                        </td>
+                                        <td class="font-monospace" style="color: #8b949e; font-size: 0.85rem;">@item.IpAddress</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between" style="width: 80px; font-size: 0.75rem;">
+                                                <span class="text-light">@statusText</span> <span style="color: @colorHex;">@item.SecurityScore%</span>
+                                            </div>
+                                            <div class="health-bar"><div class="health-fill" style="width: @item.SecurityScore%; background: @colorHex; box-shadow: 0 0 8px @colorHex;"></div></div>
+                                        </td>
+                                        <td><span class="badge" style="background: @badgeColor; color: @colorHex; border: 1px solid @colorHex;">@item.Status</span></td>
+                                        <td class="text-center">
+                                            <i class="fa-solid fa-radar action-icon scan text-secondary" style="cursor:pointer;" title="Quét sâu"></i>
+                                            <i class="fa-solid fa-trash action-icon delete text-secondary ms-2" style="cursor:pointer;" title="Gỡ bỏ"></i>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="6" class="text-center text-secondary py-4">Hệ thống chưa có mục tiêu giám sát nào.</td></tr>
+                            }
                         </tbody>
                     </table>
                 </div>
 
+                <!-- THANH CHUYỂN TRANG (PAGINATION) -->
                 <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px solid #30363d;">
                     <div class="d-flex align-items-center gap-2">
                         <select class="form-select form-select-sm cyber-select" style="width: 160px;">
@@ -138,43 +347,37 @@
                     </div>
 
                     <nav>
-                        <ul class="pagination pagination-sm pagination-cyber mb-0">
-                            <li class="page-item disabled"><a class="page-link" href="#"><i class="fa-solid fa-angles-left"></i></a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-angles-right"></i></a></li>
+                        <ul class="pagination pagination-sm pagination-cyber mb-0" id="paginationControls">
+                            <li class="page-item disabled"><a class="page-link"><i class="fa-solid fa-angles-left"></i></a></li>
+                            <li class="page-item active" data-page="1"><a class="page-link">1</a></li>
+                            <li class="page-item" data-page="2"><a class="page-link">2</a></li>
+                            <li class="page-item disabled"><a class="page-link"><i class="fa-solid fa-angles-right"></i></a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
 
+        <!-- CỘT NHẬT KÝ QUÉT BÊN PHẢI -->
         <div class="col-xl-4 col-lg-5">
             <div class="cyber-panel" style="height: 100%; min-height: 600px;">
                 <h5 class="text-light fw-bold pb-3 mb-1" style="border-bottom: 1px solid #30363d; letter-spacing: 1px;">
                     <i class="fa-solid fa-satellite-dish me-2" style="color: #8b949e;"></i> NHẬT KÝ QUÉT
-                    <span class="float-end blink-live" style="font-size: 0.8rem; margin-top: 4px;">
+                    <span class="float-end blink-live" style="font-size: 0.8rem; margin-top: 4px; color: #ff003c;">
                         <i class="fa-solid fa-circle text-danger me-1" style="font-size: 0.6rem;"></i>LIVE
                     </span>
                 </h5>
-
                 <div class="cyber-timeline">
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="timeline-time">13:10:30 (Vừa xong)</div>
-                        <div class="timeline-text">
-                            Đang phân tích gói tin HTTP Header tại mục tiêu <span class="timeline-target">crm.doanhnghiep.vn</span>...
-                        </div>
+                        <div class="timeline-text">Đang phân tích gói tin HTTP Header tại mục tiêu <span class="timeline-target">crm.doanhnghiep.vn</span>...</div>
                     </div>
-
                     <div class="timeline-item">
                         <div class="timeline-dot dot-warning"></div>
                         <div class="timeline-time">13:08:15</div>
-                        <div class="timeline-text">
-                            Phát hiện cổng 3306 (MySQL) đang mở không mã hóa tại <span class="timeline-target">elearning.ntt.edu.vn</span>.
-                        </div>
+                        <div class="timeline-text">Phát hiện cổng 3306 (MySQL) đang mở không mã hóa tại <span class="timeline-target">elearning.ntt.edu.vn</span>.</div>
                     </div>
-
                     <div class="timeline-item">
                         <div class="timeline-dot dot-danger"></div>
                         <div class="timeline-time">12:55:02</div>
@@ -182,155 +385,144 @@
                             <i class="fa-solid fa-shield-virus me-1"></i> Chặn đứng nỗ lực chèn mã độc XSS từ IP <span class="font-monospace">171.244.x.x</span>
                         </div>
                     </div>
-
                     <div class="timeline-item">
                         <div class="timeline-dot dot-success"></div>
                         <div class="timeline-time">12:30:00</div>
-                        <div class="timeline-text">
-                            Hoàn tất kiểm tra bảo mật định kỳ cho hệ thống <span class="timeline-target">qlsv.ntt.edu.vn</span>. Kết quả: An toàn.
-                        </div>
+                        <div class="timeline-text">Hoàn tất kiểm tra bảo mật định kỳ cho hệ thống <span class="timeline-target">qlsv.ntt.edu.vn</span>. Kết quả: An toàn.</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Nhúng thư viện SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- JAVASCRIPT XỬ LÝ SỰ KIỆN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        // 1. Nút Thêm Mới (Báo lỗi từ chối quyền)
-        const btnAdd = document.querySelector('.btn-neon-blue');
-        if (btnAdd) {
-            btnAdd.addEventListener('click', function (e) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'TỪ CHỐI TRUY CẬP',
-                    text: "Tính năng 'Thêm Mới Website' yêu cầu quyền Admin cấp cao!",
-                    icon: 'error',
-                    background: '#161b22',
-                    color: '#c9d1d9',
-                    confirmButtonColor: '#ff003c',
-                    confirmButtonText: '<i class="fa-solid fa-shield-virus me-2"></i>ĐÃ HIỂU'
-                });
+        // 1. TÌM KIẾM (LIVE SEARCH)
+        const searchInput = document.getElementById('searchInput');
+        const allRows = document.querySelectorAll('.web-row');
+
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function () {
+                let filterValue = this.value.toLowerCase().trim();
+
+                if (filterValue.length > 0) {
+                    allRows.forEach(row => {
+                        let text = row.innerText.toLowerCase();
+                        row.style.display = text.includes(filterValue) ? '' : 'none';
+                    });
+                } else {
+                    document.querySelector('#paginationControls .active').click();
+                }
             });
         }
 
-        // 2. Nút Xóa (Cảnh báo xác nhận 2 bước)
-        const deleteIcons = document.querySelectorAll('.action-icon.delete');
-        deleteIcons.forEach(icon => {
+        // 2. CHUYỂN TRANG (PAGINATION)
+        const pageItems = document.querySelectorAll('#paginationControls .page-item:not(.disabled)');
+        pageItems.forEach(item => {
+            item.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector('#paginationControls .active')?.classList.remove('active');
+                this.classList.add('active');
+
+                allRows.forEach(row => row.style.display = 'none');
+
+                const pageNum = this.getAttribute('data-page');
+                const targetRows = document.querySelectorAll('.page-' + pageNum);
+                targetRows.forEach(row => row.style.display = '');
+            });
+        });
+
+        // 3. THÊM MỚI (Báo lỗi quyền)
+        document.querySelector('.btn-neon-blue')?.addEventListener('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'TỪ CHỐI TRUY CẬP', text: "Yêu cầu quyền Admin cấp cao!",
+                icon: 'error', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#ff003c'
+            });
+        });
+
+        // 4. XÓA (Thùng rác)
+        document.querySelectorAll('.action-icon.delete').forEach(icon => {
             icon.addEventListener('click', function () {
                 const row = this.closest('tr');
                 Swal.fire({
-                    title: 'CẢNH BÁO BẢO MẬT',
-                    text: "Bạn có chắc chắn muốn xóa website này khỏi danh sách giám sát?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    background: '#161b22',
-                    color: '#c9d1d9',
-                    confirmButtonColor: '#ff003c',
-                    cancelButtonColor: '#30363d',
-                    confirmButtonText: 'XÓA NGAY',
-                    cancelButtonText: 'HỦY BỎ'
+                    title: 'CẢNH BÁO BẢO MẬT', text: "Bạn có chắc muốn xóa website này?",
+                    icon: 'warning', showCancelButton: true, background: '#161b22', color: '#c9d1d9',
+                    confirmButtonColor: '#ff003c', cancelButtonColor: '#30363d',
+                    confirmButtonText: 'XÓA NGAY', cancelButtonText: 'HỦY BỎ'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        row.style.opacity = '0.3'; // Làm mờ dòng
-                        Swal.fire({
-                            title: 'ĐÃ XÓA!',
-                            text: 'Hệ thống đã ngừng giám sát mục tiêu này.',
-                            icon: 'success',
-                            background: '#161b22',
-                            color: '#c9d1d9',
-                            confirmButtonColor: '#2ea043'
-                        });
+                        row.style.display = 'none';
+                        Swal.fire({ title: 'ĐÃ XÓA!', icon: 'success', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#2ea043' });
                     }
                 });
             });
         });
 
-        // 3. Nút Cấu hình (Edit)
-        const editIcons = document.querySelectorAll('.action-icon.edit');
-        editIcons.forEach(icon => {
-            icon.addEventListener('click', function () {
-                Swal.fire({
-                    title: 'ĐANG TẢI...',
-                    text: 'Hệ thống đang chuyển hướng sang giao diện cấu hình Firewall.',
-                    icon: 'info',
-                    background: '#161b22',
-                    color: '#c9d1d9',
-                    confirmButtonColor: '#58a6ff'
-                });
-            });
-        });
-
-        // 4. Nút Quét Sâu (Scan)
-        const scanIcons = document.querySelectorAll('.action-icon.scan');
-        scanIcons.forEach(icon => {
+        // 5. QUÉT SÂU (Radar)
+        document.querySelectorAll('.action-icon.scan').forEach(icon => {
             icon.addEventListener('click', function () {
                 const originalClass = this.className;
                 this.className = "fa-solid fa-spinner fa-spin action-icon text-info";
-
                 setTimeout(() => {
                     this.className = originalClass;
                     Swal.fire({
-                        title: 'QUÉT HOÀN TẤT',
-                        text: 'Không phát hiện lỗ hổng Zero-day nào mới trên máy chủ này.',
-                        icon: 'success',
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#2ea043'
+                        title: 'QUÉT HOÀN TẤT', text: 'Không phát hiện lỗ hổng Zero-day nào mới.',
+                        icon: 'success', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#2ea043'
                     });
                 }, 2000);
             });
         });
-
-        // 5. Nút Áp dụng hành động
-        const btnApply = document.querySelector('.btn-outline-info');
-        if(btnApply) {
-            btnApply.addEventListener('click', function(e) {
-                e.preventDefault();
-                const selectValue = document.querySelector('.cyber-select').value;
-                if (selectValue === "Hành động...") {
-                    Swal.fire({
-                        text: "Vui lòng chọn một hành động trước khi Áp dụng!",
-                        icon: 'warning',
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#ffaa00'
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'THÀNH CÔNG',
-                        text: 'Đang áp dụng chính sách bảo mật hàng loạt...',
-                        icon: 'success',
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#2ea043'
-                    });
-                }
-            });
-        }
-
-        // 6. Checkbox Chọn tất cả
-        const masterCheckbox = document.querySelector('thead .cyber-checkbox');
-        const childCheckboxes = document.querySelectorAll('tbody .cyber-checkbox');
-        if(masterCheckbox) {
-            masterCheckbox.addEventListener('change', function() {
-                childCheckboxes.forEach(cb => {
-                    cb.checked = this.checked;
-                });
-            });
-        }
-
-        // 7. Chuyển trang
-        const pageLinks = document.querySelectorAll('.page-link');
-        pageLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-            });
-        });
-
     });
+    // 6. CHECKBOX "CHỌN TẤT CẢ" (Nối trên với dưới)
+            const masterCheckbox = document.querySelector('thead .cyber-checkbox');
+            const childCheckboxes = document.querySelectorAll('tbody .cyber-checkbox');
+
+            if (masterCheckbox) {
+                masterCheckbox.addEventListener('change', function () {
+                    // Khi tick ô trên cùng, tất cả các ô dưới sẽ tự động tick theo
+                    childCheckboxes.forEach(cb => {
+                        // Chỉ tick những dòng đang được hiển thị (không bị ẩn bởi phân trang)
+                        if(cb.closest('tr').style.display !== 'none') {
+                            cb.checked = this.checked;
+                        }
+                    });
+                });
+            }
+
+            // 7. NÚT ÁP DỤNG (Kiểm tra xem đã tick chọn chưa)
+            const btnApply = document.querySelector('.btn-outline-info');
+            if (btnApply) {
+                btnApply.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const selectValue = document.querySelector('.cyber-select').value;
+                    // Đếm xem người dùng đã tick chọn bao nhiêu ô
+                    const checkedBoxes = document.querySelectorAll('tbody .cyber-checkbox:checked');
+
+                    if (selectValue === "Hành động...") {
+                        Swal.fire({
+                            text: "Vui lòng chọn một hành động trước khi Áp dụng!",
+                            icon: 'warning', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#ffaa00'
+                        });
+                    } else if (checkedBoxes.length === 0) {
+                        // Báo lỗi nếu quên chưa tick ô nào
+                        Swal.fire({
+                            text: "Bạn chưa chọn mục tiêu nào ở bảng trên để áp dụng!",
+                            icon: 'error', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#ff003c'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'THÀNH CÔNG',
+                            text: `Đã áp dụng hành động cho ${checkedBoxes.length} mục tiêu đã chọn!`,
+                            icon: 'success', background: '#161b22', color: '#c9d1d9', confirmButtonColor: '#2ea043'
+                        });
+                    }
+                });
+            }
 </script>

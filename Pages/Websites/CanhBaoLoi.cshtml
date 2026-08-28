@@ -1,167 +1,214 @@
 ﻿@page
+@model SecuCore.Pages.Websites.CanhBaoLoiModel
 @{
     ViewData["Title"] = "Cảnh báo Lỗ hổng";
 }
 
+<style>
+    /* 1. Nền tổng thể tối và phẳng */
+    body {
+        background-color: #0d1117 !important;
+        color: #c9d1d9 !important;
+    }
 
+    /* 2. Các khối Card phẳng chuẩn Cyber */
+    .cyber-panel {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 8px !important;
+        padding: 20px;
+        box-shadow: none !important;
+    }
+
+    /* 3. Bảng dữ liệu chuẩn màu */
+    .table-cyber {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .table-cyber thead, .table-cyber th, .table-cyber tr {
+            background-color: transparent !important;
+        }
+
+        .table-cyber th {
+            color: #8b949e !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            padding: 12px 10px !important;
+            border-bottom: 1px solid #30363d !important;
+        }
+
+        .table-cyber td {
+            padding: 15px 10px !important;
+            border-bottom: 1px solid #21262d !important;
+            vertical-align: middle !important;
+            color: #c9d1d9 !important;
+            background-color: transparent !important;
+        }
+
+    /* 4. Nút Xuất Báo Cáo Neon */
+    .btn-neon-red {
+        background-color: transparent !important;
+        color: #ff7b72 !important;
+        border: 1px solid #ff7b72 !important;
+        border-radius: 4px;
+        transition: 0.3s;
+    }
+
+        .btn-neon-red:hover {
+            background-color: rgba(255, 123, 114, 0.1) !important;
+        }
+</style>
 
 <div class="container-fluid mt-4 mb-5">
-    <div class="cyber-alert-container">
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 1px solid rgba(255,0,60,0.2);">
-            <h3 class="glow-text-danger m-0 text-uppercase">HỆ THỐNG CẢNH BÁO LỖ HỔNG</h3>
-            <button class="btn btn-lock-all" id="btnLockAll">
-                <i class="fa-solid fa-ban me-2"></i> KHÓA TẤT CẢ TRUY CẬP
-            </button>
-        </div>
 
-        <!-- Alert 1: Critical -->
-        <div class="alert-card critical-card">
-            <div>
-                <div class="d-flex align-items-center gap-3 mb-2">
-                    <span class="badge-critical">NGUY HIỂM CẤP ĐỘ 1 (CRITICAL)</span>
-                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> Vừa xong</span>
-                </div>
-                <h5 class="text-light fw-bold mb-1">Phát hiện tấn công SQL Injection vào MySQL Server</h5>
-                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">lcms.ntt.edu.vn/login</span> | Mã lỗi: <span class="text-danger">ERR_SQL_BYPASS</span></div>
-            </div>
-            <div>
-                <button class="btn btn-cyber-danger btn-block-ip">
-                    <i class="fa-solid fa-shield-halved me-1"></i> NGĂN CHẶN IP
-                </button>
-            </div>
+    <!-- TIÊU ĐỀ TRANG -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold text-uppercase m-0" style="color: #ff7b72; letter-spacing: 1px; text-shadow: 0 0 15px rgba(255, 123, 114, 0.3);">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i> CẢNH BÁO LỖ HỔNG
+            </h3>
+            <p class="mt-1 text-secondary" style="font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase;">
+                <i class="fa-solid fa-shield-virus me-1" style="color: #ff7b72;"></i> Theo dõi và phát hiện mã độc thời gian thực
+            </p>
         </div>
+        <button class="btn btn-sm btn-neon-red fw-bold px-3 py-2" id="btnExport">
+            <i class="fa-solid fa-file-pdf me-1"></i> XUẤT BÁO CÁO
+        </button>
+    </div>
 
-        <!-- Alert 2: Warning -->
-        <div class="alert-card warning-card">
-            <div>
-                <div class="d-flex align-items-center gap-3 mb-2">
-                    <span class="badge-warning">RỦI RO CAO (HIGH)</span>
-                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> 15 phút trước</span>
-                </div>
-                <h5 class="text-light fw-bold mb-1">Cảnh báo rò rỉ biến môi trường .NET (Environment Variables)</h5>
-                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">api.lms.ntt.edu.vn</span> | Nguy cơ: Lộ chuỗi kết nối Database</div>
-            </div>
-            <div>
-                <button class="btn btn-cyber-warning-outline btn-view-logs">
-                    <i class="fa-solid fa-code me-1"></i> XEM LOGS C#
-                </button>
+    <!-- 4 THẺ THỐNG KÊ SỐ LIỆU -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="cyber-panel" style="border-top: 3px solid #ff003c !important;">
+                <div class="text-secondary mb-1" style="font-size: 0.8rem;">NGHIÊM TRỌNG (CRITICAL)</div>
+                <h3 class="text-light fw-bold m-0" style="color: #ff003c;">12</h3>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="cyber-panel" style="border-top: 3px solid #ffaa00 !important;">
+                <div class="text-secondary mb-1" style="font-size: 0.8rem;">CAO (HIGH)</div>
+                <h3 class="text-light fw-bold m-0" style="color: #ffaa00;">34</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="cyber-panel" style="border-top: 3px solid #58a6ff !important;">
+                <div class="text-secondary mb-1" style="font-size: 0.8rem;">TRUNG BÌNH (MEDIUM)</div>
+                <h3 class="text-light fw-bold m-0" style="color: #58a6ff;">89</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="cyber-panel" style="border-top: 3px solid #2ea043 !important;">
+                <div class="text-secondary mb-1" style="font-size: 0.8rem;">THẤP (LOW)</div>
+                <h3 class="text-light fw-bold m-0" style="color: #2ea043;">156</h3>
+            </div>
+        </div>
+    </div>
 
-        <!-- Alert 3: Warning -->
-        <div class="alert-card warning-card">
-            <div>
-                <div class="d-flex align-items-center gap-3 mb-2">
-                    <span class="badge-warning">RỦI RO CAO (HIGH)</span>
-                    <span class="text-secondary" style="font-size: 0.8rem;"><i class="fa-regular fa-clock me-1"></i> 2 giờ trước</span>
-                </div>
-                <h5 class="text-light fw-bold mb-1">Phát hiện chèn mã độc Cross-Site Scripting (XSS)</h5>
-                <div class="text-secondary" style="font-size: 0.85rem;">Mục tiêu: <span style="color: #58a6ff;">portal.ntt.edu.vn/feedback</span> | Dữ liệu đầu vào không được mã hóa HTML/CSS</div>
-            </div>
-            <div>
-                <button class="btn btn-cyber-warning-outline btn-clean">
-                    <i class="fa-solid fa-broom me-1"></i> LÀM SẠCH
-                </button>
-            </div>
+    <!-- BẢNG RADAR PHÁT HIỆN LỖ HỔNG TỪ SQL -->
+    <div class="cyber-panel">
+        <h5 class="text-light fw-bold pb-3 mb-2" style="border-bottom: 1px solid #30363d; font-size: 1rem; letter-spacing: 1px;">
+            <i class="fa-solid fa-radar me-2" style="color: #00f0ff;"></i> RADAR PHÁT HIỆN MỚI NHẤT
+        </h5>
+
+        <div class="table-responsive">
+            <table class="table table-borderless table-cyber table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">Mức độ</th>
+                        <th style="width: 140px;">Thời gian</th>
+                        <th>Tên lỗ hổng</th>
+                        <th>Mục tiêu</th>
+                        <th style="width: 150px;">Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DanhSachLoi != null && Model.DanhSachLoi.Any())
+                    {
+                        @foreach (var log in Model.DanhSachLoi)
+                        {
+                            string badgeBg = log.Severity == "CRITICAL" ? "rgba(255,0,60,0.15)" : "rgba(255,170,0,0.15)";
+                            string badgeColor = log.Severity == "CRITICAL" ? "#ff003c" : "#ffaa00";
+
+                            <tr>
+                                <td>
+                                    <span class="badge" style="background: @badgeBg; color: @badgeColor; border: 1px solid @badgeColor; font-size: 0.75rem;">
+                                        @log.Severity
+                                    </span>
+                                </td>
+                                <td style="color: #8b949e; font-size: 0.85rem;">@log.ScanTime</td>
+                                <td class="fw-bold text-light" style="color: #ffffff !important;">@log.VulnName</td>
+                                <td class="font-monospace" style="color: #58a6ff !important; font-size: 0.85rem;">@log.TargetPath</td>
+                                <td>
+                                    @if (log.Status == "Đang tấn công")
+                                    {
+                                        <span style="color: #ff003c; font-size: 0.85rem; font-weight: 500;">
+                                            <i class="fa-solid fa-circle text-danger me-1" style="font-size: 0.5rem;"></i> @log.Status
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color: #ffaa00; font-size: 0.85rem; font-weight: 500;">
+                                            <i class="fa-solid fa-triangle-exclamation me-1"></i> @log.Status
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="5" class="text-center text-secondary py-4">Chưa có cảnh báo lỗ hổng nào từ hệ thống.</td></tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<!-- Đảm bảo đã nhúng SweetAlert2 (nếu file _Layout chưa có) -->
+<!-- THƯ VIỆN & SCRIPT XỬ LÝ -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        const btnExport = document.getElementById('btnExport');
 
-        // 1. Nút Khóa tất cả
-        document.getElementById('btnLockAll').addEventListener('click', function() {
-            Swal.fire({
-                title: 'KÍCH HOẠT CHẾ ĐỘ KHẨN CẤP?',
-                text: "Hành động này sẽ ngắt toàn bộ kết nối đến các Server. Bạn có chắc chắn?",
-                icon: 'error',
-                background: '#161b22',
-                color: '#c9d1d9',
-                showCancelButton: true,
-                confirmButtonColor: '#ff003c',
-                cancelButtonColor: '#30363d',
-                confirmButtonText: 'XÁC NHẬN KHÓA',
-                cancelButtonText: 'HỦY'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: 'ĐÃ KHÓA KẾT NỐI!',
-                        text: 'Tường lửa đã chuyển sang trạng thái Block-All.',
-                        icon: 'success',
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#2ea043'
-                    });
-                }
-            });
-        });
+        if (btnExport) {
+            btnExport.addEventListener('click', function (e) {
+                e.preventDefault();
 
-        // 2. Nút Ngăn chặn IP
-        document.querySelectorAll('.btn-block-ip').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.alert-card');
+                // Hiệu ứng chạy % biên dịch file giả lập rồi chuyển hướng sang trang Reports
                 Swal.fire({
-                    title: 'ĐANG XỬ LÝ',
-                    text: 'Đang thêm IP kẻ tấn công vào Blacklist của Firewall...',
-                    timer: 1500,
-                    timerProgressBar: true,
+                    title: 'ĐANG BIÊN DỊCH BÁO CÁO...',
+                    html: 'Hệ thống đang xuất file bảo mật định dạng PDF (<b>0%</b>)',
+                    icon: 'info',
                     background: '#161b22',
                     color: '#c9d1d9',
-                    didOpen: () => { Swal.showLoading() }
-                }).then(() => {
-                    card.style.opacity = '0.5';
-                    this.innerHTML = '<i class="fa-solid fa-check"></i> ĐÃ CHẶN';
-                    this.classList.remove('btn-cyber-danger');
-                    this.classList.add('btn-success');
-                    this.disabled = true;
-                });
-            });
-        });
-
-        // 3. Nút Xem Logs
-        document.querySelectorAll('.btn-view-logs').forEach(btn => {
-            btn.addEventListener('click', function() {
-                Swal.fire({
-                    title: 'SYSTEM LOGS',
-                    html: '<pre style="text-align: left; background: #0d1117; padding: 10px; color: #3fb950; font-size: 0.8rem; border-radius: 5px;"><code>[INFO] Connection attempt from 45.33.x.x\n[WARN] Payload matching SQLi signature detected\n[ERR] Query execution blocked by IDS</code></pre>',
-                    background: '#161b22',
-                    color: '#c9d1d9',
-                    width: 600,
-                    confirmButtonColor: '#58a6ff',
-                    confirmButtonText: 'ĐÓNG'
-                });
-            });
-        });
-
-        // 4. Nút Làm sạch (Clean)
-        document.querySelectorAll('.btn-clean').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const card = this.closest('.alert-card');
-                Swal.fire({
-                    title: 'ĐANG LÀM SẠCH',
-                    text: 'Đang tiến hành mã hóa và dọn dẹp bộ nhớ đệm...',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true,
-                    background: '#161b22',
-                    color: '#c9d1d9',
-                    didOpen: () => { Swal.showLoading() }
+                    didOpen: () => {
+                        Swal.showLoading();
+                        let timerInterval = setInterval(() => {
+                            let content = Swal.getHtmlContainer();
+                            if (content) {
+                                let bTag = content.querySelector('b');
+                                if (bTag) {
+                                    let currentNum = parseInt(bTag.innerText);
+                                    if (currentNum < 90) {
+                                        bTag.innerText = (currentNum + 30) + '%';
+                                    }
+                                }
+                            }
+                        }, 400);
+                    }
                 }).then(() => {
-                    card.style.display = 'none'; // Ẩn cảnh báo sau khi làm sạch xong
-                    Swal.fire({
-                        title: 'ĐÃ LÀM SẠCH',
-                        icon: 'success',
-                        background: '#161b22',
-                        color: '#c9d1d9',
-                        confirmButtonColor: '#2ea043'
-                    });
+                    // Chuyển hướng sang trang Xuất Báo Cáo (/Websites/Reports)
+                    window.location.href = '/Websites/Reports';
                 });
             });
-        });
-
+        }
     });
 </script>

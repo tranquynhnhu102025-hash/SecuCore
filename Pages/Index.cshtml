@@ -1,263 +1,332 @@
 ﻿@page
-@model IndexModel
+@model SecuCore.Pages.IndexModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .main-heading {
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #ffffff;
+        text-shadow: 0 0 20px rgba(88,166,255,0.3);
+    }
 
-<div class="secucore-dashboard container">
-    <div class="text-center mb-5 mt-3">
-        <h1 class="display-5 main-heading">🛡️ TRUNG TÂM ĐIỀU KHIỂN SECUCORE</h1>
-        <p class="text-info mt-2" style="letter-spacing: 1.5px;">HỆ THỐNG GIÁM SÁT VÀ PHÂN TÍCH LỖ HỔNG BẢO MẬT WEBSITE</p>
+    .cyber-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 25px;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        transition: transform 0.3s;
+    }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .neon-blue {
+        border-left: 4px solid #58a6ff;
+        box-shadow: 0 5px 15px rgba(88,166,255,0.05);
+    }
+
+    .neon-red {
+        border-left: 4px solid #ff7b72;
+        box-shadow: 0 5px 15px rgba(255,123,114,0.05);
+    }
+
+    .neon-yellow {
+        border-left: 4px solid #d29922;
+        box-shadow: 0 5px 15px rgba(210,153,34,0.05);
+    }
+
+    .cyber-title {
+        color: #8b949e;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .cyber-number {
+        font-size: 3rem;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 5px;
+    }
+
+    .neon-blue .cyber-number {
+        color: #58a6ff;
+    }
+
+    .neon-red .cyber-number {
+        color: #ff7b72;
+    }
+
+    .neon-yellow .cyber-number {
+        color: #d29922;
+    }
+
+    .cyber-icon {
+        position: absolute;
+        right: 20px;
+        top: 30px;
+        font-size: 3.5rem;
+        opacity: 0.1;
+    }
+
+    .cyber-panel {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 12px;
+        padding: 25px;
+        height: 100%;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .cyber-panel-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        color: #c9d1d9;
+    }
+
+    .table-cyber th {
+        color: #8b949e;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .table-cyber td {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(48,54,61,0.5);
+        vertical-align: middle;
+    }
+
+    .table-cyber tr:last-child td {
+        border-bottom: none;
+    }
+
+    .cyber-progress {
+        height: 8px;
+        background: #0d1117;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    /* Trị tận gốc cái bảng nền trắng */
+    .table-cyber, .table-cyber tr, .table-cyber th, .table-cyber td {
+        background-color: transparent !important;
+        color: #c9d1d9 !important;
+    }
+</style>
+
+<!-- TIÊU ĐỀ TRANG DASHBOARD -->
+<div class="text-center mb-5 mt-2">
+    <h2 class="fw-bold text-uppercase" style="letter-spacing: 2px;">
+        <!-- Biểu tượng Radar phát sáng -->
+        <i class="fa-solid fa-radar fa-spin-pulse me-2" style="color: #00f0ff; text-shadow: 0 0 15px rgba(0, 240, 255, 0.8);"></i>
+
+        <!-- Chữ chuyển màu dải Neon -->
+        <span style="background: linear-gradient(to right, #00f0ff, #58a6ff); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 20px rgba(0, 240, 255, 0.2);">
+            Trung tâm điều khiển SecuCore
+        </span>
+    </h2>
+    <p class="mt-2" style="font-size: 0.85rem; letter-spacing: 3px; text-transform: uppercase; color: #8b949e;">
+        <i class="fa-solid fa-shield-halved me-1" style="color: #58a6ff;"></i> Hệ thống giám sát và phân tích lỗ hổng bảo mật Website
+    </p>
+
+    <!-- Đường kẻ ngang trang trí mờ -->
+    <div class="mx-auto mt-3" style="width: 150px; height: 2px; background: linear-gradient(to right, transparent, #30363d, transparent);"></div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="cyber-card neon-blue">
+            <div class="cyber-title">Mục Tiêu Giám Sát</div>
+            <div class="cyber-number">@Model.TongSoMucTieu.ToString("D2")</div>
+            <div class="text-light opacity-50" style="font-size: 0.8rem;">Websites đang được bảo vệ</div>
+            <i class="fa-solid fa-network-wired cyber-icon text-primary"></i>
+        </div>
     </div>
-
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="cyber-card neon-blue">
-                <div class="cyber-title">Mục Tiêu Giám Sát</div>
-                <div class="cyber-number">@Model.TongSoMucTieu.ToString("D2")</div>
-                <div class="text-light opacity-50"><small>Websites đang được bảo vệ</small></div>
-                <i class="fa-solid fa-network-wired cyber-icon"></i>
-            </div>
+    <div class="col-md-4">
+        <div class="cyber-card neon-red">
+            <div class="cyber-title">Lỗ Hổng Nguy Hiểm</div>
+            <div class="cyber-number">@Model.SoLoHongNguyHiem.ToString("D2")</div>
+            <div class="text-light opacity-50" style="font-size: 0.8rem;">Cần xử lý vá lỗi ngay lập tức</div>
+            <i class="fa-solid fa-bug cyber-icon text-danger"></i>
         </div>
-
-        <div class="col-md-4">
-            <div class="cyber-card neon-red">
-                <div class="cyber-title">Lỗ Hổng Nguy Hiểm</div>
-                <div class="cyber-number">@Model.SoLoHongNguyHiem.ToString("D2")</div>
-                <div class="text-light opacity-50"><small>Cần xử lý vá lỗi ngay lập tức</small></div>
-                <i class="fa-solid fa-bug cyber-icon"></i>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="cyber-card neon-yellow">
-                <div class="cyber-title">Cảnh Báo Security</div>
-                <div class="cyber-number">@Model.SoCanhBao.ToString("D2")</div>
-                <div class="text-light opacity-50"><small>Truy cập bất thường trong 24h</small></div>
-                <i class="fa-solid fa-triangle-exclamation cyber-icon"></i>
-            </div>
-        </div>
-
-        <div class="row mt-4 g-4">
-            <div class="col-lg-8">
-                <div class="cyber-panel">
-                    <h3 class="cyber-panel-title"><i class="fa-solid fa-list-check me-2" style="color: #58a6ff;"></i> Nhật Ký Quét Lỗ Hổng Gần Đây</h3>
-                    <div class="table-responsive">
-                        <table class="table table-borderless table-cyber mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Thời gian</th>
-                                    <th>Mục tiêu quét (Target)</th>
-                                    <th>Phân loại</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (IndexModel.DanhSachNhatKy != null && IndexModel.DanhSachNhatKy.Any())
-                                {
-                                    foreach (var log in IndexModel.DanhSachNhatKy)
-                                    {
-                                        <tr>
-                                            <td>@log.ScanTime.ToString("hh:mm tt")</td>
-                                            <td class="text-light">@log.TargetUrl</td>
-
-                                            <td>
-                                                @if (log.VulnerabilityType.Contains("SQL") || log.VulnerabilityType.Contains("DDoS"))
-                                                {
-                                                    <span class="badge bg-danger">@log.VulnerabilityType</span>
-                                                }
-                                                else if (log.VulnerabilityType.Contains("XSS"))
-                                                {
-                                                    <span class="badge bg-warning text-dark">@log.VulnerabilityType</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="badge bg-info text-dark">@log.VulnerabilityType</span>
-                                                }
-                                            </td>
-
-                                            <td>
-                                                @if (log.IsFixed)
-                                                {
-                                                    <span style="color: #00f0ff;"><i class="fa-solid fa-check-circle me-1"></i> Đã bảo vệ</span>
-                                                }
-                                                else
-                                                {
-                                                    <span style="color: #ff003c;"><i class="fa-solid fa-circle-xmark me-1"></i> Chưa vá</span>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="4" class="text-center text-secondary py-4">Hệ thống chưa ghi nhận bản ghi nào. Bấm quét để bắt đầu.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="cyber-panel">
-                    <h3 class="cyber-panel-title"><i class="fa-solid fa-server me-2" style="color: #ffaa00;"></i> Tài Nguyên Hệ Thống</h3>
-
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between text-light mb-2">
-                            <small>CPU Core</small>
-                            <small style="color: #00f0ff;" id="cpu-text">45%</small>
-                        </div>
-                        <div class="cyber-progress">
-                            <div id="cpu-bar" class="progress-bar" role="progressbar" style="width: 45%; background-color: #00f0ff;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="d-flex justify-content-between text-light mb-2">
-                            <small>Memory (RAM)</small>
-                            <small style="color: #ffaa00;" id="ram-text">6.2 / 16 GB</small>
-                        </div>
-                        <div class="cyber-progress">
-                            <div id="ram-bar" class="progress-bar" role="progressbar" style="width: 38%; background-color: #ffaa00;"></div>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <div class="d-flex justify-content-between text-light mb-2">
-                            <small>Network Traffic</small>
-                            <small style="color: #ff003c;" id="net-text">95% (Cảnh báo)</small>
-                        </div>
-                        <div class="cyber-progress">
-                            <div id="net-bar" class="progress-bar" role="progressbar" style="width: 95%; background-color: #ff003c;"></div>
-                        </div>
-                    </div>
-
-                    <form method="post" asp-page-handler="StartScan">
-                        <button type="submit" class="btn btn-outline-info w-100 py-2 fw-bold" style="border-color: #00f0ff; color: #00f0ff;">
-                            <i class="fa-solid fa-radar me-2"></i> KHỞI ĐỘNG QUÉT TOÀN DIỆN
-                        </button>
-                    </form>
-                </div>
-            </div>
+    </div>
+    <div class="col-md-4">
+        <div class="cyber-card neon-yellow">
+            <div class="cyber-title">Cảnh Báo Security</div>
+            <div class="cyber-number">@Model.SoCanhBao.ToString("D2")</div>
+            <div class="text-light opacity-50" style="font-size: 0.8rem;">Truy cập bất thường trong 24h</div>
+            <i class="fa-solid fa-triangle-exclamation cyber-icon text-warning"></i>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="row g-4 mb-4">
     <div class="col-lg-8">
-        <div class="cyber-panel" style="height: 100%;">
-            <h5 class="cyber-panel-title" style="color: #58a6ff;">
-                <i class="fa-solid fa-chart-line me-2"></i> LƯU LƯỢNG TẤN CÔNG (7 NGÀY QUA)
-            </h5>
-            <canvas id="attackLineChart" height="100"></canvas>
+        <div class="cyber-panel d-flex flex-column">
+            <div class="cyber-panel-title"><i class="fa-solid fa-list-check me-2" style="color: #58a6ff;"></i> Nhật Ký Quét Lỗ Hổng Gần Đây</div>
+            <div class="table-responsive flex-grow-1">
+                <table class="table table-borderless table-cyber mb-0 w-100">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Mục tiêu quét (Target)</th>
+                            <th>Phân loại</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.DanhSachNhatKy != null && Model.DanhSachNhatKy.Any())
+                        {
+                            foreach (var log in Model.DanhSachNhatKy)
+                            {
+                                <tr>
+                                    <!-- Đã sửa lỗi CS1503: Bỏ .ToString("HH:mm") vì ScanTime đã là chuỗi -->
+                                    <td style="color: #8b949e;">@log.ScanTime</td>
+
+                                    <!-- Đã sửa lỗi CS1061: Đổi TargetUrl thành TargetPath -->
+                                    <td class="text-light fw-bold">@log.TargetPath</td>
+
+                                    <td>
+                                        <!-- Đã sửa lỗi CS1061: Đổi VulnerabilityType thành VulnName -->
+                                        @if (!string.IsNullOrEmpty(log.VulnName) && (log.VulnName.Contains("SQL") || log.VulnName.Contains("DDoS") || log.Severity == "CRITICAL"))
+                                        {
+                                            <span class="badge" style="background: rgba(255, 123, 114, 0.2); color: #ff7b72; border: 1px solid #ff7b72;">@log.VulnName</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge" style="background: rgba(210, 153, 34, 0.2); color: #d29922; border: 1px solid #d29922;">@log.VulnName</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <!-- Đã sửa lỗi CS1061: Đổi IsFixed thành Status -->
+                                        @if (log.Status == "Đã vá" || log.Status == "Đã khắc phục")
+                                        {
+                                            <span style="color: #3fb950; font-size: 0.9rem;"><i class="fa-solid fa-circle-check me-1"></i> @log.Status</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color: #ff7b72; font-size: 0.9rem;"><i class="fa-solid fa-circle-xmark me-1"></i> @log.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center py-5" style="color: #8b949e;">
+                                    <i class="fa-solid fa-shield-cat fa-2x mb-3 opacity-50"></i><br />
+                                    Hệ thống chưa ghi nhận bản ghi nào.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
     <div class="col-lg-4">
-        <div class="cyber-panel" style="height: 100%;">
-            <h5 class="cyber-panel-title" style="color: #ffaa00;">
-                <i class="fa-solid fa-virus me-2"></i> PHÂN LOẠI LỖ HỔNG
-            </h5>
-            <div style="height: 250px; display: flex; justify-content: center; align-items: center;">
-                <canvas id="vulnDoughnutChart"></canvas>
+        <div class="cyber-panel d-flex flex-column">
+            <div class="cyber-panel-title"><i class="fa-solid fa-server me-2" style="color: #d29922;"></i> Tài Nguyên Hệ Thống</div>
+            <div class="flex-grow-1 d-flex flex-column justify-content-center gap-4">
+                <div>
+                    <div class="d-flex justify-content-between text-light mb-2">
+                        <small>CPU Core</small>
+                        <small style="color: #58a6ff;" id="cpu-text">45%</small>
+                    </div>
+                    <div class="cyber-progress">
+                        <div id="cpu-bar" class="progress-bar" style="width: 45%; background-color: #58a6ff;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between text-light mb-2">
+                        <small>Memory (RAM)</small>
+                        <small style="color: #3fb950;" id="ram-text">6.2 / 16 GB</small>
+                    </div>
+                    <div class="cyber-progress">
+                        <div id="ram-bar" class="progress-bar" style="width: 38%; background-color: #3fb950;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between text-light mb-2">
+                        <small>Network Traffic</small>
+                        <small style="color: #ff7b72;" id="net-text">95% (Cảnh báo)</small>
+                    </div>
+                    <div class="cyber-progress">
+                        <div id="net-bar" class="progress-bar" style="width: 95%; background-color: #ff7b72;"></div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Nút quét được gói trong thẻ form -->
+            <form method="post" asp-page-handler="RunScan">
+                <button type="submit" class="btn w-100 mt-4 fw-bold" style="background: rgba(88, 166, 255, 0.1); color: #58a6ff; border: 1px solid #58a6ff; padding: 12px;">
+                    <i class="fa-solid fa-radar me-2"></i> KHỞI ĐỘNG QUÉT TOÀN DIỆN
+                </button>
+            </form>
+
         </div>
     </div>
 </div>
 
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="cyber-panel">
+            <div class="cyber-panel-title"><i class="fa-solid fa-chart-line me-2" style="color: #58a6ff;"></i> LƯU LƯỢNG TẤN CÔNG (7 NGÀY QUA)</div>
+            <div style="height: 250px;"><canvas id="attackLineChart"></canvas></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="cyber-panel">
+            <div class="cyber-panel-title"><i class="fa-solid fa-virus me-2" style="color: #ff7b72;"></i> PHÂN LOẠI LỖ HỔNG</div>
+            <div style="height: 250px; display: flex; justify-content: center; align-items: center;"><canvas id="vulnDoughnutChart"></canvas></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         Chart.defaults.color = '#8b949e';
-        Chart.defaults.font.family = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
-
         const lineCtx = document.getElementById('attackLineChart').getContext('2d');
         let gradientRed = lineCtx.createLinearGradient(0, 0, 0, 400);
-        gradientRed.addColorStop(0, 'rgba(255, 0, 60, 0.5)');
-        gradientRed.addColorStop(1, 'rgba(255, 0, 60, 0.0)');
-
+        gradientRed.addColorStop(0, 'rgba(255, 123, 114, 0.3)');
+        gradientRed.addColorStop(1, 'rgba(255, 123, 114, 0.0)');
         new Chart(lineCtx, {
             type: 'line',
             data: {
                 labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
-                datasets: [{
-                    label: 'Số lượt truy cập độc hại',
-                    data: [120, 190, 80, 250, 110, 310, 140],
-                    borderColor: '#ff003c',
-                    backgroundColor: gradientRed,
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#161b22',
-                    pointBorderColor: '#ff003c',
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
+                datasets: [{ label: 'Lượt truy cập độc hại', data: [120, 190, 80, 250, 110, 310, 140], borderColor: '#ff7b72', backgroundColor: gradientRed, borderWidth: 3, tension: 0.4, fill: true, pointBackgroundColor: '#161b22', pointBorderColor: '#ff7b72' }]
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    x: { grid: { color: '#30363d' } },
-                    y: { grid: { color: '#30363d' }, beginAtZero: true }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#30363d' } }, y: { grid: { color: '#30363d' }, beginAtZero: true } } }
         });
 
         const doughnutCtx = document.getElementById('vulnDoughnutChart').getContext('2d');
         new Chart(doughnutCtx, {
             type: 'doughnut',
-            data: {
-                labels: ['SQL Injection', 'XSS', 'DDoS', 'Mã độc khác'],
-                datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: ['#ff003c', '#ffaa00', '#00f0ff', '#2ea043'],
-                    borderColor: '#161b22',
-                    borderWidth: 3,
-                    hoverOffset: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { padding: 20, usePointStyle: true }
-                    }
-                }
-            }
+            data: { labels: ['SQL Injection', 'XSS', 'DDoS', 'Mã độc khác'], datasets: [{ data: [45, 25, 20, 10], backgroundColor: ['#ff7b72', '#d29922', '#58a6ff', '#3fb950'], borderColor: '#161b22', borderWidth: 3 }] },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom' } } }
         });
 
-        // ĐOẠN SCRIPT NHẢY SỐ TÀI NGUYÊN (CPU, RAM, NET)
         setInterval(function () {
             let cpu = Math.floor(Math.random() * (55 - 40 + 1)) + 40;
-            if(document.getElementById("cpu-text")) {
-                document.getElementById("cpu-text").innerText = cpu + "%";
-                document.getElementById("cpu-bar").style.width = cpu + "%";
-            }
-
+            document.getElementById("cpu-text").innerText = cpu + "%";
+            document.getElementById("cpu-bar").style.width = cpu + "%";
             let ram = (Math.random() * (6.7 - 6.1) + 6.1).toFixed(1);
             let ramPercent = Math.floor((ram / 16) * 100);
-            if(document.getElementById("ram-text")) {
-                document.getElementById("ram-text").innerText = ram + " / 16 GB";
-                document.getElementById("ram-bar").style.width = ramPercent + "%";
-            }
-
-            let net = Math.floor(Math.random() * (98 - 92 + 1)) + 92;
-            if(document.getElementById("net-text")) {
-                document.getElementById("net-text").innerText = net + "% (Cảnh báo)";
-                document.getElementById("net-bar").style.width = net + "%";
-            }
+            document.getElementById("ram-text").innerText = ram + " / 16 GB";
+            document.getElementById("ram-bar").style.width = ramPercent + "%";
         }, 2000);
     });
 </script>

@@ -3,108 +3,668 @@
     ViewData["Title"] = "Quản lý Người dùng";
 }
 
+<style>
+    /* CSS giữ nguyên form Cyberpunk siêu đẹp */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
 
+    ::-webkit-scrollbar-track {
+        background: #0d1117;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 4px;
+    }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #58a6ff;
+        }
+
+    .cyber-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-top: 3px solid #00f0ff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 0 20px rgba(0,240,255,0.05);
+    }
+
+    .page-title {
+        color: #ffffff;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    }
+
+    .btn-cyber-primary {
+        background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+        color: #00f0ff;
+        border: 1px solid #00f0ff;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cyber-primary:hover {
+            background: #00f0ff;
+            color: #0d1117;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+    .btn-cyber-excel {
+        background: transparent;
+        color: #3fb950;
+        border: 1px solid #3fb950;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+        .btn-cyber-excel:hover {
+            background: #3fb950;
+            color: #0d1117;
+            box-shadow: 0 0 20px rgba(63, 185, 80, 0.6);
+            transform: translateY(-2px);
+        }
+
+    .cyber-input, .cyber-select {
+        background: #0d1117 !important;
+        border: 1px solid #30363d !important;
+        color: #c9d1d9 !important;
+        box-shadow: none !important;
+        padding: 12px 15px;
+    }
+
+        .cyber-input:focus, .cyber-select:focus {
+            border-color: #58a6ff !important;
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2) inset !important;
+        }
+
+    .input-group-text.cyber-bg {
+        background: #161b22;
+        border: 1px solid #30363d;
+        color: #58a6ff;
+        border-right: none;
+    }
+
+    .cyber-input {
+        border-left: none;
+    }
+
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #0d1117 inset !important;
+        -webkit-text-fill-color: #c9d1d9 !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    .table-cyber {
+        color: #c9d1d9;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+    }
+
+        .table-cyber, .table-cyber thead, .table-cyber tbody, .table-cyber tr, .table-cyber th, .table-cyber td {
+            background-color: transparent !important;
+        }
+
+            .table-cyber th {
+                color: #8b949e !important;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                border-bottom: 1px solid #30363d !important;
+                padding-bottom: 15px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                cursor: pointer;
+                transition: 0.2s;
+            }
+
+                .table-cyber th:hover {
+                    color: #58a6ff !important;
+                }
+            /* Hiệu ứng hover khi bấm Sắp xếp */
+
+            .table-cyber td {
+                border-bottom: 1px solid #30363d !important;
+                border-top: 1px solid #30363d !important;
+                padding: 18px 15px;
+                vertical-align: middle;
+            }
+
+                .table-cyber td:first-child {
+                    border-left: 3px solid #30363d !important;
+                    border-top-left-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                }
+
+                .table-cyber td:last-child {
+                    border-right: 1px solid #30363d !important;
+                    border-top-right-radius: 8px;
+                    border-bottom-right-radius: 8px;
+                }
+
+            .table-cyber tr:hover td {
+                background: rgba(88, 166, 255, 0.08) !important;
+            }
+
+                .table-cyber tr:hover td:first-child {
+                    border-left: 3px solid #58a6ff !important;
+                    box-shadow: -5px 0 15px rgba(88,166,255,0.2);
+                }
+
+    .badge-outline {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        display: inline-block;
+        text-align: center;
+        min-width: 110px;
+    }
+
+    .badge-admin {
+        border: 1px solid #58a6ff;
+        color: #58a6ff;
+        background: rgba(88, 166, 255, 0.1);
+    }
+
+    .badge-viewer {
+        border: 1px solid #8b949e;
+        color: #8b949e;
+        background: rgba(139, 148, 158, 0.1);
+    }
+
+    .badge-active {
+        border: 1px solid #3fb950;
+        color: #3fb950;
+        background: rgba(63, 185, 80, 0.1);
+    }
+
+    .badge-locked {
+        border: 1px solid #f85149;
+        color: #f85149;
+        background: rgba(248, 81, 73, 0.1);
+    }
+
+    .btn-action, .btn-action-danger {
+        background: #161b22;
+        border: 1px solid #30363d;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 0 3px;
+    }
+
+    .btn-action {
+        color: #58a6ff;
+    }
+
+        .btn-action:hover {
+            color: #0d1117;
+            background: #58a6ff;
+            border-color: #58a6ff;
+            transform: translateY(-2px);
+        }
+
+    .btn-action-danger {
+        color: #f85149;
+    }
+
+        .btn-action-danger:hover {
+            color: #0d1117;
+            background: #f85149;
+            border-color: #f85149;
+            transform: translateY(-2px);
+        }
+
+    .pagination .page-item .page-link {
+        background-color: #161b22;
+        border-color: #30363d;
+        color: #8b949e;
+        cursor: pointer;
+        padding: 8px 16px;
+        margin: 0 2px;
+        border-radius: 4px;
+    }
+
+        .pagination .page-item .page-link:hover {
+            background-color: #30363d;
+            color: #58a6ff;
+        }
+
+    .pagination .page-item.active .page-link {
+        background-color: #58a6ff !important;
+        border-color: #58a6ff !important;
+        color: #0d1117 !important;
+        box-shadow: 0 0 10px rgba(88,166,255,0.4);
+    }
+
+    .pagination .page-item.disabled .page-link {
+        background-color: #0d1117;
+        color: #484f58;
+        cursor: not-allowed;
+    }
+
+    div:where(.swal2-container) div:where(.swal2-popup) {
+        border: 1px solid #30363d;
+        border-top: 3px solid #58a6ff;
+        background: #161b22 !important;
+        border-radius: 12px !important;
+    }
+
+    .custom-swal-input {
+        background: #0d1117 !important;
+        color: #fff !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px;
+        padding: 12px;
+        margin: 10px auto;
+        width: 80%;
+        display: block;
+    }
+
+        .custom-swal-input:focus {
+            border-color: #58a6ff !important;
+            outline: none;
+            box-shadow: 0 0 10px rgba(88,166,255,0.2) inset !important;
+        }
+</style>
 
 <div class="container-fluid mt-4 mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-light fw-bold m-0">
-            <i class="fa-solid fa-users-gear me-2" style="color: #00f0ff;"></i> QUẢN LÝ NGƯỜI DÙNG
-        </h2>
-        <button class="btn btn-add-user">
-            <i class="fa-solid fa-user-plus me-2"></i> Thêm Tài Khoản
-        </button>
-    </div>
+    <div class="cyber-card">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="page-title m-0">
+                <i class="fa-solid fa-users-gear me-2" style="color: #00f0ff;"></i> QUẢN LÝ NGƯỜI DÙNG
+            </h3>
+            <div>
+                <!-- TÍNH NĂNG MỚI: XUẤT EXCEL -->
+                <button class="btn btn-cyber-excel me-2" onclick="exportToExcel()">
+                    <i class="fa-solid fa-file-excel me-2"></i> Xuất Excel
+                </button>
+                <button class="btn btn-cyber-primary" id="btnAddUser">
+                    <i class="fa-solid fa-user-plus me-2"></i> Thêm Tài Khoản
+                </button>
+            </div>
+        </div>
 
-    <div class="user-panel">
-
-        <div class="row g-3 mb-4">
+        <!-- Filter Row -->
+        <div class="row g-3 mb-4 pb-4" style="border-bottom: 1px dashed #30363d;">
             <div class="col-md-5">
                 <div class="input-group">
-                    <span class="input-group-text bg-dark border-secondary text-secondary">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-                    <input type="text" class="form-control search-bar" placeholder="Tìm kiếm theo tên hoặc email...">
+                    <span class="input-group-text cyber-bg"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input type="text" id="searchInput" class="form-control cyber-input" placeholder="Tìm kiếm theo tên hoặc email...">
                 </div>
             </div>
             <div class="col-md-3">
-                <select class="form-select search-bar">
+                <select id="roleFilter" class="form-select cyber-select">
                     <option value="">Tất cả vai trò</option>
-                    <option value="Admin">System Admin</option>
+                    <option value="System Admin">System Admin</option>
                     <option value="Viewer">Viewer</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <select class="form-select search-bar">
+                <select id="statusFilter" class="form-select cyber-select">
                     <option value="">Tất cả trạng thái</option>
-                    <option value="Active">Đang hoạt động</option>
-                    <option value="Locked">Bị khóa</option>
+                    <option value="Hoạt động">Hoạt động</option>
+                    <option value="Bị khóa">Bị khóa</option>
                 </select>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-cyber table-borderless">
+        <!-- Bảng Dữ liệu -->
+        <div class="table-responsive mb-4">
+            <table class="table table-cyber table-borderless align-middle" id="usersTable">
                 <thead>
                     <tr>
-                        <th scope="col" style="width: 5%">ID</th>
-                        <th scope="col" style="width: 25%">Họ và Tên</th>
-                        <th scope="col" style="width: 25%">Email Truy Cập</th>
-                        <th scope="col" style="width: 15%">Vai Trò</th>
-                        <th scope="col" style="width: 15%">Trạng Thái</th>
-                        <th scope="col" style="width: 15%" class="text-center">Thao Tác</th>
+                        <th width="10%" onclick="sortTable(0)"><i class="fa-solid fa-sort me-1"></i> ID</th>
+                        <th width="25%" onclick="sortTable(1)"><i class="fa-solid fa-sort me-1"></i> HỌ VÀ TÊN</th>
+                        <th width="25%" onclick="sortTable(2)"><i class="fa-solid fa-sort me-1"></i> EMAIL TRUY CẬP</th>
+                        <th width="15%" class="text-center" onclick="sortTable(3)"><i class="fa-solid fa-sort me-1"></i> VAI TRÒ</th>
+                        <th width="15%" class="text-center">TRẠNG THÁI</th>
+                        <th width="10%" class="text-center">THAO TÁC</th>
                     </tr>
                 </thead>
-                <tbody>
-             
+                <tbody id="tableBody">
                     <tr>
-                        <td>#001</td>
-                        <td class="fw-bold text-light">Trần Quỳnh Như</td>
-                        <td>admin@ntt.edu.vn</td>
-                        <td><span class="badge badge-admin rounded-pill px-3">System Admin</span></td>
-                        <td><span class="badge badge-active rounded-pill px-3">Hoạt động</span></td>
+                        <td class="text-secondary fw-bold">#001</td>
+                        <td class="fw-bold text-light name-cell">Trần Quỳnh Như</td>
+                        <td class="text-secondary email-cell">admin@ntt.edu.vn</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-admin">System Admin</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
                         <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
-                            <i class="fa-solid fa-trash-can action-icon delete" title="Xóa tài khoản"></i>
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
-
-              
                     <tr>
-                        <td>#002</td>
-                        <td class="fw-bold text-light">Nguyễn Văn A</td>
-                        <td>nva.viewer@ntt.edu.vn</td>
-                        <td><span class="badge badge-viewer rounded-pill px-3">Viewer</span></td>
-                        <td><span class="badge badge-active rounded-pill px-3">Hoạt động</span></td>
+                        <td class="text-secondary fw-bold">#002</td>
+                        <td class="fw-bold text-light name-cell">Nguyễn Văn A</td>
+                        <td class="text-secondary email-cell">nva.viewer@ntt.edu.vn</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-viewer">Viewer</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
                         <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
-                            <i class="fa-solid fa-trash-can action-icon delete" title="Xóa tài khoản"></i>
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
-
-                  
                     <tr>
-                        <td>#003</td>
-                        <td class="fw-bold text-secondary">Khách Vãng Lai</td>
-                        <td class="text-secondary">guest_test@gmail.com</td>
-                        <td><span class="badge badge-viewer rounded-pill px-3">Viewer</span></td>
-                        <td><span class="badge badge-locked rounded-pill px-3">Bị khóa</span></td>
+                        <td class="text-secondary fw-bold">#003</td>
+                        <td class="fw-bold text-light name-cell">Khách Vãng Lai</td>
+                        <td class="text-secondary email-cell">guest_test@gmail.com</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-viewer">Viewer</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-locked">Bị khóa</span></td>
                         <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square action-icon edit me-3" title="Chỉnh sửa"></i>
-                            <i class="fa-solid fa-lock action-icon text-secondary" title="Đã khóa"></i>
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary fw-bold">#004</td>
+                        <td class="fw-bold text-light name-cell">Lê Tuấn Anh</td>
+                        <td class="text-secondary email-cell">lta.admin@ntt.edu.vn</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-admin">System Admin</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
+                        <td class="text-center">
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary fw-bold">#005</td>
+                        <td class="fw-bold text-light name-cell">Phạm Thị Bích</td>
+                        <td class="text-secondary email-cell">bichpt@gmail.com</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-viewer">Viewer</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
+                        <td class="text-center">
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary fw-bold">#006</td>
+                        <td class="fw-bold text-light name-cell">Hoàng Công Cẩn</td>
+                        <td class="text-secondary email-cell">hcc.dev@ntt.edu.vn</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-admin">System Admin</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-locked">Bị khóa</span></td>
+                        <td class="text-center">
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-secondary fw-bold">#007</td>
+                        <td class="fw-bold text-light name-cell">Vũ Đức Duy</td>
+                        <td class="text-secondary email-cell">duyvd.viewer@ntt.edu.vn</td>
+                        <td class="text-center role-cell"><span class="badge-outline badge-viewer">Viewer</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
+                        <td class="text-center">
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <!-- Nơi báo lỗi nếu không tìm thấy -->
+            <div id="noDataMessage" class="text-center py-4" style="display:none; color: #8b949e;">
+                <i class="fa-solid fa-box-open fa-3x mb-3 opacity-50"></i><br>Không tìm thấy kết quả nào.
+            </div>
         </div>
 
-        <!-- Phân trang (Pagination) -->
-        <nav class="mt-4 d-flex justify-content-end">
-            <ul class="pagination pagination-sm" style="--bs-pagination-bg: #0d1117; --bs-pagination-border-color: #30363d; --bs-pagination-color: #c9d1d9; --bs-pagination-hover-bg: #21262d; --bs-pagination-hover-color: #58a6ff;">
-                <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                <li class="page-item active" style="--bs-pagination-active-bg: #58a6ff; --bs-pagination-active-border-color: #58a6ff;"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+        <!-- Phân trang động -->
+        <nav aria-label="Page navigation" class="d-flex justify-content-end">
+            <ul class="pagination pagination-sm m-0" id="paginationControls">
+                <!-- Phân trang được tạo tự động bằng JS -->
             </ul>
         </nav>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Thư viện để tải Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+    // --- TÍNH NĂNG XUẤT EXCEL ---
+    function exportToExcel() {
+        let table = document.getElementById('usersTable');
+        let wb = XLSX.utils.table_to_book(table, {sheet: "Danh_Sach_Users"});
+        XLSX.writeFile(wb, 'Danh_Sach_SecuCore_Users.xlsx');
+    }
+
+    // --- TÍNH NĂNG SẮP XẾP ---
+    let sortAsc = true;
+    function sortTable(columnIndex) {
+        const table = document.getElementById("usersTable");
+        let tbody = document.getElementById("tableBody");
+        let rows = Array.from(tbody.querySelectorAll("tr"));
+
+        rows.sort((a, b) => {
+            let valA = a.cells[columnIndex].textContent.trim().toLowerCase();
+            let valB = b.cells[columnIndex].textContent.trim().toLowerCase();
+            if (valA < valB) return sortAsc ? -1 : 1;
+            if (valA > valB) return sortAsc ? 1 : -1;
+            return 0;
+        });
+
+        sortAsc = !sortAsc; // Đảo chiều cho lần bấm sau
+        rows.forEach(row => tbody.appendChild(row));
+        updatePagination(); // Sắp xếp xong thì vẽ lại phân trang
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const swalBg = '#161b22', swalText = '#c9d1d9', swalBorder = '#30363d';
+        let userCounter = 7;
+
+        const searchInput = document.getElementById('searchInput');
+        const roleFilter = document.getElementById('roleFilter');
+        const statusFilter = document.getElementById('statusFilter');
+
+        // --- TÍNH NĂNG TÌM KIẾM & LỌC ĐA ĐIỀU KIỆN ---
+        function filterTable() {
+            const keyword = searchInput.value.toLowerCase();
+            const roleKey = roleFilter.value;
+            const statusKey = statusFilter.value;
+
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const name = row.querySelector('.name-cell').textContent.toLowerCase();
+                const email = row.querySelector('.email-cell').textContent.toLowerCase();
+                const role = row.querySelector('.role-cell').textContent.trim();
+                const status = row.querySelector('.status-cell').textContent.trim();
+
+                let matchesSearch = name.includes(keyword) || email.includes(keyword);
+                let matchesRole = (roleKey === "" || role === roleKey);
+                let matchesStatus = (statusKey === "" || status === statusKey);
+
+                if (matchesSearch && matchesRole && matchesStatus) {
+                    row.classList.remove('d-none');
+                } else {
+                    row.classList.add('d-none');
+                }
+            });
+            updatePagination(); // Lọc xong thì vẽ lại phân trang
+        }
+
+        searchInput.addEventListener('input', filterTable);
+        roleFilter.addEventListener('change', filterTable);
+        statusFilter.addEventListener('change', filterTable);
+
+        // --- TÍNH NĂNG PHÂN TRANG ĐỘNG (REAL PAGINATION) ---
+        const rowsPerPage = 5;
+        let currentPage = 1;
+
+        function updatePagination() {
+            const tbody = document.getElementById('tableBody');
+            // Lấy ra các hàng ĐANG HIỂN THỊ (không bị d-none do search)
+            const visibleRows = Array.from(tbody.querySelectorAll('tr:not(.d-none)'));
+            const totalPages = Math.ceil(visibleRows.length / rowsPerPage);
+            const controls = document.getElementById('paginationControls');
+            const noData = document.getElementById('noDataMessage');
+
+            // Xử lý báo lỗi nếu không tìm thấy
+            if(visibleRows.length === 0) {
+                noData.style.display = 'block';
+                controls.innerHTML = '';
+                return;
+            } else {
+                noData.style.display = 'none';
+            }
+
+            // Đảm bảo currentPage không vượt quá tổng số trang hiện tại
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            // Ẩn tất cả các dòng đang hiện
+            visibleRows.forEach(row => row.style.display = 'none');
+
+            // Chỉ hiện các dòng thuộc trang hiện tại
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            visibleRows.slice(start, end).forEach(row => row.style.display = '');
+
+            // Vẽ nút phân trang
+            let html = '';
+
+            // Nút Previous
+            html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                        <a class="page-link" onclick="goToPage(${currentPage - 1})"><i class="fa-solid fa-angles-left"></i></a>
+                     </li>`;
+
+            // Các nút số
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<li class="page-item ${currentPage === i ? 'active' : ''}">
+                            <a class="page-link" onclick="goToPage(${i})">${i}</a>
+                         </li>`;
+            }
+
+            // Nút Next
+            html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                        <a class="page-link" onclick="goToPage(${currentPage + 1})"><i class="fa-solid fa-angles-right"></i></a>
+                     </li>`;
+
+            controls.innerHTML = html;
+        }
+
+        // Hàm được gọi khi bấm số trang
+        window.goToPage = function(page) {
+            currentPage = page;
+            updatePagination();
+        }
+
+        // Khởi chạy phân trang lần đầu
+        updatePagination();
+
+        // --- THÊM & SỬA XÓA --- (Giữ nguyên logic cũ, chỉ gọi thêm updatePagination khi thao tác xong)
+        document.getElementById('btnAddUser').addEventListener('click', function () {
+            Swal.fire({
+                title: 'THÊM TÀI KHOẢN MỚI',
+                html: `
+                    <input id="swal-name" class="custom-swal-input" placeholder="Họ và tên...">
+                    <input id="swal-email" type="email" class="custom-swal-input" placeholder="Email truy cập...">
+                    <select id="swal-role" class="custom-swal-input" style="cursor: pointer;">
+                        <option value="System Admin">System Admin</option>
+                        <option value="Viewer" selected>Viewer</option>
+                    </select>
+                `,
+                background: swalBg, color: swalText,
+                showCancelButton: true, confirmButtonText: 'TẠO TÀI KHOẢN', cancelButtonText: 'HỦY',
+                confirmButtonColor: '#00f0ff', cancelButtonColor: swalBorder
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const newName = document.getElementById('swal-name').value;
+                    const newEmail = document.getElementById('swal-email').value;
+                    const newRole = document.getElementById('swal-role').value;
+
+                    if(!newName || !newEmail) return Swal.fire({ icon:'error', title:'Thiếu thông tin!', background: swalBg, color: swalText});
+
+                    userCounter++;
+                    const newId = `#00${userCounter}`;
+                    const badgeClass = newRole === 'System Admin' ? 'badge-admin' : 'badge-viewer';
+
+                    const tbody = document.getElementById('tableBody');
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="text-secondary fw-bold">${newId}</td>
+                        <td class="fw-bold text-light name-cell">${newName}</td>
+                        <td class="text-secondary email-cell">${newEmail}</td>
+                        <td class="text-center role-cell"><span class="badge-outline ${badgeClass}">${newRole}</span></td>
+                        <td class="text-center status-cell"><span class="badge-outline badge-active">Hoạt động</span></td>
+                        <td class="text-center">
+                            <button class="btn-action btn-edit" title="Chỉnh sửa"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button class="btn-action-danger btn-delete" title="Xóa"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    `;
+                    tbody.prepend(tr);
+                    attachEventsToButtons(tr);
+                    filterTable(); // Chạy lại bộ lọc và phân trang để hiện user mới
+
+                    Swal.fire({ icon: 'success', title: 'Thành công!', text: 'Đã cấp quyền truy cập.', background: swalBg, color: swalText, confirmButtonColor: '#3fb950' });
+                }
+            });
+        });
+
+        function attachEventsToButtons(row) {
+            const editBtn = row.querySelector('.btn-edit');
+            if(editBtn) {
+                editBtn.addEventListener('click', function() {
+                    const id = row.cells[0].textContent.trim();
+                    const name = row.querySelector('.name-cell').textContent.trim();
+                    const email = row.querySelector('.email-cell').textContent.trim();
+                    const role = row.querySelector('.role-cell').textContent.trim();
+
+                    Swal.fire({
+                        title: 'CHỈNH SỬA TÀI KHOẢN ' + id,
+                        html: `
+                            <input id="edit-name" class="custom-swal-input" value="${name}">
+                            <input id="edit-email" type="email" class="custom-swal-input" value="${email}">
+                            <select id="edit-role" class="custom-swal-input" style="cursor: pointer;">
+                                <option value="System Admin" ${role === 'System Admin' ? 'selected' : ''}>System Admin</option>
+                                <option value="Viewer" ${role === 'Viewer' ? 'selected' : ''}>Viewer</option>
+                            </select>
+                        `,
+                        background: swalBg, color: swalText,
+                        showCancelButton: true, confirmButtonText: 'LƯU', cancelButtonText: 'HỦY',
+                        confirmButtonColor: '#00f0ff', cancelButtonColor: swalBorder
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            row.querySelector('.name-cell').textContent = document.getElementById('edit-name').value;
+                            row.querySelector('.email-cell').textContent = document.getElementById('edit-email').value;
+                            const newRole = document.getElementById('edit-role').value;
+                            const badgeClass = newRole === 'System Admin' ? 'badge-admin' : 'badge-viewer';
+                            row.querySelector('.role-cell').innerHTML = `<span class="badge-outline ${badgeClass}">${newRole}</span>`;
+                            Swal.fire({ icon: 'success', title: 'Đã cập nhật!', background: swalBg, color: swalText, confirmButtonColor: '#3fb950' });
+                        }
+                    });
+                });
+            }
+
+            const deleteBtn = row.querySelector('.btn-delete');
+            if(deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    Swal.fire({
+                        title: 'XÓA TÀI KHOẢN?',
+                        text: "Hành động này sẽ thu hồi vĩnh viễn quyền truy cập!",
+                        icon: 'warning',
+                        background: swalBg, color: swalText,
+                        showCancelButton: true, confirmButtonText: 'XÓA', cancelButtonText: 'HỦY',
+                        confirmButtonColor: '#f85149', cancelButtonColor: swalBorder
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            row.remove();
+                            filterTable(); // Vẽ lại phân trang sau khi xóa
+                            Swal.fire({ icon: 'success', title: 'Đã xóa!', background: swalBg, color: swalText, confirmButtonColor: '#3fb950' });
+                        }
+                    });
+                });
+            }
+        }
+
+        document.querySelectorAll('tbody tr').forEach(row => attachEventsToButtons(row));
+    });
+</script>
