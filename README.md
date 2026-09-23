@@ -20,10 +20,10 @@ Chào mừng đến với kho lưu trữ mã nguồn của dự án **SecuCore**
 - [x] Giao diện Dashboard Dark/Cyber Theme chuyên nghiệp.
 - [x] Trực quan hóa số liệu tài nguyên (CPU, RAM, Network) theo thời gian thực (Real-time).
 - [x] Lưu trữ nhật ký quét lỗi và cảnh báo mức độ nguy hiểm.
-- [ ] 
+
 ## 🎥 Video Demo
 Kính mời Hội đồng đánh giá xem trước video demo trực tiếp các luồng chức năng cốt lõi của hệ thống tại đây: 
-🔗 **https://drive.google.com/file/d/1mEjh_FQKvvEo8ndEp6P9vPk95nb9DVKH/view?usp=drive_link**
+ **https://drive.google.com/file/d/1mEjh_FQKvvEo8ndEp6P9vPk95nb9DVKH/view?usp=drive_link**
 ## 🛠️ Hướng dẫn chạy dự án (Dành cho Giảng viên/Người đánh giá)
 Để chạy dự án này trên máy cá nhân (Local environment), vui lòng thực hiện các bước sau:
 
